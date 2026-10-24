@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Why jigsaw pieces cannot slide apart</title>
+<style>
+:root { --text-normal:#1f2328; --text-muted:#6b7280; --background-primary:#ffffff; --background-secondary:#f5f5f7;
+        --background-modifier-border:#d9dde3; --interactive-accent:#5b6bd5; --callout:#2a78d6; }
+html { background: var(--background-primary); color: var(--text-normal); }
+body { max-width: 52rem; margin: 2.5rem auto; padding: 0 1.25rem; font: 17px/1.55 Georgia, "Times New Roman", serif; }
+h1 { font-size: 1.8rem; line-height: 1.2; margin-bottom: .25rem; }
+h3 { margin-top: 2.4rem; font-size: 1.5rem; line-height: 1.25; }
+p { margin: .8rem 0; }
+.math { display: block; overflow-x: auto; overflow-y: hidden; margin: .6rem 0; }
+.callout { background: var(--background-secondary); padding: .6rem 1rem; margin: 1.2rem 0; border-radius: 4px; }
+.callout-title { font-weight: bold; margin-bottom: .3rem; }
+.footnotes { font-size: .9rem; color: var(--text-muted); }
+.footnotes li { margin: .4rem 0; }
+sup.fn a { text-decoration: none; }
+a { color: var(--interactive-accent); }
+details.sec > p > i, .callout p > i, details.proof p > i, .footnotes i { color: #a3471f; }
+.toc { font-family: system-ui, sans-serif; font-size: .9rem; margin: 1rem 0 2rem; }
+.toc a { text-decoration: none; }
+.toc li { margin: .15rem 0; }
+details.proof > summary, details.fig > summary { cursor: pointer; margin: .8rem 0; }
+details.proof > summary { font-style: italic; }
+details.proof[open] { border: 1px solid var(--background-modifier-border); border-radius: 4px; padding: 0 1rem; margin: .8rem 0; }
+details.sec > summary { list-style: none; cursor: pointer; }
+details.sec > summary::-webkit-details-marker { display: none; }
+details.sec > summary > h3 { position: relative; }
+details.sec > summary > h3::before { content: "\25BE"; position: absolute; left: -1.2rem; font-size: 1.1em; line-height: 1.1; color: var(--text-muted); }
+details.sec:not([open]) > summary > h3::before { content: "\25B8"; }
+.print-btn { font: .85rem system-ui, sans-serif; padding: .2rem .7rem; cursor: pointer; }
+.drawing { display: block; max-width: 420px; width: 100%; margin: 1.2rem auto; }
+
+/* figures */
+.figure { margin: 1.2rem 0; font-family: system-ui, sans-serif; --q:#dcebf6; --p:#fbe9d7; --ink:#1f2328; --muted:#6b7280;
+          --rule:#d9dde3; --nrm:#1f628f; --mot:#ba4d39; --rec:#2a78d6; --app:#eb6834; --free:#1baf7a; --bad:#d62f2f; }
+.figure .pz-box { max-width: 680px; margin: 0 auto; }
+.figure svg { box-sizing: border-box; width: 100%; height: auto; display: block; background: #fff;
+              border: 1px solid var(--rule); border-radius: 4px; user-select: none; -webkit-user-select: none; touch-action: none; }
+.figure .pz-ctl { display: flex; flex-wrap: wrap; gap: .4rem .8rem; align-items: center; font-size: .85em; color: var(--muted); margin: .4rem 0; }
+.figure .pz-ctl button { font: inherit; font-size: .92em; color: #4b4540; background: #faf7f2; border: 1px solid #d8cfc2; border-radius: 999px;
+  padding: .28rem .85rem; cursor: pointer; transition: background .15s, border-color .15s, color .15s, box-shadow .15s; }
+.figure .pz-ctl button:hover { background: #f1ebe2; border-color: #bfb2a0; }
+.figure .pz-ctl button:focus-visible { outline: none; box-shadow: 0 0 0 3px rgba(91,107,213,.3); }
+.figure .pz-ctl button[aria-pressed="true"] { background: #5b6bd5; border-color: #5b6bd5; color: #fff; box-shadow: 0 1px 3px rgba(91,107,213,.35); }
+.figure .pz-ctl > span { font-size: .9em; letter-spacing: .04em; text-transform: uppercase; color: #9a8f80; margin-right: .1rem; }
+.figure .pz-ctl > span[style] { margin: 0; }
+.figure .pz-ctl label { display: inline-flex; align-items: center; gap: .4rem; cursor: pointer; }
+.figure .pz-ctl input[type=range] { width: 8rem; accent-color: #5b6bd5; cursor: pointer; }
+.figure .pz-param { background: #faf7f2; border: 1px solid #d8cfc2; border-radius: 999px; padding: .2rem .8rem; color: #4b4540; }
+.figure .pz-param i { font: italic 1.05rem Georgia, serif; }
+.figure .pz-param b { font-weight: 500; min-width: 2.6em; font-variant-numeric: tabular-nums; }
+.figure .pz-ctl input[type=checkbox] { accent-color: #5b6bd5; width: 1rem; height: 1rem; cursor: pointer; }
+.figure .pz-ctl > span.helptext { text-transform: none; letter-spacing: 0; color: var(--muted); }
+.print-btn { color: #4b4540; background: #faf7f2; border: 1px solid #d8cfc2; border-radius: 999px; padding: .25rem .85rem !important; transition: background .15s; }
+.print-btn:hover { background: #f1ebe2; border-color: #bfb2a0; }
+.figure .pz-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem 1.2rem; max-width: 820px; margin: 0 auto; }
+@media (max-width: 640px) { .figure .pz-grid { grid-template-columns: 1fr; } }
+.figure .pz-head, .figure .pz-help { max-width: 820px; margin-left: auto; margin-right: auto; }
+.figure .pz-help { font-size: .85em; color: var(--muted); margin-bottom: .6rem; }
+.figure .pz-title { font: italic 1rem Georgia, "Times New Roman", serif; color: #6b5f50; text-align: center; margin: 0 0 .3rem; }
+.figure .pz-grid .pz-ctl { margin: .25rem 0; }
+.figure .pz-legend { display: flex; flex-wrap: wrap; justify-content: center; gap: .3rem 1.1rem; font-size: .8em; color: var(--muted); margin: .45rem 0 .1rem; }
+.figure .pz-legend:empty { display: none; }
+.figure .pinhead { fill: #d64545; transition: fill .15s; }
+.figure .handle:hover .pinhead { fill: #f0703a; }
+.figure .handle.held .pinhead { fill: #5b6bd5; }
+.figure .handle.held { cursor: grabbing; }
+.figure .pinring { transform-box: fill-box; transform-origin: center; animation: pinpulse 1.8s ease-out infinite; }
+@keyframes pinpulse { 0% { transform: scale(.7); opacity: .9; } 100% { transform: scale(1.8); opacity: 0; } }
+.figure .lbl.pintip { font-size: 13px; fill: #b03030; stroke: #fff; stroke-width: 3; paint-order: stroke; }
+.figure .pz-legend .sw { display: inline-block; width: 18px; height: 4px; border-radius: 2px; vertical-align: middle; margin-right: .4rem; }
+.figure .pz-legend .sw.reg { width: 13px; height: 13px; border: 1px solid #1baf7a; border-radius: 3px; }
+.figure .pz-static { display: flex; flex-wrap: wrap; justify-content: center; gap: .6rem 1.4rem; margin: 1rem auto .2rem; }
+.figure .pz-static svg { border: none; background: transparent; max-width: 420px; }
+.figure .pz-panel { flex: 0 1 300px; }
+.figure .pz-panel:only-child { flex-basis: auto; }
+.figure .pz-stage { position: relative; }
+.figure .pz-stage svg { transition: opacity .25s; }
+.figure .pz-stage.done svg { opacity: .8; }
+.figure .pz-again { display: none; position: absolute; left: 50%; bottom: 14px; transform: translateX(-50%); font: .95rem system-ui, sans-serif;
+  color: #fff; background: #5b6bd5; border: none; border-radius: 999px; padding: .5rem 1.2rem; cursor: pointer; box-shadow: 0 2px 10px rgba(40,40,90,.25); }
+.figure .pz-again:hover { background: #4a59c4; }
+.figure .pz-stage.done .pz-again { display: block; }
+.figure .pz-stage.won svg { opacity: .85; box-shadow: 0 0 0 3px rgba(27,175,122,.55); border-radius: 4px; }
+.figure .pz-stage.won .pz-again { background: #1a9e6f; }
+.figure .pz-stage.won .pz-again:hover { background: #158a60; }
+.figure .pz-read { font-size: .85em; color: var(--ink); min-height: 1.3em; margin-top: .2rem; }
+.figure .lbl { font: italic 17px Georgia, "Times New Roman", serif; fill: var(--ink); }
+.figure .lbl.small { font-size: 14px; }
+.figure .lbl.muted { fill: var(--muted); }
+.figure .lbl.piece { font-size: 24px; fill: #fff; stroke: #3b3530; stroke-width: 3; paint-order: stroke; }
+.figure svg .qpiece { cursor: grab; }
+.figure .handle { cursor: grab; }
+.figcap { font-size: .92rem; color: var(--text-muted); margin: .2rem 0 1rem; }
+
+@media print {
+  body { max-width: none; margin: 0; font-size: 11pt; }
+  .print-btn, .figure.interactive { display: none !important; }
+  summary { list-style: none; }
+  summary::-webkit-details-marker { display: none; }
+  summary:has(+ .figure.interactive)::after { content: "(Interactive figure, omitted from the printed version.)"; display: block; font-style: italic; color: var(--text-muted); }
+  .math { overflow: visible; }
+  h3 { break-after: avoid; }
+  details.sec > summary > h3::before { content: none; }
+}
+</style>
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']], tags: 'none', processEscapes: true,
+         packages: {'[+]': ['ams']} },
+  options: { skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'], ignoreHtmlClass: 'figure' },
+  chtml: { scale: 1 }
+};
+</script>
+<script>
+function openAncestors(el) { for (; el; el = el.parentElement) if (el.tagName === 'DETAILS') el.open = true; }
+function revealHash() { if (location.hash) openAncestors(document.getElementById(decodeURIComponent(location.hash.slice(1)))); }
+document.addEventListener('click', (e) => {
+  const a = e.target.closest('a[href^="#"]');
+  if (a) openAncestors(document.getElementById(decodeURIComponent(a.getAttribute('href').slice(1))));
+});
+window.addEventListener('hashchange', revealHash);
+document.addEventListener('DOMContentLoaded', revealHash);
+let closedBeforePrint = [];
+window.addEventListener('beforeprint', () => { closedBeforePrint = [...document.querySelectorAll('details:not([open])')]; closedBeforePrint.forEach((d) => d.open = true); });
+window.addEventListener('afterprint', () => { closedBeforePrint.forEach((d) => d.open = false); });
+</script>
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-chtml.js"></script>
+</head>
+<body>
+<h1>Why jigsaw pieces cannot slide apart</h1>
+<h4>Rotem Assouline, Itai Benjamini and Claude Fable</h4>
+<p><i>Last updated: October 24, 2026</i></p>
+<p><button type="button" class="print-btn" onclick="window.print()">Print</button> <button type="button" class="print-btn" id="toggle-sections">Collapse all</button></p>
+<script>
+(function(){
+  // Collapse or expand all sections; the label follows the state of the sections.
+  const btn = document.getElementById('toggle-sections');
+  const secs = () => [...document.querySelectorAll('details.sec')];
+  const sync = () => { btn.textContent = secs().some((d) => d.open) ? 'Collapse all' : 'Expand all'; };
+  btn.addEventListener('click', () => { const open = !secs().some((d) => d.open); secs().forEach((d) => d.open = open); sync(); });
+  document.addEventListener('toggle', (e) => { if (e.target.matches && e.target.matches('details.sec')) sync(); }, true);
+  document.addEventListener('DOMContentLoaded', sync);
+})();
+</script>
+
+<img class="drawing" src="ayala_puzzle_drawing.png" alt="A drawing of a grandfather and a toddler, seen from above, each holding one of two jigsaw pieces.">
+<p class="figcap" style="text-align:center">Illustration by Itai Benjamini.</p>
+
+<p>The following question arose when one of us (Itai) was assembling a two-piece jigsaw puzzle with his toddler granddaughter Ayala. To separate two adjacent pieces of a jigsaw puzzle, one has to lift one of them off the table: no amount of sliding and turning in the plane will do. Which geometric property of the cut between the two pieces is responsible for this?</p>
+<details class="fig" open><summary><b>Figure 1: try to take the puzzle apart</b></summary>
+<div class="figure interactive" id="fig-play"></div>
+</details>
+<p class="figcap">Drag the piece \(q\) and try to separate it from \(p\) without lifting it. In &ldquo;wiggle&rdquo; mode the piece follows your pointer, sliding and pivoting around whatever is in the way. The other modes allow only a single straight slide (along the dashed line), or a single turn about a pin. The red region shows where \(q\) would overlap \(p\).</p>
+
+<h3>Table of contents</h3>
+<nav class="toc"><ul>
+<li><a href="#setup">The question</a></li>
+<li><a href="#sliding">Sliding</a></li>
+<li><a href="#turning">Turning</a></li>
+<li><a href="#wiggling">Wiggling does not help</a></li>
+<li><a href="#counterexamples">&hellip; unless the contact is not clean</a></li>
+<li><a href="#curvature">How much must the cut bend?</a></li>
+</ul></nav>
+
+<details class="sec" open><summary><h3 id="setup">The question</h3></summary>
+<p>Mathematically, a jigsaw puzzle is a bounded region of the plane, the <i>board</i>, divided into finitely many <i>pieces</i>: disjoint connected open sets whose closures cover the board, each bounded by finitely many piecewise-smooth closed curves. (A piece may have holes, into which other pieces fit.) Two pieces \(p\) and \(q\) are <i>adjacent</i> if their closures touch. We assume that they meet along a single piecewise-smooth curve \(\gamma=\overline p\cap\overline q\), their <i>interface</i>; it is either an arc or a closed curve.</p>
+<div class="figure" id="fig-def"></div>
+<p class="figcap">A board cut into six pieces. The pieces \(p\) and \(q\) are adjacent, and their interface \(\gamma\) is drawn thick.</p>
+<p>We parametrize \(\gamma\) by arclength, oriented so that \(q\) lies to its left, and at every point where \(\gamma\) is smooth we let \(\dot\gamma\) be the unit tangent and \(n\) the unit normal pointing into \(q\). Thus \(n=\dot\gamma^\perp\), where \(v^\perp\) denotes the vector \(v\) rotated by \(90^\circ\) counterclockwise.</p>
+<div class="figure" id="fig-normal"></div>
+<p class="figcap">The interface \(\gamma\), traversed with \(q\) on its left, and the unit tangent \(\dot\gamma\) and unit normal \(n\) at one of its points.</p>
+<p>We keep \(p\) fixed and move \(q\) by a continuous family of rigid motions of the plane, starting at the identity. The motion is <i>admissible</i> if the moving piece never overlaps \(p\): the pieces may stay in contact and slide along each other, but their interiors may not meet. If no admissible motion moves \(q\), the pieces are <i>interlocked</i>.</p>
+<div class="figure" id="fig-admissible"></div>
+<p class="figcap">Left: \(q\) has moved without overlapping \(p\). Right: \(q\) overlaps \(p\) (in red), which is not allowed. The dashed curve shows the original position of \(q\).</p>
+<p>Two kinds of motions are easy to test: sliding \(q\) in a fixed direction, and turning it about a fixed pivot. We first find the conditions under which these fail, and then show that, under a mild assumption, they are the only motions that need to be tested.</p>
+<div class="figure" id="fig-kinds"></div>
+<p class="figcap">A slide of \(q\) in the direction of a vector \(w\), and a turn of \(q\) about a pivot \(z\).</p>
+</details>
+
+<details class="sec" open><summary><h3 id="sliding">Sliding</h3></summary>
+<p>Suppose we slide \(q\) in the direction of a vector \(w\). At a point of the interface where \(n\cdot w\lt 0\), the motion immediately pushes \(q\) into \(p\). If, on the other hand,</p>
+<span id="eq-1"></span><span class="math">\[
+n\cdot w\ge 0\qquad\text{at every smooth point of }\gamma,\tag{1}
+\]</span>
+<p>then each part of the interface either moves into the side of \(q\) or slides along itself, and \(q\) can be slid a little in the direction \(w\) (<a href="#theorem-2">Theorem 2</a> below makes this precise).<sup class="fn"><a href="#fn-draft" id="fnref-draft">1</a></sup></p>
+<p>Condition <a href="#eq-1">(1)</a> says that all normals of the interface lie in the closed half-plane \(\{v\colon v\cdot w\ge0\}\). Hence, to block every slide, the normals must lie in no closed half-plane: marked on the unit circle, their directions must not fit in any closed half-circle.</p>
+<details class="fig" open><summary><b>Figure 2: sliding</b></summary>
+<div class="figure interactive" id="fig-slide"></div>
+</details>
+<p class="figcap">Pull \(q\) in some direction \(w\); it slides along a straight line until it hits \(p\). Arrows: some of the normals \(n\). Right: the directions of all the normals, marked on the unit circle; the green arc, when there is one, consists of the directions \(w\) satisfying <a href="#eq-1">(1)</a>. Normals with \(n\cdot w\lt0\) are drawn in red.</p>
+</details>
+
+<details class="sec" open><summary><h3 id="turning">Turning</h3></summary>
+<p>Next, turn \(q\) counterclockwise about a pivot \(z\). A point \(x\) then moves with velocity \((x-z)^\perp\). Since rotating two vectors by \(90^\circ\) does not change their inner product, the normal component of this velocity along the interface is</p>
+<span id="eq-2"></span><span class="math">\[
+n\cdot(\gamma-z)^\perp=\dot\gamma^\perp\cdot(\gamma-z)^\perp=\dot\gamma\cdot(\gamma-z)=\frac12\,\frac{d}{dt}\,|\gamma-z|^2 .\tag{2}
+\]</span>
+<p>So the analogue of <a href="#eq-1">(1)</a> for counterclockwise turns about \(z\) is that the distance \(|\gamma(t)-z|\) is nondecreasing in \(t\); for clockwise turns, that it is nonincreasing. For example, if the interface is an arc of a spiral around \(z\), then \(q\) can be unscrewed. To block every turn, the interface must therefore, viewed from every point \(z\) of the plane, somewhere recede from \(z\) and somewhere approach it.</p>
+<p>As \(z\) recedes to infinity, a turn about \(z\) looks more and more like a slide, and the condition for turns becomes <a href="#eq-1">(1)</a>.</p>
+<details class="fig" open><summary><b>Figure 3: turning</b></summary>
+<div class="figure interactive" id="fig-turn"></div>
+</details>
+<p class="figcap">Pick up the pin to choose a pivot \(z\), then pull \(q\) to turn it about \(z\). While you hold the pin, the interface is drawn blue where it recedes from \(z\) and orange where it approaches \(z\). The green region consists of the pivots from which the interface only recedes or only approaches, i.e. the pivots about which \(q\) can be turned. By <a href="#eq-2">(2)</a>, for each point of the interface the condition is linear in \(z\), so this region is the union of two convex sets.</p>
+</details>
+
+<details class="sec" open><summary><h3 id="wiggling">Wiggling does not help</h3></summary>
+<p>The cleanest setting is an idealized puzzle: the whole plane, cut into two pieces along a single curve which goes off to infinity at both ends. Here turns are blocked automatically. Indeed, \(|\gamma(t)-z|\to\infty\) as \(t\to\pm\infty\), so this distance is monotone for no \(z\). Only slides remain, and they decide everything:</p>
+<div class="callout" id="theorem-1"><div class="callout-title">Theorem 1 (an infinite cut)</div>
+<p>Let the plane be cut into two pieces \(p,q\) along a piecewise-smooth embedded curve \(\gamma\) going to infinity at both ends.</p>
+<ol>
+<li>If <a href="#eq-1">(1)</a> holds for some \(w\neq0\), then \(q+sw\) does not overlap \(p\) for any \(s\ge0\): the piece \(q\) slides away to infinity.</li>
+<li>Otherwise, \(p\) and \(q\) are interlocked.</li>
+</ol></div>
+<p>In particular, a round head on a straight line interlocks two half-planes, even without a neck: the normals along the head sweep more than a half-circle of directions. In a bounded puzzle, the same head can be turned out of its socket (try the third puzzle of Figure 1 in the turn mode, with the pin at the center of the head).</p>
+<details class="fig" open><summary><b>Figure 4: the whole plane, cut in two</b></summary>
+<div class="figure interactive" id="fig-plane"></div>
+</details>
+<p class="figcap">A window onto an idealized puzzle: the cut continues to infinity in both directions. Try every mode; no turn about any pin moves \(q\), since the far ends of the cut are in the way.</p>
+<p>A real puzzle, however, is bounded. This has two effects. First, turns become genuinely available, and must be blocked by the shape of the interface. Second, the interface has endpoints, near which one piece may obstruct the other in ways that the normals of the interface do not detect. To rule this out, we require the pieces to be in <i>clean contact</i>: roughly speaking, near every point of the interface the two pieces lie on opposite sides of it, also near its endpoints, where the interface is continued by its tangent rays. This holds, for instance, when a board with smooth boundary is cut into two pieces along a curve meeting the boundary transversally.</p>
+<details class="proof"><summary>Precise definition of clean contact</summary>
+<p>The pieces \(p,q\) are in <i>clean contact</i> if every point of \(\gamma\) other than an endpoint has a neighborhood \(U\) with \(U\setminus\gamma\subseteq p\cup q\), and the following holds at each endpoint \(x_0\) of \(\gamma\) (if any). Let \(\hat\gamma\) be the curve obtained by continuing \(\gamma\) beyond \(x_0\) by its tangent ray at \(x_0\). Then in some neighborhood \(U\) of \(x_0\), the curve \(\hat\gamma\) separates \(U\) into two components, one containing \(p\cap U\) and the other containing \(q\cap U\), and no boundary arc of \(p\) or of \(q\) other than \(\gamma\) is tangent to \(\hat\gamma\) at \(x_0\).</p>
+</details>
+<div class="callout" id="theorem-2"><div class="callout-title">Theorem 2 (a bounded puzzle)</div>
+<p>Let \(p,q\) be adjacent pieces of a jigsaw puzzle in clean contact. Then exactly one of the following holds.</p>
+<ol>
+<li>A single small slide or a single small turn moves \(q\) without overlapping \(p\).</li>
+<li>The pieces are interlocked.</li>
+</ol>
+<p>The second alternative occurs if and only if</p>
+<ol type="a">
+<li>the normals of \(\gamma\) lie in no closed half-plane, and</li>
+<li>for every \(z\in\mathbb{R}^2\), the distance \(|\gamma(t)-z|\) is strictly increasing somewhere and strictly decreasing somewhere.</li>
+</ol></div>
+<p>In Figure 3, condition (b) says that the green region is empty. The standard jigsaw tab satisfies (a) because of its head, as above. It satisfies (b) because of its neck: from the center of the head, the head is at constant distance, but the interface recedes along one wall of the neck and approaches along the other; from any other pivot, the head itself both recedes and approaches.</p>
+<p><b>On the proofs.</b> The idea is to look at the initial velocity of an admissible motion. Every rigid motion close to the identity is, to first order, an infinitesimal slide \(V(x)=b\) or an infinitesimal turn \(V(x)=\omega(x-z)^\perp\) about some pivot \(z\). If a motion starting with velocity \(V\) is admissible, then \(V\) cannot push \(q\) into \(p\) anywhere, i.e. \(n\cdot V\ge0\) along \(\gamma\). By <a href="#eq-2">(2)</a>, this means that <a href="#eq-1">(1)</a> holds for \(w=b\), or that \(|\gamma-z|\) is monotone. Thus (a) and (b) block every admissible motion; this direction does not use clean contact. Conversely, if <a href="#eq-1">(1)</a> holds, a barrier argument shows that the slide in the direction \(w\) actually works for a short time, and similarly for turns. Clean contact enters here, near the endpoints of the interface.</p>
+<details class="proof"><summary>Proof that an admissible motion has an admissible initial velocity</summary>
+<p>Let \(g(t)\), \(0\le t\le1\), be an admissible motion with \(g(0)=\mathrm{id}\). We may assume that \(g(t)\neq\mathrm{id}\) for arbitrarily small \(t\gt0\), for otherwise we start the motion at the last time at which \(g=\mathrm{id}\). Choose \(t_j\searrow0\) with \(g(t_j)\neq\mathrm{id}\). For large \(j\), \(g(t_j)\) is the rotation by a small angle \(\theta_j\) followed by the translation by a small vector \(a_j\). Put \(r_j=(|a_j|^2+\theta_j^2)^{1/2}\) and pass to a subsequence such that \(a_j/r_j\to b\) and \(\theta_j/r_j\to\omega\), so that \((b,\omega)\neq(0,0)\). Then</p>
+<span class="math">\[
+g(t_j)(y)=y+r_jV(y)+o(r_j),\qquad V(y):=b+\omega y^\perp,
+\]</span>
+<p>uniformly for \(y\) in compact sets. If \(\omega\neq0\), then \(V(y)=\omega(y-z)^\perp\) with \(z=b^\perp/\omega\).</p>
+<p>Suppose that \(n\cdot V(x)\lt0\) at some smooth point \(x\) of \(\gamma\), and choose \(\alpha\gt0\) with \(\alpha+n\cdot V(x)\lt0\). Near \(x\), let \(f\) be the signed distance to \(\gamma\), positive on the side of \(q\), so that \(\nabla f(x)=n\). For large \(j\), the point \(x_j=x+\alpha r_jn\) lies in \(q\), and</p>
+<span class="math">\[
+f\big(g(t_j)(x_j)\big)=r_j\big(\alpha+n\cdot V(x)\big)+o(r_j)\lt0,
+\]</span>
+<p>i.e. \(g(t_j)(x_j)\in p\), contradicting admissibility.</p>
+</details>
+<details class="proof"><summary>Why <a href="#eq-1">(1)</a> lets \(q\) slide</summary>
+<p>Near a smooth point of \(\gamma\), let \(f\) be the signed distance to \(\gamma\), positive on the side of \(q\). The function \(\nabla f\cdot w\) is Lipschitz and, by <a href="#eq-1">(1)</a>, nonnegative on \(\gamma=\{f=0\}\); hence \(\nabla f\cdot w\ge-Cf\) on the side of \(q\) for some constant \(C\). If the segment \(s\mapsto y+sw\) starts at a point \(y\) of \(q\) near \(\gamma\), then \(\varphi(s)=f(y+sw)\) satisfies \(\varphi'\ge-C\varphi\) as long as \(\varphi\gt0\), whence \(\varphi(s)\ge\varphi(0)e^{-Cs}\gt0\). Thus the segment never reaches \(\gamma\), and \(\gamma\) acts as a one-way barrier.</p>
+<p>Corners of \(\gamma\) are avoided by perturbing the starting point. For an infinite cut this already shows that \(q+sw\) and \(p\) are disjoint for all \(s\ge0\). For a bounded puzzle, a compactness argument gives a uniform time, and near the endpoints of \(\gamma\) the same argument is run with the continued curve \(\hat\gamma\) from the definition of clean contact; the analysis there is more delicate and is omitted. Turns are handled in the same way, with segments replaced by circular arcs about \(z\).</p>
+</details>
+<p>Readers from robotics will recognize the first-order part of Theorem 2. Encode the contact at a point \(x\) of the interface by the vector \((n,\ x\wedge n)\in\mathbb{R}^3\), where \(x\wedge n=x_1n_2-x_2n_1\). Conditions (a) and (b) together say that these vectors are not contained in any closed half-space of \(\mathbb{R}^3\). This is the planar case of <i>form closure</i> in the theory of grasping and fixturing<sup class="fn"><a href="#fn-mnp" id="fnref-mnp">2</a></sup>, which goes back to Reuleaux<sup class="fn"><a href="#fn-reuleaux" id="fnref-reuleaux">3</a></sup>. What Theorem 2 adds is the passage from the first-order test to arbitrary motions. This passage is not automatic: a body which the first-order test declares free may still be immobilized by second-order, curvature effects<sup class="fn"><a href="#fn-rb" id="fnref-rb">4</a></sup>, and conversely, as the next section shows.</p>
+</details>
+
+<details class="sec" open><summary><h3 id="counterexamples">&hellip; unless the contact is not clean</h3></summary>
+<p>Clean contact cannot be dropped from Theorem 2. In the first example, \(q\) is blocked by material of \(p\) which contributes no normals to the interface.</p>
+<p><b>The sliver.</b> Cut the unit disk into three sectors: \(q\) between the angles \(-60^\circ\) and \(90^\circ\), a thin sliver between \(-70^\circ\) and \(-60^\circ\), and \(p\) between \(90^\circ\) and \(290^\circ\). The interface of \(p\) and \(q\) is the vertical radius, and its only normal is \(n=(1,0)\). The downward direction \(w=(0,-1)\) satisfies <a href="#eq-1">(1)</a>, yet \(q\) cannot slide downward even a little: near the center, \(p\) wraps around the lower endpoint of the interface, and points of \(q\) near the center immediately enter \(p\). (The pieces are not interlocked: \(q\) can be slid to the right.)</p>
+<details class="fig" open><summary><b>Figure 5: the sliver</b></summary>
+<div class="figure interactive" id="fig-sliver"></div>
+</details>
+<p class="figcap">Pull \(q\) straight down, then to the right. The sliver is in light grey.</p>
+<p>In the second example the contact fails to be clean in a subtler, tangential way, and wiggling genuinely helps.</p>
+<p><b>The drilled channel.</b> Drill a channel of width \(2r\) along a parabolic arc \(\Gamma\), from a point \(E\) inside a board to its edge, and let \(q\) be the disk of radius \(r\) resting at the closed end of the channel, centered at \(E\). The interface is the semicircular end cap of the channel; the walls of the channel leave its endpoints tangentially, so the contact is not clean. Whatever the motion, the center of the disk must stay on \(\Gamma\) (a disk of radius \(r\) fits in the channel only when centered on \(\Gamma\)). A slide or a turn moves the center along a straight segment or a circular arc, and a parabola contains neither. So no single slide or turn moves \(q\) (except the spin about \(E\), which does not move the disk at all), and yet \(q\) slides out along the channel.</p>
+<details class="fig" open><summary><b>Figure 6: the drilled channel</b></summary>
+<div class="figure interactive" id="fig-channel"></div>
+</details>
+<p class="figcap">In &ldquo;wiggle&rdquo; mode, pull the ball out along the channel. Then try a single straight slide, or a single turn about the pin, which starts at the center of the circle that best approximates \(\Gamma\) at \(E\). (The ball fits its slot with a hair of play, so it can move a tiny bit in these modes.)</p>
+<p>We do not know whether clean contact is also needed for the other direction of Theorem 2, i.e. whether two pieces can be interlocked although (a) or (b) fails. A natural candidate is a round tab held in a socket which it touches only along an arc at the bottom, while the lips of the socket hug the neck across two thin tapering gaps. The first-order test then permits the turn about the center of the head, and the question is whether the tapering gaps nevertheless block it. This is a second-order question of the kind studied by Rimon and Burdick<sup class="fn"><a href="#fn-rb" id="fnref-rb-2">4</a></sup>.</p>
+</details>
+
+<details class="sec" open><summary><h3 id="curvature">How much must the cut bend?</h3></summary>
+<p>The <i>total curvature</i> of \(\gamma\) is the total angle through which its tangent turns: \(\int|\kappa|\,dt\), plus the sum of the absolute exterior angles at the corners.</p>
+<div class="callout" id="proposition"><div class="callout-title">Proposition</div>
+<p>If two pieces are interlocked (across an infinite cut, or in a bounded puzzle with clean contact), then the total curvature of their interface exceeds \(\pi\). The constant \(\pi\) is sharp.</p></div>
+<p>Indeed, if the total curvature is at most \(\pi\), then the angle of the tangent \(\dot\gamma\), and hence that of the normal \(n\), takes values in an interval of length at most \(\pi\). Thus the normals lie in a closed half-plane, and by Theorem 1 or Theorem 2 a slide moves \(q\).</p>
+<p>Sharpness is shown by the <i>hook</i> of Figure 7: a channel of width \(2\cos\frac\delta2\) ending in a round head of radius \(1\). The interface consists of two straight walls and a circular arc of angular width \(\pi+\delta\), meeting at two corners of exterior angle \(\delta/2\), so its total curvature is \(\pi+2\delta\). Along the arc the normals point at its center, so they sweep an arc of directions of length \(\pi+\delta\), and (a) holds. Condition (b) holds because the two walls are traversed in opposite directions. Viewed from a pivot \(z\) to the right of the left edge of the board, the interface approaches \(z\) near the left end of the lower wall and recedes from it near the left end of the upper wall; viewed from any other pivot, it is the other way round near the right ends of the walls. Hence the hook interlocks the two pieces, both across an infinite cut and in a bounded board, and letting \(\delta\to0\) shows that \(\pi\) is sharp.</p>
+<p>The extremal shapes differ from those in the theorems of Fenchel<sup class="fn"><a href="#fn-fenchel" id="fnref-fenchel">5</a></sup> and of F&aacute;ry and Milnor<sup class="fn"><a href="#fn-milnor" id="fnref-milnor">6</a></sup>, where the total curvature of a closed curve is at least \(2\pi\), with equality only for plane convex curves. Here a circular arc alone does not suffice in a bounded board: (b) fails at its center, and the piece can be turned out of its socket (try the third puzzle of Figure 1 in the turn mode, with the pin at the center of the head). The straight walls of the neck cost almost no bending, and block that turn.</p>
+<details class="fig" open><summary><b>Figure 7: the hook</b></summary>
+<div class="figure interactive" id="fig-hook"></div>
+</details>
+<p class="figcap">The slider changes \(\delta\). With &ldquo;show the math&rdquo; on, the slide and turn modes display the normals and the colored interface of Figures 2 and 3.</p>
+<p>For a closed interface, such as an island \(q\) fitted into a hole of \(p\), the threshold is \(2\pi\), and it is attained. Here (a) always holds: if \(\dot\gamma\cdot w\ge0\) everywhere, then \(\oint\dot\gamma\,dt=0\) forces \(\dot\gamma\cdot w\equiv0\), which is impossible for a closed curve. And if \(\dot\gamma\cdot(\gamma-z)\) never changes sign, then \(|\gamma-z|^2\) is monotone and periodic, hence constant, so \(\gamma\) is a circle about \(z\). Thus an island is interlocked unless it is a disk, which can spin in its hole. By Fenchel's theorem, every closed curve has total curvature at least \(2\pi\), with equality for every convex island.</p>
+</details>
+
+<h4>Acknowledgements</h4>
+<p>We thank Uri Bader and Pierre Pansu for useful discussions.</p>
+
+<h4>Notes and references</h4>
+<ol class="footnotes">
+<li id="fn-draft">This is the <i>draft-angle</i> rule familiar from casting: a part can be drawn out of its mold in the direction \(w\) if no surface normal makes an obtuse angle with \(w\); see <a href="https://en.wikipedia.org/wiki/Draft_(engineering)">Draft (engineering)</a> on Wikipedia. <a href="#fnref-draft" class="fnback">&#8617;</a></li>
+<li id="fn-mnp">X. Markenscoff, L. Ni and C. H. Papadimitriou, <i>The geometry of grasping</i>, Internat. J. Robotics Res. <b>9</b> (1990), no. 1, 61&ndash;74. <a href="#fnref-mnp" class="fnback">&#8617;</a></li>
+<li id="fn-reuleaux">F. Reuleaux, <i>Theoretische Kinematik: Grundz&uuml;ge einer Theorie des Maschinenwesens</i>, Vieweg, Braunschweig, 1875. <a href="#fnref-reuleaux" class="fnback">&#8617;</a></li>
+<li id="fn-rb">E. Rimon and J. W. Burdick, <i>Mobility of bodies in contact. I. A second-order mobility index for multiple-finger grasps</i>, IEEE Trans. Robotics and Automation <b>14</b> (1998), no. 5, 696&ndash;708. <a href="#fnref-rb" class="fnback">&#8617;</a></li>
+<li id="fn-fenchel">W. Fenchel, <i>&Uuml;ber Kr&uuml;mmung und Windung geschlossener Raumkurven</i>, Math. Ann. <b>101</b> (1929), 238&ndash;252. <a href="#fnref-fenchel" class="fnback">&#8617;</a></li>
+<li id="fn-milnor">J. W. Milnor, <i>On the total curvature of knots</i>, Ann. of Math. (2) <b>52</b> (1950), 248&ndash;257. <a href="#fnref-milnor" class="fnback">&#8617;</a></li>
+</ol>
+
+<script>
+// ---------- geometry helpers ----------
+const PZ = (function(){
+  const NS = 'http://www.w3.org/2000/svg';
+  function el(tag, attrs, parent){ const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); if (parent) parent.appendChild(e); return e; }
+  // samples {P: point, T: unit tangent} along segments, circular arcs and parametrized curves
+  function seg(A, B, N){ const L = Math.hypot(B[0]-A[0], B[1]-A[1]), T = [(B[0]-A[0])/L, (B[1]-A[1])/L], out = [];
+    for (let k = 0; k <= N; k++){ const s = k/N; out.push({P: [A[0] + s*(B[0]-A[0]), A[1] + s*(B[1]-A[1])], T}); } return out; }
+  function arc(c, r, a0, a1, N){ const sg = Math.sign(a1 - a0), out = [];
+    for (let k = 0; k <= N; k++){ const a = a0 + (a1 - a0)*k/N; out.push({P: [c[0] + r*Math.cos(a), c[1] + r*Math.sin(a)], T: [-sg*Math.sin(a), sg*Math.cos(a)]}); } return out; }
+  function curve(f, t0, t1, N){ const out = [], h = 1e-5*(t1 - t0);
+    for (let k = 0; k <= N; k++){ const t = t0 + (t1 - t0)*k/N, a = f(t - h), b = f(t + h), L = Math.hypot(b[0]-a[0], b[1]-a[1]);
+      out.push({P: f(t), T: [(b[0]-a[0])/L, (b[1]-a[1])/L]}); } return out; }
+  // walk along the boundary of the board [x0,x1]x[y0,y1] from E to S, counterclockwise or clockwise
+  function walk(B, E, S, ccw){
+    const [x0, x1, y0, y1] = B, W = x1 - x0, H = y1 - y0, P = 2*(W + H);
+    const pos = (p) => { const e = [Math.abs(p[1] - y0), Math.abs(p[0] - x1), Math.abs(p[1] - y1), Math.abs(p[0] - x0)], i = e.indexOf(Math.min(...e));
+      return [p[0] - x0, W + p[1] - y0, W + H + x1 - p[0], 2*W + H + y1 - p[1]][i]; };
+    const corners = [[x0, y0, 0], [x1, y0, W], [x1, y1, W + H], [x0, y1, 2*W + H]];
+    let a = pos(E), b = pos(S); const out = [];
+    if (ccw){ if (b <= a) b += P; for (const k of [0, 1]) for (const c of corners){ const s = c[2] + k*P; if (s > a && s < b) out.push([c[0], c[1], s]); } }
+    else { if (b >= a) b -= P; for (const k of [0, -1]) for (const c of corners){ const s = c[2] + k*P; if (s < a && s > b) out.push([c[0], c[1], s]); } }
+    out.sort((u, v) => ccw ? u[2] - v[2] : v[2] - u[2]);
+    return out.map((c) => [c[0], c[1]]);
+  }
+  // clip a convex polygon to the half-plane {z : z.a <= c}
+  function clip(poly, a, c){ const out = [];
+    for (let i = 0; i < poly.length; i++){ const P = poly[i], Q = poly[(i + 1) % poly.length];
+      const fp = P[0]*a[0] + P[1]*a[1] - c, fq = Q[0]*a[0] + Q[1]*a[1] - c;
+      if (fp <= 0) out.push(P);
+      if ((fp < 0 && fq > 0) || (fp > 0 && fq < 0)){ const s = fp/(fp - fq); out.push([P[0] + s*(Q[0]-P[0]), P[1] + s*(Q[1]-P[1])]); } }
+    return out; }
+  function inPoly(p, P){ let c = false;
+    for (let i = 0, j = P.length - 1; i < P.length; j = i++){ const a = P[i], b = P[j];
+      if ((a[1] > p[1]) !== (b[1] > p[1]) && p[0] < (b[0] - a[0])*(p[1] - a[1])/(b[1] - a[1]) + a[0]) c = !c; }
+    return c; }
+  function area(P){ let s = 0; for (let i = 0; i < P.length; i++){ const a = P[i], b = P[(i + 1) % P.length]; s += a[0]*b[1] - a[1]*b[0]; } return s/2; }
+  function dedupe(P){ const out = []; for (const p of P){ const q = out[out.length - 1]; if (!q || Math.hypot(p[0] - q[0], p[1] - q[1]) > 1e-7) out.push(p); }
+    while (out.length > 1 && Math.hypot(out[0][0] - out[out.length-1][0], out[0][1] - out[out.length-1][1]) < 1e-7) out.pop(); return out; }
+  // move every vertex of a polygon inward by about eps: the moving piece is a hair smaller than its slot
+  function shrink(P, eps){ P = dedupe(P); if (area(P) < 0) P = P.slice().reverse(); const n = P.length, out = [];
+    for (let i = 0; i < n; i++){ const a = P[(i + n - 1) % n], b = P[i], c = P[(i + 1) % n];
+      const e1 = [b[0] - a[0], b[1] - a[1]], e2 = [c[0] - b[0], c[1] - b[1]], l1 = Math.hypot(...e1), l2 = Math.hypot(...e2);
+      const n1 = [-e1[1]/l1, e1[0]/l1], n2 = [-e2[1]/l2, e2[0]/l2]; let m = [n1[0] + n2[0], n1[1] + n2[1]], lm = Math.hypot(...m);
+      if (lm < 1e-6){ m = n1; lm = 1; } m = [m[0]/lm, m[1]/lm]; const k = eps/Math.max(0.3, m[0]*n1[0] + m[1]*n1[1]);
+      out.push([b[0] + k*m[0], b[1] + k*m[1]]); }
+    return out; }
+  // obstacle edges in a uniform grid, for fast overlap tests
+  function collider(polys, cell){
+    const segs = []; let x0 = 1e9, y0 = 1e9, x1 = -1e9, y1 = -1e9;
+    for (const P of polys) for (let i = 0; i < P.length; i++){ const a = P[i], b = P[(i + 1) % P.length]; segs.push([a[0], a[1], b[0], b[1]]);
+      x0 = Math.min(x0, a[0]); x1 = Math.max(x1, a[0]); y0 = Math.min(y0, a[1]); y1 = Math.max(y1, a[1]); }
+    const h = cell || Math.max(x1 - x0, y1 - y0)/48, nx = Math.ceil((x1 - x0)/h) + 1, ny = Math.ceil((y1 - y0)/h) + 1, cells = new Map();
+    segs.forEach((s, k) => { for (let i = Math.floor((Math.min(s[0], s[2]) - x0)/h); i <= Math.floor((Math.max(s[0], s[2]) - x0)/h); i++)
+      for (let j = Math.floor((Math.min(s[1], s[3]) - y0)/h); j <= Math.floor((Math.max(s[1], s[3]) - y0)/h); j++){ const key = i*4096 + j; if (!cells.has(key)) cells.set(key, []); cells.get(key).push(k); } });
+    return {polys, segs, cells, h, x0, y0, nx, ny, stamp: new Int32Array(segs.length), tick: 0};
+  }
+  const orient = (ax, ay, bx, by, cx, cy) => (bx - ax)*(cy - ay) - (by - ay)*(cx - ax);
+  // does the polygon Q overlap the interior of some obstacle?
+  function hits(C, Q){
+    for (let i = 0; i < Q.length; i++){ const a = Q[i], b = Q[(i + 1) % Q.length]; C.tick++;
+      const i0 = Math.max(0, Math.floor((Math.min(a[0], b[0]) - C.x0)/C.h)), i1 = Math.min(C.nx, Math.floor((Math.max(a[0], b[0]) - C.x0)/C.h));
+      const j0 = Math.max(0, Math.floor((Math.min(a[1], b[1]) - C.y0)/C.h)), j1 = Math.min(C.ny, Math.floor((Math.max(a[1], b[1]) - C.y0)/C.h));
+      for (let ii = i0; ii <= i1; ii++) for (let jj = j0; jj <= j1; jj++){ const L = C.cells.get(ii*4096 + jj); if (!L) continue;
+        for (const k of L){ if (C.stamp[k] === C.tick) continue; C.stamp[k] = C.tick; const s = C.segs[k];
+          const o1 = orient(a[0], a[1], b[0], b[1], s[0], s[1]), o2 = orient(a[0], a[1], b[0], b[1], s[2], s[3]);
+          if (o1*o2 >= 0) continue;
+          const o3 = orient(s[0], s[1], s[2], s[3], a[0], a[1]), o4 = orient(s[0], s[1], s[2], s[3], b[0], b[1]);
+          if (o3*o4 < 0) return true; } } }
+    return C.polys.some((P) => inPoly(Q[0], P) || inPoly(P[0], Q));
+  }
+  // a pose x -> R(th) x + (tx, ty)
+  const place = (p, P) => { const c = Math.cos(p.th), s = Math.sin(p.th); return P.map((x) => [c*x[0] - s*x[1] + p.tx, s*x[0] + c*x[1] + p.ty]); };
+  const shift = (p, dx, dy) => ({th: p.th, tx: p.tx + dx, ty: p.ty + dy});
+  const turn = (p, a, z) => { const c = Math.cos(a), s = Math.sin(a), X = p.tx - z[0], Y = p.ty - z[1]; return {th: p.th + a, tx: z[0] + c*X - s*Y, ty: z[1] + s*X + c*Y}; };
+  return {NS, el, seg, arc, curve, walk, clip, inPoly, dedupe, shrink, collider, hits, place, shift, turn};
+})();
+
+// ---------- the puzzles ----------
+// A cut puzzle returns the board and the interface (q on its left); the pieces are cut from the board.
+// Other puzzles return the piece q, the obstacles and the interface directly.
+const SHAPES = {
+  tab: { name: 'tab', board: [-2.4, 2.4, -2.5, 1.3], lp: [-1.6, -1.7], lq: [-1.6, 0.6], pin: [0, -1.3], build(){
+    const {seg, arc} = PZ, a = Math.atan2(0.748, -0.5), b = Math.atan2(0.748, 0.5) + 2*Math.PI;
+    return {iface: [seg([-2.4, 0], [-0.5, 0], 40), seg([-0.5, 0], [-0.5, -0.552], 12), arc([0, -1.3], 0.9, a, b, 120), seg([0.5, -0.552], [0.5, 0], 12), seg([0.5, 0], [2.4, 0], 40)]}; } },
+  cap: { name: 'round head, no neck', board: [-1.7, 1.7, -1.5, 0.5], lp: [-1.25, -1.1], lq: [0, -0.3], pin: [0.55, -0.75], build(){
+    return {iface: [PZ.arc([0, 0], 1, 5*Math.PI/6, 13*Math.PI/6, 160)]}; } },
+  spiral: { name: 'spiral', board: [-1.5, 2.3, -0.4303, 1.32], lp: [1.85, 0.25], lq: [-0.9, 0.9], pin: [1.2, 1.0], build(){
+    return {iface: [PZ.curve((t) => [(1 + 0.5*t)*Math.cos(t), (1 + 0.5*t)*Math.sin(t)], -0.8, Math.PI/3, 160)]}; } },
+  wave: { name: 'wave', board: [-2.4, 2.4, -1.4, 1.4], lp: [-1.6, -0.95], lq: [-1.6, 0.9], pin: [0, 0.9], build(){
+    return {iface: [PZ.curve((t) => [t, 0.45*Math.sin(1.4*t)], -2.4, 2.4, 200)]}; } },
+  hook: { name: 'hook', board: [-2.6, 1.6, -1.6, 1.6], lp: [-2.0, 1.25], lq: [-1.3, 0], pin: [0, 0], param: 40, build(deg){
+    const {seg, arc} = PZ, dl = deg*Math.PI/180, c = Math.cos(dl/2), s = Math.sin(dl/2);
+    return {iface: [seg([-2.6, -c], [-s, -c], 30), arc([0, 0], 1, -(Math.PI + dl)/2, (Math.PI + dl)/2, 160), seg([-s, c], [-2.6, c], 30)]}; } },
+  // idealized puzzles: the whole plane, cut along a curve going to infinity; the far ends are cut off at distance 25
+  lineHead: { name: 'round head on a line', infinite: true, board: [-25, 25, -25, 25], view: [-3.2, 3.2, -2.3, 1.7], lp: [-2.2, -1.5], lq: [-2.2, 0.9], pin: [0, -0.7], build(){
+    const {seg, arc} = PZ, a = Math.atan2(0.7, -0.714), b = Math.atan2(0.7, 0.714) + 2*Math.PI;
+    return {iface: [seg([-25, 0], [-4, 0], 1), seg([-4, 0], [-0.714, 0], 8), arc([0, -0.7], 1, a, b, 160), seg([0.714, 0], [4, 0], 8), seg([4, 0], [25, 0], 1)]}; } },
+  lineWave: { name: 'wavy line', infinite: true, board: [-25, 25, -25, 25], view: [-3.2, 3.2, -2, 2], lp: [-2.2, -1.3], lq: [-2.2, 1.2], pin: [0, 1], build(){
+    const {seg} = PZ, c = Math.PI/1.4;
+    return {iface: [seg([-25, 0], [-4, 0], 1), seg([-4, 0], [-c, 0], 6), PZ.curve((t) => [t, 0.45*Math.sin(1.4*t)], -c, c, 120), seg([c, 0], [4, 0], 6), seg([4, 0], [25, 0], 1)]}; } },
+  lineHook: { name: 'hook', infinite: true, board: [-25, 25, -25, 25], view: [-3.6, 1.8, -1.8, 1.8], lp: [-2.6, 1.35], lq: [-1.3, 0], pin: [0, 0], param: 40, build(deg){
+    const {seg, arc} = PZ, dl = deg*Math.PI/180, c = Math.cos(dl/2), s = Math.sin(dl/2);
+    return {iface: [seg([-25, -c], [-5, -c], 1), seg([-5, -c], [-s, -c], 10), arc([0, 0], 1, -(Math.PI + dl)/2, (Math.PI + dl)/2, 160), seg([-s, c], [-5, c], 10), seg([-5, c], [-25, c], 1)]}; } },
+  sliver: { name: 'sliver', board: [-1.08, 1.08, -1.08, 1.08], round: true, lp: [-0.5, 0], lq: [0.45, 0.45], pin: [0.5, -0.4], build(){
+    const sector = (a0, a1) => { const pts = [[0, 0]]; for (let k = 0; k <= 90; k++){ const a = (a0 + (a1 - a0)*k/90)*Math.PI/180; pts.push([Math.cos(a), Math.sin(a)]); } return pts; };
+    return {q: sector(-60, 90), obstacles: [{poly: sector(90, 290)}, {poly: sector(-70, -60), label: 'sliver', at: [0.33, -0.98]}], iface: [PZ.seg([0, 1], [0, 0], 30)]}; } },
+  channel: { name: 'channel', board: [-3, 3, -2.6, 1.8], lp: [-2.1, 0.9], lq: [-0.6, -1.2], pin: [-0.6 + 1/0.32, -1.2], build(){
+    const r = 0.32, E = [-0.6, -1.2], top = 1.8, sig = (u) => [-0.6 + 0.16*u*u, -1.2 + u];
+    const wall = (u, sg) => { const L = Math.hypot(1, 0.32*u); return [sig(u)[0] + sg*r/L, sig(u)[1] - sg*r*0.32*u/L]; };
+    const uTop = (sg) => { let lo = 0, hi = 4; for (let k = 0; k < 50; k++){ const m = (lo + hi)/2; if (wall(m, sg)[1] < top) lo = m; else hi = m; } return lo; };
+    const p = [[-3, 1.8], [-3, -2.6], [3, -2.6], [3, 1.8]], uR = uTop(1), uL = uTop(-1);
+    for (let k = 0; k <= 100; k++) p.push(wall(uR*(1 - k/100), 1));
+    for (let k = 1; k < 60; k++){ const a = -Math.PI*k/60; p.push([E[0] + r*Math.cos(a), E[1] + r*Math.sin(a)]); }
+    for (let k = 0; k <= 100; k++) p.push(wall(uL*k/100, -1));
+    const q = []; for (let k = 0; k < 120; k++){ const a = 2*Math.PI*k/120; q.push([E[0] + r*Math.cos(a), E[1] + r*Math.sin(a)]); }
+    const cl = []; for (let k = 0; k <= 80; k++) cl.push(sig(uL*k/80));
+    return {q, obstacles: [{poly: p}], iface: [PZ.arc(E, r, Math.PI, 2*Math.PI, 60)], centerline: cl}; } }
+};
+
+// ---------- the playground ----------
+const MODES = {wiggle: 'wiggle', slide: 'slide straight', turn: 'turn about the pin'};
+const HELP = {wiggle: 'Drag <i>q</i> anywhere: it follows your pointer, sliding and pivoting around whatever is in the way.',
+                slide: 'Drag <i>q</i>: your first movement chooses a direction, and after that <i>q</i> moves only along that line.',
+                turn: 'Pick up the pin to choose a pivot, then drag <i>q</i> to turn it about the pin.'};
+
+// o.compact: a panel of a larger figure, with its title and without its own mode buttons, help line and hints
+function playground(root, o){
+  const {el, place, shift, turn} = PZ, uid = root.id, PI = Math.PI;
+  let key = o.shapes[0], mode = o.modes[0], hints = !!o.hints, param = SHAPES[key].param;
+  let G, pose, pin, grab = null, lastW = null, ghost = null, status = '', pinTouched = false, done = false, won = false, rail = null;
+  const box = document.createElement('div'); box.className = 'pz-box'; root.appendChild(box);
+  const ctl = document.createElement('div'); ctl.className = 'pz-ctl'; box.appendChild(ctl);
+  function buttons(items, cur, on){ const bs = items.map(([k, t]) => { const b = document.createElement('button'); b.type = 'button'; b.innerHTML = t;
+      b.addEventListener('click', () => { bs.forEach((x) => x.setAttribute('aria-pressed', x === b)); on(k); }); ctl.appendChild(b); return b; });
+    bs.forEach((b, i) => b.setAttribute('aria-pressed', items[i][0] === cur)); }
+  if (o.shapes.length > 1){ const s = document.createElement('span'); s.textContent = 'Puzzle'; ctl.appendChild(s);
+    buttons(o.shapes.map((k) => [k, SHAPES[k].name]), key, (k) => { key = k; param = SHAPES[k].param; build(); }); }
+  if (o.compact){ const t = document.createElement('div'); t.className = 'pz-title'; t.textContent = SHAPES[key].name; box.insertBefore(t, ctl); }
+  if (o.modes.length > 1){
+    if (!o.compact){ const br = document.createElement('span'); br.style.flexBasis = '100%'; ctl.appendChild(br);
+      const s = document.createElement('span'); s.textContent = 'Move'; ctl.appendChild(s); }
+    // in a panel, short labels, centered under the title
+    if (o.compact) ctl.style.justifyContent = 'center';
+    buttons(o.modes.map((m) => [m, o.compact ? m : MODES[m]]), mode, (m) => { mode = m; grab = null; putBack(); }); }
+  const stage = document.createElement('div'); stage.className = 'pz-stage'; box.appendChild(stage);
+  const svg = el('svg', {role: 'img', 'aria-label': 'Two jigsaw pieces p and q; q can be dragged.'}, stage);
+  // a single slide or turn is one motion: afterwards the figure fades and offers to put q back
+  const again = document.createElement('button'); again.type = 'button'; again.className = 'pz-again';  stage.appendChild(again);
+  const legend = document.createElement('div'); legend.className = 'pz-legend'; box.appendChild(legend);
+  const ctl2 = document.createElement('div'); ctl2.className = 'pz-ctl'; box.appendChild(ctl2);
+  const help = document.createElement('span'); help.className = 'helptext'; ctl2.appendChild(help); if (o.compact) ctl2.style.display = 'none';
+  const ctl3 = document.createElement('div'); ctl3.className = 'pz-ctl'; box.appendChild(ctl3);
+  const reset = document.createElement('button'); reset.type = 'button'; reset.textContent = 'reset'; ctl3.appendChild(reset);
+  const putBack = () => { pose = {th: 0, tx: 0, ty: 0}; ghost = null; rail = null; status = ''; done = false; won = false; render(); };
+  reset.addEventListener('click', putBack); again.addEventListener('click', putBack);
+  let dl = null, dIn = null;
+  // the parameter of the shape (the angle delta of the hook), next to the buttons
+  if (SHAPES[key].param !== undefined){ const br = document.createElement('span'); br.style.flexBasis = '100%'; ctl.appendChild(br);
+    const s = document.createElement('span'); s.textContent = 'Shape'; ctl.appendChild(s);
+    dl = document.createElement('label'); dl.className = 'pz-param'; dIn = document.createElement('input'); const dv = document.createElement('b');
+    Object.assign(dIn, {type: 'range', min: 6, max: 80, step: 1, value: param}); dl.innerHTML = '<i>&delta;</i>'; dl.appendChild(dIn); dl.appendChild(dv); ctl.appendChild(dl);
+    const show = () => { dv.textContent = `= ${dIn.value}°`; }; show();
+    dIn.addEventListener('input', () => { param = +dIn.value; show(); build(); }); }
+  const hl = document.createElement('label'); const hc = document.createElement('input'); hc.type = 'checkbox'; hc.checked = hints;
+  hl.appendChild(hc); hl.appendChild(document.createTextNode(' show the math')); ctl3.appendChild(hl);
+  hc.addEventListener('change', () => { hints = hc.checked; render(); }); if (o.compact) hl.style.display = 'none';
+  const rd = document.createElement('div'); rd.className = 'pz-read'; box.appendChild(rd);
+
+  let V, W, H, layer = {};
+  const ok = (p) => !PZ.hits(G.col, place(p, G.qGap));
+  // move from s = 0 towards s = L along a family of poses f(s); stop at the first contact
+  function sweep(f, L, step){ const n = Math.ceil(Math.abs(L)/step), sg = Math.sign(L); let s = 0;
+    for (let k = 1; k <= n; k++){ const s1 = sg*Math.min(Math.abs(L), k*step);
+      if (ok(f(s1))){ s = s1; continue; }
+      let lo = s, hi = s1; for (let j = 0; j < 10; j++){ const m = (lo + hi)/2; if (ok(f(m))) lo = m; else hi = m; }
+      return {s: lo, blocked: true}; }
+    return {s, blocked: false}; }
+  // follow the target translation, sliding along whatever is in the way
+  // trial moves: step direction a (relative to the pull) and rotation r about the grabbed point, cheapest first
+  const TRIALS = []; for (const a of [0, 0.3, -0.3, 0.7, -0.7, 1.1, -1.1, 1.45, -1.45]) for (const r of [0, 0.02, -0.02, 0.06, -0.06, 0.12, -0.12]) TRIALS.push([a, r]);
+  TRIALS.sort((u, v) => Math.abs(u[0]) + 6*Math.abs(u[1]) - Math.abs(v[0]) - 6*Math.abs(v[1]));
+  // the grabbed point gl of q (in the coordinates of q) follows the pointer m; q slides and pivots around whatever is in the way
+  function wiggleTo(gl, m){
+    for (let it = 0; it < 80; it++){ const g = place(pose, [gl])[0], dx = m[0] - g[0], dy = m[1] - g[1], d = Math.hypot(dx, dy); if (d < 2e-3) return false;
+      const st = Math.min(d, 0.03), ux = dx/d, uy = dy/d; let moved = false;
+      for (const [a, r] of TRIALS){ const c = Math.cos(a), s = Math.sin(a), len = st*c;
+        const p = shift(turn(pose, r, g), (c*ux - s*uy)*len, (s*ux + c*uy)*len); if (ok(p)){ pose = p; moved = true; break; } }
+      if (!moved) return true; }
+    return false; }
+
+  function build(){
+    const sh = SHAPES[key], g = sh.build(param);
+    g.board = sh.board;
+    if (!g.q){ const pts = g.iface.flat().map((s) => s.P), S0 = pts[0], E0 = pts[pts.length - 1];
+      g.q = pts.concat(PZ.walk(sh.board, E0, S0, true)); g.obstacles = [{poly: pts.concat(PZ.walk(sh.board, E0, S0, false))}]; }
+    g.q = PZ.dedupe(g.q); g.qGap = PZ.shrink(g.q, 0.008); g.qFat = PZ.shrink(g.q, -0.08); g.col = PZ.collider(g.obstacles.map((ob) => ob.poly), sh.infinite ? 0.12 : 0);
+    G = g; pose = {th: 0, tx: 0, ty: 0}; pin = sh.pin.slice(); done = false; ghost = null; status = ''; lastW = null;
+    if (dIn) dl.style.display = sh.param !== undefined ? '' : 'none';
+    scene(); render();
+  }
+  // the static part of the picture: table, board, picture, pieces
+  function scene(){
+    const inf = !!SHAPES[key].infinite, B = inf ? SHAPES[key].view : G.board, bw = B[1] - B[0], bh = B[3] - B[2], E = inf ? .6 : 0;
+    W = 470; H = o.compact ? 340 : Math.round(Math.min(380, Math.max(260, W*bh/bw + 30)));
+    const S = inf ? Math.min(W/bw, H/bh) : Math.min((W - 40)/bw, (H - 40)/bh), ox = W/2 - S*(B[0] + B[1])/2, oy = H/2 + S*(B[2] + B[3])/2;
+    V = {S, ox, oy, X: (x) => ox + S*x, Y: (y) => oy - S*y, inv: (sx, sy) => [(sx - ox)/S, (oy - sy)/S]};
+    svg.innerHTML = ''; svg.style.border = inf ? 'none' : ''; svg.style.borderRadius = inf ? '0' : '';
+    const defs = el('defs', {}, svg), X0 = V.X(B[0]), X1 = V.X(B[1]), Y0 = V.Y(B[3]), Y1 = V.Y(B[2]), w = X1 - X0, h = Y1 - Y0;
+    // the picture on the puzzle: Renoir, Chemin montant dans les hautes herbes (c. 1876), public domain
+    const pic = el('g', {id: uid + 'pic'}, defs);
+    el('rect', {x: X0 - E*w, y: Y0 - E*h, width: (1 + 2*E)*w, height: (1 + 2*E)*h, fill: '#fff'}, pic);
+    el('image', {opacity: .8, href: 'img/renoir-chemin.jpg', x: X0 - E*w, y: Y0 - E*h, width: (1 + 2*E)*w, height: (1 + 2*E)*h, preserveAspectRatio: 'xMidYMid slice'}, pic);
+    const P = (pts) => pts.map((p, i) => (i ? 'L' : 'M') + V.X(p[0]).toFixed(2) + ' ' + V.Y(p[1]).toFixed(2)).join('') + 'Z';
+    el('rect', {x: 0, y: 0, width: W, height: H, fill: '#f1ece4'}, svg);
+    if (inf){}
+    else if (SHAPES[key].round) el('circle', {cx: V.X(0), cy: V.Y(0), r: V.S, fill: '#e7e0d4', stroke: '#b9ad9b'}, svg);
+    else el('rect', {x: X0, y: Y0, width: w, height: h, fill: '#e7e0d4', stroke: '#b9ad9b'}, svg);
+    if (G.centerline) el('path', {d: P(G.centerline).slice(0, -1), fill: 'none', stroke: '#b9ad9b', 'stroke-dasharray': '4 4'}, svg);
+    const union = el('clipPath', {id: uid + 'obs'}, defs);
+    G.obstacles.forEach((ob, i) => { const cp = el('clipPath', {id: uid + 'ob' + i}, defs); el('path', {d: P(ob.poly)}, cp); el('path', {d: P(ob.poly)}, union);
+      const g = el('g', {'clip-path': `url(#${uid}ob${i})`}, svg); el('use', {href: `#${uid}pic`}, g);
+      if (ob.label) el('rect', {x: 0, y: 0, width: W, height: H, fill: '#fff', 'fill-opacity': .45}, g);
+      el('path', {d: P(ob.poly), fill: 'none', stroke: '#fff', 'stroke-opacity': .9, 'stroke-width': 5, 'stroke-linejoin': 'round'}, svg);
+      el('path', {d: P(ob.poly), fill: 'none', stroke: '#26211d', 'stroke-width': 2.2, 'stroke-linejoin': 'round'}, svg);
+      if (ob.label){ const t = el('text', {x: V.X(ob.at[0]) + 4, y: V.Y(ob.at[1]) + 16, 'class': 'lbl small muted'}, svg); t.textContent = ob.label; } });
+    const tp = el('text', {x: V.X(SHAPES[key].lp[0]), y: V.Y(SHAPES[key].lp[1]) + 6, 'class': 'lbl piece', 'text-anchor': 'middle'}, svg); tp.textContent = 'p';
+    // the ghost: where q would go, with its overlap in red
+    layer.ghost = el('g', {}, svg);
+    // the moving piece
+    const cq = el('clipPath', {id: uid + 'q'}, defs); el('path', {d: P(G.q)}, cq);
+    layer.q = el('g', {'class': 'qpiece'}, svg);
+    const gq = el('g', {'clip-path': `url(#${uid}q)`}, layer.q); el('use', {href: `#${uid}pic`}, gq);
+    el('path', {d: P(G.q), fill: 'none', stroke: '#fff', 'stroke-opacity': .9, 'stroke-width': 5, 'stroke-linejoin': 'round'}, layer.q);
+    layer.qOut = el('path', {d: P(G.q), fill: 'none', stroke: '#26211d', 'stroke-width': 2.2, 'stroke-linejoin': 'round'}, layer.q);
+    const tq = el('text', {x: V.X(SHAPES[key].lq[0]), y: V.Y(SHAPES[key].lq[1]) + 6, 'class': 'lbl piece', 'text-anchor': 'middle'}, layer.q); tq.textContent = 'q';
+    layer.qPath = P(G.q);
+    if (inf){ const fd = el('linearGradient', {id: uid + 'fade'}, defs);
+      for (const [o, a] of [[0, 1], [.012, 1], [.1, 0], [.9, 0], [.988, 1], [1, 1]]) el('stop', {offset: o, 'stop-color': '#fff', 'stop-opacity': a}, fd);
+      const fv = el('linearGradient', {id: uid + 'fadeV', x1: 0, y1: 0, x2: 0, y2: 1}, defs);
+      for (const [o, a] of [[0, 1], [.015, 1], [.12, 0], [.88, 0], [.985, 1], [1, 1]]) el('stop', {offset: o, 'stop-color': '#fff', 'stop-opacity': a}, fv);
+      el('rect', {x: -3, y: -3, width: W + 6, height: H + 6, fill: `url(#${uid}fade)`, 'pointer-events': 'none'}, svg);
+      el('rect', {x: -3, y: -3, width: W + 6, height: H + 6, fill: `url(#${uid}fadeV)`, 'pointer-events': 'none'}, svg);
+      for (const sx of [10, W - 10]){ const t = el('text', {x: sx, y: V.Y(0) + 5, 'class': 'lbl small muted', 'text-anchor': sx < W/2 ? 'start' : 'end'}, svg); t.textContent = '⋯'; } }
+    layer.rail = el('g', {'pointer-events': 'none'}, svg);
+    layer.hints = el('g', {'pointer-events': 'none'}, svg);
+    // the pin: a pushpin with a pulsing ring until it is first picked up; it lifts while held
+    layer.pin = el('g', {'class': 'handle'}, svg);
+    el('circle', {r: 24, fill: 'transparent'}, layer.pin);
+    layer.pinRing = el('circle', {cx: 8, cy: -18, r: 13, fill: 'none', stroke: '#d64545', 'stroke-width': 2, 'class': 'pinring'}, layer.pin);
+    layer.pinShadow = el('ellipse', {cx: 2, cy: 1, rx: 4, ry: 2, fill: '#000', 'fill-opacity': .3}, layer.pin);
+    layer.pinBody = el('g', {}, layer.pin);
+    el('line', {x1: 0, y1: 0, x2: 7, y2: -16, stroke: '#555', 'stroke-width': 2.2}, layer.pinBody);
+    el('circle', {cx: 8, cy: -18, r: 8.5, 'class': 'pinhead', stroke: '#fff', 'stroke-width': 1.8}, layer.pinBody);
+    el('circle', {cx: 5.5, cy: -20.5, r: 2.4, fill: '#fff', 'fill-opacity': .6}, layer.pinBody);
+    layer.pinTip = el('text', {x: 22, y: -14, 'class': 'lbl small pintip'}, layer.pin); layer.pinTip.textContent = 'drag the pin';
+    layer.inset = el('g', {transform: `translate(${W} 0)`, 'pointer-events': 'none'}, svg);
+  }
+  // svg transform of a pose
+  const tf = (p) => { const c = Math.cos(p.th), s = Math.sin(p.th);
+    return `translate(${V.ox} ${V.oy}) scale(${V.S} ${-V.S}) matrix(${c} ${s} ${-s} ${c} ${p.tx} ${p.ty}) scale(${1/V.S} ${-1/V.S}) translate(${-V.ox} ${-V.oy})`; };
+
+  function render(){
+    svg.setAttribute('viewBox', `0 0 ${W + (o.inset && hints && mode !== 'turn' ? 190 : 0)} ${H}`);
+    layer.q.setAttribute('transform', tf(pose));
+    stage.classList.toggle('done', done); stage.classList.toggle('won', done && won);
+    again.innerHTML = won ? '<b>Separated!</b> &nbsp;Put <i>q</i> back' : 'Put <i>q</i> back'; reset.style.display = mode === 'wiggle' ? '' : 'none';
+    layer.qOut.setAttribute('stroke', grab && grab.kind === 'q' ? '#5b6bd5' : '#26211d');
+    layer.qOut.setAttribute('stroke-width', grab && grab.kind === 'q' ? 3 : 2.2);
+    layer.ghost.innerHTML = ''; layer.rail.innerHTML = '';
+    // the line along which a straight slide moves, drawn on top of the pieces
+    const rl = grab && grab.u ? grab : rail;
+    if (rl){ const [a, b] = rl.m0, [ux, uy] = rl.u, ends = {x1: V.X(a - 30*ux), y1: V.Y(b - 30*uy), x2: V.X(a + 30*ux), y2: V.Y(b + 30*uy)};
+      el('line', {...ends, stroke: '#fff', 'stroke-width': 4, 'stroke-opacity': .85}, layer.rail);
+      el('line', {...ends, stroke: '#5b6bd5', 'stroke-width': 2, 'stroke-dasharray': '7 5'}, layer.rail);
+      el('circle', {cx: V.X(a), cy: V.Y(b), r: 3.5, fill: '#5b6bd5', stroke: '#fff', 'stroke-width': 1.5}, layer.rail); }
+    if (ghost && grab && grab.bad) for (const pc of G.iface) for (let i = 0; i + 1 < pc.length; i++){ if (grab.bad(pc[i]) + grab.bad(pc[i + 1]) >= -2e-3) continue;
+      const a = pc[i].P, b = pc[i + 1].P; el('line', {x1: V.X(a[0]), y1: V.Y(a[1]), x2: V.X(b[0]), y2: V.Y(b[1]), stroke: '#d62f2f', 'stroke-width': 5, 'stroke-linecap': 'round', 'stroke-opacity': .85}, layer.rail); }
+    if (ghost){ el('path', {d: layer.qPath, transform: tf(ghost), fill: '#fff', 'fill-opacity': .35, stroke: '#3b3530', 'stroke-dasharray': '4 3'}, layer.ghost);
+      const g = el('g', {'clip-path': `url(#${uid}obs)`}, layer.rail); el('path', {d: layer.qPath, transform: tf(ghost), fill: '#d62f2f', 'fill-opacity': .7}, g); }
+    layer.pin.style.display = mode === 'turn' ? '' : 'none';
+    layer.pin.setAttribute('transform', `translate(${V.X(pin[0])} ${V.Y(pin[1])})`);
+    const held = !!(grab && grab.kind === 'pin');
+    layer.pinBody.setAttribute('transform', held ? 'translate(3 -7) scale(1.15)' : ''); layer.pin.classList.toggle('held', held);
+    layer.pinShadow.setAttribute('rx', held ? 7 : 4); layer.pinShadow.setAttribute('fill-opacity', held ? .18 : .3);
+    layer.pinRing.style.display = held || pinTouched ? 'none' : '';
+    layer.pinTip.style.display = pinTouched ? 'none' : '';
+    help.innerHTML = HELP[mode];
+    const sw = (c, t, region) => `<span><i class="sw${region ? ' reg' : ''}" style="background:${c}"></i>${t}</span>`;
+    legend.innerHTML = !hints || o.compact ? '' : mode === 'turn'
+      ? '<span style="flex-basis:100%;text-align:center">While you hold the pin:</span>' + sw('#2a78d6', 'interface recedes from the pin') + sw('#eb6834', 'interface approaches the pin') + sw('#1f2328', 'constant distance from the pin')
+        + sw('rgba(27,175,122,.35)', 'pins about which <i>q</i> can turn', true)
+      : (o.inset ? sw('#5b6bd5', 'direction <i>w</i> of the slide') : '') + sw('#1f628f', 'normal <i>n</i>, pointing into <i>q</i>') + sw('#d62f2f', 'normal with <i>n</i>&middot;<i>w</i> &lt; 0: here the slide pushes <i>q</i> into <i>p</i>')
+        + (o.inset ? sw('#1baf7a', 'directions <i>w</i> in which <i>q</i> can slide') : '');
+    drawHints();
+    const moved = Math.hypot(pose.tx, pose.ty) > 0.03 || Math.abs(pose.th) > 0.03;
+    rd.innerHTML = status || (moved ? '' : '&nbsp;');
+  }
+  function drawHints(){
+    const hg = layer.hints; hg.innerHTML = ''; layer.inset.innerHTML = '';
+    if (!hints) return;
+    const smp = G.iface.flat(), ln = (a, b, col, wd) => el('line', {x1: V.X(a[0]), y1: V.Y(a[1]), x2: V.X(b[0]), y2: V.Y(b[1]), stroke: col, 'stroke-width': wd, 'stroke-linecap': 'round'}, hg);
+    if (mode === 'turn'){
+      if (!(grab && grab.kind === 'pin')) return;
+      // pivots about which q can be turned: {z : T.(P - z) >= 0 at all samples}, and the same with <= 0
+      const B = G.board, big = [[B[0] - 9, B[2] - 9], [B[1] + 9, B[2] - 9], [B[1] + 9, B[3] + 9], [B[0] - 9, B[3] + 9]];
+      for (const sg of [1, -1]){ let poly = big;
+        for (const s of smp){ poly = PZ.clip(poly, [sg*s.T[0], sg*s.T[1]], sg*(s.T[0]*s.P[0] + s.T[1]*s.P[1]) + 1e-3); if (!poly.length) break; }
+        if (!poly.length) continue;
+        const xs = poly.map((p) => p[0]), ys = poly.map((p) => p[1]);
+        if (Math.max(...xs) - Math.min(...xs) < 0.05) el('circle', {cx: V.X(xs[0]), cy: V.Y(ys[0]), r: 6, fill: '#1baf7a', 'fill-opacity': .6, stroke: '#1baf7a'}, hg);
+        else el('path', {d: poly.map((p, i) => (i ? 'L' : 'M') + V.X(p[0]) + ' ' + V.Y(p[1])).join('') + 'Z', fill: '#1baf7a', 'fill-opacity': .25, stroke: '#1baf7a'}, hg); }
+      const f = (s) => s.T[0]*(s.P[0] - pin[0]) + s.T[1]*(s.P[1] - pin[1]);
+      for (const pc of G.iface) for (let i = 0; i + 1 < pc.length; i++){ const v = (f(pc[i]) + f(pc[i + 1]))/2;
+        ln(pc[i].P, pc[i + 1].P, v > 1e-4 ? '#2a78d6' : v < -1e-4 ? '#eb6834' : '#1f2328', 3.4); }
+    } else {
+      for (const pc of G.iface){ const step = Math.max(1, Math.floor(pc.length/(pc.length > 60 ? 7 : 3)));
+        for (let k = Math.floor(step/2); k < pc.length; k += step){ const s = pc[k], n = [-s.T[1], s.T[0]], bad = lastW && n[0]*lastW[0] + n[1]*lastW[1] < -1e-6;
+          const a = s.P, b = [a[0] + 0.36*n[0], a[1] + 0.36*n[1]], col = bad ? '#d62f2f' : '#1f628f';
+          ln(a, b, col, 2.2); const ang = Math.atan2(-n[1], n[0]), hx = V.X(b[0]), hy = V.Y(b[1]);
+          el('path', {d: `M${hx} ${hy} L${hx - 8*Math.cos(ang - .4)} ${hy - 8*Math.sin(ang - .4)} L${hx - 8*Math.cos(ang + .4)} ${hy - 8*Math.sin(ang + .4)}Z`, fill: col}, hg); } }
+      if (o.inset) insetCircle(smp);
+    }
+  }
+  function insetCircle(smp){
+    const g = layer.inset, cx = 95, cy = H/2 - 6, R = 66;
+    el('circle', {cx, cy, r: R, fill: 'none', stroke: '#d9dde3', 'stroke-width': 1.5}, g);
+    for (let k = 0; k < 360; k++){ const b = k*PI/180, u = [Math.cos(b), Math.sin(b)];
+      if (smp.every((s) => -s.T[1]*u[0] + s.T[0]*u[1] >= -1e-9)){ const b1 = b + PI/180;
+        el('path', {d: `M${cx + R*Math.cos(b)} ${cy - R*Math.sin(b)} A${R} ${R} 0 0 0 ${cx + R*Math.cos(b1)} ${cy - R*Math.sin(b1)}`, fill: 'none', stroke: '#1baf7a', 'stroke-width': 7}, g); } }
+    for (const s of smp){ const n = [-s.T[1], s.T[0]], bad = lastW && n[0]*lastW[0] + n[1]*lastW[1] < -1e-6;
+      el('circle', {cx: cx + R*n[0], cy: cy - R*n[1], r: 2.4, fill: bad ? '#d62f2f' : '#1f628f'}, g); }
+    // the direction w of the slide, in the color of the slide's line
+    if (lastW){ const ex = cx + (R - 4)*lastW[0], ey = cy - (R - 4)*lastW[1], an = Math.atan2(-lastW[1], lastW[0]);
+      el('line', {x1: cx, y1: cy, x2: ex - 7*Math.cos(an), y2: ey - 7*Math.sin(an), stroke: '#5b6bd5', 'stroke-width': 2.5}, g);
+      el('path', {d: `M${ex} ${ey} L${ex - 11*Math.cos(an - .38)} ${ey - 11*Math.sin(an - .38)} L${ex - 11*Math.cos(an + .38)} ${ey - 11*Math.sin(an + .38)}Z`, fill: '#5b6bd5'}, g);
+      el('circle', {cx, cy, r: 3, fill: '#5b6bd5'}, g);
+      const t = el('text', {x: cx + (R + 14)*lastW[0], y: cy - (R + 14)*lastW[1] + 5, 'class': 'lbl small', 'text-anchor': 'middle'}, g); t.textContent = 'w'; }
+    const t = el('text', {x: cx, y: H - 14, 'class': 'lbl small muted', 'text-anchor': 'middle'}, g); t.textContent = 'directions of the normals';
+  }
+
+  // ---------- pointer ----------
+  const at = (e) => { const p = svg.createSVGPoint(); p.x = e.clientX; p.y = e.clientY; const q = p.matrixTransform(svg.getScreenCTM().inverse()); return V.inv(q.x, q.y); };
+  svg.addEventListener('pointerdown', (e) => {
+    if (done) return;
+    const m = at(e);
+    const near = (dx, dy) => Math.hypot(V.X(m[0]) - V.X(pin[0]) - dx, V.Y(m[1]) - V.Y(pin[1]) - dy);
+    if (mode === 'turn' && (near(0, 0) < 18 || near(8, -18) < 16)){ grab = {kind: 'pin'}; pinTouched = true; }
+    else if (PZ.inPoly(m, place(pose, G.q))) { const c = Math.cos(pose.th), s = Math.sin(pose.th), X = m[0] - pose.tx, Y = m[1] - pose.ty; grab = {kind: 'q', m0: m, pose0: pose, a: 0, gl: [c*X + s*Y, -s*X + c*Y]}; }
+    else if (mode === 'turn'){ pin = m; grab = {kind: 'pin'}; pinTouched = true; }
+    else return;
+    try { svg.setPointerCapture(e.pointerId); } catch (err) {}
+    e.preventDefault(); move(m);
+  });
+  svg.addEventListener('pointermove', (e) => { if (grab) move(at(e)); });
+  for (const ev of ['pointerup', 'pointercancel']) svg.addEventListener(ev, () => { if (!grab) return;
+    // after a single slide or turn, or once q is free, the figure pauses until q is put back
+    // a blocked slide or turn keeps showing where q was pulled, and the overlap, until q is put back
+    const tried = o.keepIllegal && grab.kind === 'q' && mode === 'turn' && ghost;
+    if (grab.kind === 'q' && !atRest(pose)){ won = separated();
+      if (won || mode !== 'wiggle') done = true;
+      if (won) status = SHAPES[key].infinite ? '<b>Free!</b> <i>q</i> can slide away forever.' : '<b>Separated!</b> <i>q</i> can now be pulled away from <i>p</i>.';
+      else if (mode !== 'wiggle' && !tried) status = `A single ${mode === 'slide' ? 'slide' : 'turn'} moved <i>q</i> without overlapping <i>p</i>.`; }
+    // in figure 1, a blocked turn leaves q where it was turned, overlapping p, until it is put back
+    if (tried && !won){ done = true; pose = ghost; }
+    const keep = tried && !won ? {u: grab.u, m0: grab.m0} : null;
+    grab = null; ghost = keep ? pose : null; rail = keep && keep.u ? keep : null; render(); });
+  // q in its slot; a motion whose velocity has normal component f < 0 somewhere along the interface pushes q into p at once
+  const atRest = (p) => Math.hypot(p.tx, p.ty) < 1e-9 && Math.abs(p.th) < 1e-9;
+  const blocksFirstOrder = (f) => G.iface.some((pc) => pc.slice(1, -1).some((o) => f(o) < -1e-3));
+  function move(m){
+    if (grab.kind === 'pin'){ pin = m; status = ''; render(); return; }
+    const {m0, pose0} = grab, dx = m[0] - m0[0], dy = m[1] - m0[1];
+    if (mode === 'slide'){ const L0 = Math.hypot(dx, dy);
+      // the first movement of the pointer fixes the direction; after that q stays on this line
+      if (!grab.u){ if (L0 < 0.12){ render(); return; } grab.u = [dx/L0, dy/L0]; }
+      const L = dx*grab.u[0] + dy*grab.u[1], sg = L < 0 ? -1 : 1, ux = grab.u[0], uy = grab.u[1];
+      // from the starting position, the exact first-order test decides: the play between the pieces must not let q slip out
+      const fs = (o) => -o.T[1]*sg*ux + o.T[0]*sg*uy; grab.bad = atRest(pose0) && blocksFirstOrder(fs) ? fs : null;
+      const r = grab.bad ? {s: 0, blocked: true}
+        : sweep((s) => shift(pose0, s*ux, s*uy), L, 0.02); lastW = [sg*ux, sg*uy];
+      pose = shift(pose0, r.s*ux, r.s*uy); ghost = r.blocked ? shift(pose0, L*ux, L*uy) : null;
+      status = r.blocked ? (Math.abs(r.s) < 0.02 ? 'Stuck: <i>q</i> cannot slide in this direction at all.' : 'Blocked after a short slide.') : 'Sliding.'; }
+    else if (mode === 'turn'){ const ang = (p) => Math.atan2(p[1] - pin[1], p[0] - pin[0]);
+      let a = ang(m) - ang(m0); while (a - grab.a > PI) a -= 2*PI; while (a - grab.a < -PI) a += 2*PI; grab.a = a;
+      const ft = (o) => Math.sign(a)*(o.T[0]*(o.P[0] - pin[0]) + o.T[1]*(o.P[1] - pin[1])); grab.bad = atRest(pose0) && blocksFirstOrder(ft) ? ft : null;
+      const r = grab.bad ? {s: 0, blocked: true}
+        : sweep((s) => turn(pose0, s, pin), a, PI/180); pose = turn(pose0, r.s, pin); ghost = r.blocked ? turn(pose0, a, pin) : null;
+      status = r.blocked ? (Math.abs(r.s) < PI/180 ? `Stuck: <i>q</i> cannot turn ${a > 0 ? 'counterclockwise' : 'clockwise'} about the pin at all.` : 'Blocked after a short turn.') : `Turning ${a > 0 ? 'counterclockwise' : 'clockwise'}.`; }
+    else { const stuck = wiggleTo(grab.gl, m), g = place(pose, [grab.gl])[0];
+      ghost = stuck ? shift(pose, m[0] - g[0], m[1] - g[1]) : null;
+      status = stuck ? (Math.hypot(pose.tx - pose0.tx, pose.ty - pose0.ty) < 0.02 && Math.abs(pose.th - pose0.th) < 0.02 ? 'Stuck: <i>q</i> cannot move this way at all.' : 'Something is in the way.') : 'Moving.'; }
+    if (grab.bad && mode !== 'wiggle') status += ' Along the red part of the cut, this motion pushes <i>q</i> into <i>p</i>.';
+    if (SHAPES[key].infinite && separated()) status = SHAPES[key].infinite ? '<b>Free!</b> <i>q</i> can slide away forever.' : '<b>Separated!</b>';
+    render();
+  }
+  // q is apart from p if there is a visible gap between them, and from where it is, q can be pulled away
+  // along some straight line without touching p again
+  function separated(){ if (SHAPES[key].infinite) return Math.hypot(pose.tx, pose.ty) > 2.5;
+    if (PZ.hits(G.col, place(pose, G.qFat))) return false;
+    const B = G.board, far = 2*Math.hypot(B[1] - B[0], B[3] - B[2]);
+    for (let k = 0; k < 32; k++){ const a = 2*PI*k/32, ux = Math.cos(a), uy = Math.sin(a);
+      if (!sweep((s) => shift(pose, s*ux, s*uy), far, 0.05).blocked) return true; }
+    return false; }
+  build();
+  return {setMode(m){ mode = m; grab = null; putBack(); }};
+}
+
+// a figure made of several panels, one per puzzle; with several modes, each panel has its own buttons
+function panels(root, shapes, modes, hints){
+  const help = document.createElement('div'); help.className = 'pz-help'; root.appendChild(help);
+  if (modes.length === 1) help.innerHTML = HELP[modes[0]]; else help.style.display = 'none';
+  const grid = document.createElement('div'); grid.className = 'pz-grid'; root.appendChild(grid);
+  shapes.forEach((k, i) => { const d = document.createElement('div'); d.id = root.id + '-' + i; grid.appendChild(d);
+    playground(d, {shapes: [k], modes, compact: true, hints}); });
+  // one legend for all panels
+  if (hints && modes.length === 1 && modes[0] === 'turn'){ const lg = document.createElement('div'); lg.className = 'pz-legend'; root.appendChild(lg);
+    const sw = (c, t, region) => `<span><i class="sw${region ? ' reg' : ''}" style="background:${c}"></i>${t}</span>`;
+    lg.innerHTML = '<span style="flex-basis:100%;text-align:center">While you hold a pin:</span>' + sw('#2a78d6', 'interface recedes from the pin')
+      + sw('#eb6834', 'interface approaches the pin') + sw('#1f2328', 'constant distance from the pin') + sw('rgba(27,175,122,.35)', 'pins about which <i>q</i> can turn', true); }
+}
+
+panels(document.getElementById('fig-play'), ['tab', 'wave', 'cap', 'spiral'], ['wiggle', 'slide', 'turn']);
+playground(document.getElementById('fig-slide'), {shapes: ['tab', 'wave', 'cap', 'spiral'], modes: ['slide'], hints: true, inset: true});
+panels(document.getElementById('fig-turn'), ['tab', 'spiral'], ['turn'], true);
+playground(document.getElementById('fig-plane'), {shapes: ['lineHead', 'lineWave', 'lineHook'], modes: ['wiggle', 'slide', 'turn']});
+playground(document.getElementById('fig-sliver'), {shapes: ['sliver'], modes: ['slide', 'wiggle'], hints: true, inset: true});
+playground(document.getElementById('fig-channel'), {shapes: ['channel'], modes: ['wiggle', 'slide', 'turn']});
+playground(document.getElementById('fig-hook'), {shapes: ['hook'], modes: ['wiggle', 'slide', 'turn'], hints: true, inset: true});
+</script>
+
+<h4 id="license">License</h4>
+<p>The picture on the puzzles is <a href="https://commons.wikimedia.org/wiki/File:Chemin_montant_dans_les_hautes_herbes_-_Pierre_Auguste_Renoir.jpg"><i>Chemin montant dans les hautes herbes</i></a> by Pierre-Auguste Renoir (c. 1876, Mus&eacute;e d&rsquo;Orsay, Paris).</p>
+<p>The text of this note is licensed under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>, and the code for the figures under the MIT license.</p>
+<script>
+// ---------- the small static figures of the section "The question" ----------
+(function(){
+  const {el} = PZ, PI = Math.PI;
+  const C = {q: '#bcd8f0', p: '#f6cfae', other: '#f3efe9', ink: '#2f2925', muted: '#9a8f82', n: '#2a6db0', t: '#9a8f82', w: '#6a5fd8', bad: '#d62f2f'};
+  // a frame: svg with model coordinates [x0,x1]x[y0,y1] mapped to a W-pixel-wide picture
+  function frame(root, B, W, label){
+    const S = W/(B[1] - B[0]), H = Math.round(S*(B[3] - B[2]));
+    const svg = el('svg', {viewBox: `0 0 ${W} ${H}`, role: 'img', 'aria-label': label}, root); svg.style.maxWidth = W + 'px'; svg.style.margin = '0 auto';
+    const X = (x) => S*(x - B[0]), Y = (y) => S*(B[3] - y);
+    const d = (pts, close) => pts.map((p, i) => (i ? 'L' : 'M') + X(p[0]).toFixed(2) + ' ' + Y(p[1]).toFixed(2)).join('') + (close ? 'Z' : '');
+    return {svg, S, X, Y, d};
+  }
+  const txt = (f, x, y, s, cls, anchor) => { const t = el('text', {x: f.X(x), y: f.Y(y), 'class': 'lbl ' + (cls || ''), 'text-anchor': anchor || 'middle'}, f.svg); t.textContent = s; return t; };
+  function arrow(f, a, b, col, wd){ const ax = f.X(a[0]), ay = f.Y(a[1]), bx = f.X(b[0]), by = f.Y(b[1]), an = Math.atan2(by - ay, bx - ax), h = 9;
+    el('line', {x1: ax, y1: ay, x2: bx - 0.7*h*Math.cos(an), y2: by - 0.7*h*Math.sin(an), stroke: col, 'stroke-width': wd || 2.2}, f.svg);
+    el('path', {d: `M${bx} ${by} L${bx - h*Math.cos(an - .4)} ${by - h*Math.sin(an - .4)} L${bx - h*Math.cos(an + .4)} ${by - h*Math.sin(an + .4)}Z`, fill: col}, f.svg); }
+  function wrap(id){ const root = document.getElementById(id), box = document.createElement('div'); box.className = 'pz-static'; root.appendChild(box); return box; }
+  function panel(box, title){ const d = document.createElement('div'); d.className = 'pz-panel'; box.appendChild(d);
+    if (title){ const t = document.createElement('div'); t.className = 'pz-title'; t.innerHTML = title; d.appendChild(t); } return d; }
+
+  // the edge of a jigsaw piece from A to B, with a knob on the side s (+1: left of A->B, -1: right, 0: flat)
+  function edge(A, B, s){
+    const L = Math.hypot(B[0] - A[0], B[1] - A[1]), u = [(B[0] - A[0])/L, (B[1] - A[1])/L], v = [-u[1]*s, u[0]*s];
+    const at = (a, b) => [A[0] + a*L*u[0] + b*L*v[0], A[1] + a*L*u[1] + b*L*v[1]];
+    if (!s) return [A, B];
+    const pts = [A, at(.4, 0), at(.4, .138)], a0 = Math.atan2(-.112, -.1) + 2*PI, a1 = Math.atan2(-.112, .1);
+    for (let k = 1; k < 40; k++){ const a = a0 + (a1 - a0)*k/40; pts.push(at(.5 + .15*Math.cos(a), .25 + .15*Math.sin(a))); }
+    return pts.concat([at(.6, .138), at(.6, 0), B]);
+  }
+  // a 3 x 2 grid of jigsaw pieces; knobs[k] gives the side of the knob on each inner edge
+  function grid(){
+    const n = 3, m = 2, c = 1.6, H = {}, V = {};
+    const hs = [[1, -1, 1]], vs = [[-1, 1], [1, -1]];
+    for (let i = 0; i < n; i++) for (let j = 0; j <= m; j++) H[i + ',' + j] = edge([i*c, j*c], [(i + 1)*c, j*c], j === 0 || j === m ? 0 : hs[j - 1][i]);
+    for (let i = 0; i <= n; i++) for (let j = 0; j < m; j++) V[i + ',' + j] = edge([i*c, j*c], [i*c, (j + 1)*c], i === 0 || i === n ? 0 : vs[i - 1][j]);
+    const piece = (i, j) => [].concat(H[i + ',' + j], V[(i + 1) + ',' + j], H[i + ',' + (j + 1)].slice().reverse(), V[i + ',' + j].slice().reverse());
+    return {n, m, c, piece, V, H};
+  }
+
+  // 1. a puzzle, and the interface of two adjacent pieces
+  (function(){
+    const box = wrap('fig-def'), g = grid(), f = frame(panel(box), [-0.15, g.n*g.c + 0.15, -0.15, g.m*g.c + 0.15], 320, 'A board cut into six jigsaw pieces; two adjacent pieces p and q and their interface are highlighted.');
+    for (let i = 0; i < g.n; i++) for (let j = 0; j < g.m; j++){
+      const col = i === 0 && j === 1 ? C.p : i === 1 && j === 1 ? C.q : C.other;
+      el('path', {d: f.d(g.piece(i, j), true), fill: col, stroke: C.ink, 'stroke-width': 1.3, 'stroke-linejoin': 'round'}, f.svg); }
+    el('path', {d: f.d(g.V['1,1']), fill: 'none', stroke: C.ink, 'stroke-width': 3.4, 'stroke-linejoin': 'round'}, f.svg);
+    txt(f, .62, 2.55, 'p'); txt(f, 2.6, 2.65, 'q'); txt(f, 1.72, 2.92, 'γ', 'small', 'start');
+  })();
+
+  // 2. the orientation of the interface, its tangent and its normal
+  (function(){
+    const box = wrap('fig-normal'), B = [-1.75, 1.15, -1.3, 1.25], f = frame(panel(box), B, 270, 'The interface, oriented so that q lies to its left, with the unit tangent and the unit normal at a point.');
+    const curve = edge([0, -1.3], [0, 1.25], 1).slice();
+    // pieces: p to the right of the upward curve? the knob points to the left; q is on the left of the direction of travel
+    const qPoly = curve.concat([[B[0], B[3]], [B[0], B[2]]]), pPoly = curve.concat([[B[1], B[3]], [B[1], B[2]]]);
+    el('path', {d: f.d(pPoly, true), fill: C.p}, f.svg); el('path', {d: f.d(qPoly, true), fill: C.q}, f.svg);
+    el('path', {d: f.d(curve), fill: 'none', stroke: C.ink, 'stroke-width': 2.4, 'stroke-linejoin': 'round'}, f.svg);
+    // arrowheads along the curve, showing its orientation
+    for (const k of [6, 40, curve.length - 6]){ const a = curve[k - 1], b = curve[k + 1], an = Math.atan2(f.Y(b[1]) - f.Y(a[1]), f.X(b[0]) - f.X(a[0])), x = f.X(curve[k][0]), y = f.Y(curve[k][1]);
+      el('path', {d: `M${x + 7*Math.cos(an)} ${y + 7*Math.sin(an)} L${x - 6*Math.cos(an - .55)} ${y - 6*Math.sin(an - .55)} L${x - 6*Math.cos(an + .55)} ${y - 6*Math.sin(an + .55)}Z`, fill: C.ink}, f.svg); }
+    // tangent and normal at a point of the knob
+    const k = 31, P = curve[k], Q = curve[k + 1], R = curve[k - 1], L = Math.hypot(Q[0] - R[0], Q[1] - R[1]), T = [(Q[0] - R[0])/L, (Q[1] - R[1])/L], N = [-T[1], T[0]];
+    const sq = .09, c1 = [P[0] + sq*T[0], P[1] + sq*T[1]], c2 = [c1[0] + sq*N[0], c1[1] + sq*N[1]], c3 = [P[0] + sq*N[0], P[1] + sq*N[1]];
+    el('path', {d: f.d([c1, c2, c3]), fill: 'none', stroke: C.muted, 'stroke-width': 1}, f.svg);
+    arrow(f, P, [P[0] + .5*T[0], P[1] + .5*T[1]], C.t); arrow(f, P, [P[0] + .5*N[0], P[1] + .5*N[1]], C.n);
+    el('circle', {cx: f.X(P[0]), cy: f.Y(P[1]), r: 3, fill: C.ink}, f.svg);
+    txt(f, P[0] + .62*T[0], P[1] + .62*T[1] - .05, 'γ̇', 'small'); txt(f, P[0] + .64*N[0], P[1] + .64*N[1] - .05, 'n', 'small');
+    txt(f, -1.3, -.85, 'q'); txt(f, .75, .85, 'p'); txt(f, .12, -1.1, 'γ', 'small', 'start');
+  })();
+
+  // pieces cut along a wave, for the last two figures
+  const wave = (() => { const B = [-2.4, 2.4, -1.4, 1.4], pts = []; for (let k = 0; k <= 160; k++){ const x = -2.4 + 4.8*k/160; pts.push([x, 0.45*Math.sin(1.4*x)]); }
+    return {B, q: pts.concat([[2.4, 1.4], [-2.4, 1.4]]), p: pts.concat([[2.4, -1.4], [-2.4, -1.4]])}; })();
+  const view = [-3, 3, -1.7, 2.4];
+  function pieces(f, uid){
+    el('rect', {x: f.X(wave.B[0]), y: f.Y(wave.B[3]), width: f.S*4.8, height: f.S*2.8, fill: 'none', stroke: C.muted, 'stroke-dasharray': '3 3'}, f.svg);
+    el('path', {d: f.d(wave.p, true), fill: C.p, stroke: C.ink, 'stroke-width': 1.4, 'stroke-linejoin': 'round'}, f.svg);
+    const cp = el('clipPath', {id: uid}, el('defs', {}, f.svg)); el('path', {d: f.d(wave.p, true)}, cp);
+    el('path', {d: f.d(wave.q, true), fill: 'none', stroke: C.ink, 'stroke-width': 1, 'stroke-dasharray': '4 3', 'stroke-opacity': .55}, f.svg);
+    txt(f, -1.7, -.95, 'p');
+  }
+  function moved(f, uid, tf, q){ el('path', {d: f.d(wave.q, true), transform: tf, fill: C.q, 'fill-opacity': .92, stroke: C.ink, 'stroke-width': 1.4, 'stroke-linejoin': 'round'}, f.svg);
+    const g = el('g', {'clip-path': `url(#${uid})`}, f.svg); el('path', {d: f.d(wave.q, true), transform: tf, fill: C.bad, 'fill-opacity': .75}, g);
+    const t = txt(f, -1.7, .95, 'q'); t.setAttribute('transform', tf); }
+  const shiftTf = (f, dx, dy) => `translate(${f.S*dx} ${-f.S*dy})`;
+  const turnTf = (f, deg, z) => `rotate(${-deg} ${f.X(z[0])} ${f.Y(z[1])})`;
+
+  // 3. an admissible motion, and one that is not
+  (function(){
+    const box = wrap('fig-admissible');
+    let f = frame(panel(box, 'admissible'), view, 300, 'The piece q moved upward, away from p: admissible.'); pieces(f, 'adm-a'); moved(f, 'adm-a', shiftTf(f, .25, .75));
+    f = frame(panel(box, 'not admissible'), view, 300, 'The piece q moved sideways into p: the overlap is shown in red.'); pieces(f, 'adm-b'); moved(f, 'adm-b', shiftTf(f, .55, .12));
+  })();
+
+  // 4. a slide and a turn
+  (function(){
+    const box = wrap('fig-kinds');
+    const tall = [-3, 3, -1.7, 3.1];
+    let f = frame(panel(box, 'a slide in the direction <i>w</i>'), tall, 300, 'The piece q slid in the direction w.'); pieces(f, 'kd-a'); moved(f, 'kd-a', shiftTf(f, .3, .8));
+    arrow(f, [.3, .9], [.3 + .3*1.1, .9 + .8*1.1], C.w, 2.5); txt(f, .72, 1.55, 'w', 'small', 'start');
+    const z = [-2.4, 0];
+    f = frame(panel(box, 'a turn about <i>z</i>'), tall, 300, 'The piece q turned about the pivot z.'); pieces(f, 'kd-b'); moved(f, 'kd-b', turnTf(f, 14, z));
+    el('circle', {cx: f.X(z[0]), cy: f.Y(z[1]), r: 4, fill: C.w, stroke: '#fff', 'stroke-width': 1.5}, f.svg); txt(f, z[0] - .12, z[1] - .38, 'z', 'small');
+    const R = 1.1, a0 = 0.15, a1 = 0.62, s0 = [z[0] + R*Math.cos(a0), z[1] + R*Math.sin(a0)], s1 = [z[0] + R*Math.cos(a1), z[1] + R*Math.sin(a1)];
+    el('path', {d: `M${f.X(s0[0])} ${f.Y(s0[1])} A${f.S*R} ${f.S*R} 0 0 0 ${f.X(s1[0])} ${f.Y(s1[1])}`, fill: 'none', stroke: C.w, 'stroke-width': 2.5}, f.svg);
+    const an = a1 + PI/2, hx = f.X(s1[0]), hy = f.Y(s1[1]), sx = Math.cos(an), sy = -Math.sin(an);
+    el('path', {d: `M${hx + 4*sx} ${hy + 4*sy} L${hx - 7*sx - 5*sy} ${hy - 7*sy + 5*sx} L${hx - 7*sx + 5*sy} ${hy - 7*sy - 5*sx}Z`, fill: C.w}, f.svg);
+  })();
+})();
+</script>
+
+</body>
+</html>
