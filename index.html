@@ -295,7 +295,9 @@ n\cdot(\gamma-z)^\perp=\dot\gamma^\perp\cdot(\gamma-z)^\perp=\dot\gamma\cdot(\ga
 <li>Otherwise, \(p\) and \(q\) are interlocked.</li>
 </ol></div>
 <details class="proof"><summary>Proof of Theorem 1</summary>
-<p>We first prove the first statement. Rotating the picture, we may assume that \(w=(0,1)\). Since \(n=\dot\gamma^\perp\), the assumption reads</p>
+<ol>
+<li>
+<p>Rotating the picture, we may assume that \(w=(0,1)\). Since \(n=\dot\gamma^\perp\), the assumption reads</p>
 <span class="math">\[
 n\cdot w=\dot\gamma_1\ge0\qquad\text{at every smooth point of }\gamma,
 \]</span>
@@ -306,7 +308,9 @@ y+(c,0)\in q\qquad\text{and}\qquad y+(c,0)+sw\in p\qquad\text{for every }c\in(-\
 \]</span>
 <p>For each such \(c\), the vertical segment from \(y+(c,0)\) to \(y+(c,0)+sw\) joins \(q\) to \(p\), so it meets \(\gamma\). Thus \(\gamma_1(t_\pm)=y_1\pm\delta/2\) for some \(t_-\lt t_+\). On \([t_-,t_+]\) the curve \(\gamma\) has finitely many corners, and \(\gamma_1\) increases by \(\delta\), so by the mean value theorem there is a smooth point \(t_*\in(t_-,t_+)\) with \(\dot\gamma_1(t_*)\gt0\). Replacing \(y\) by \(y+(\gamma_1(t_*)-y_1,0)\), we may assume that \(\gamma_1(t_*)=y_1\).</p>
 <p>Since \(\gamma_1\) is nondecreasing, the set of \(t\) with \(\gamma_1(t)=y_1\) is an interval containing \(t_*\), and since \(\dot\gamma_1(t_*)\gt0\), it is \(\{t_*\}\). Hence the vertical segment from \(y\in q\) to \(y+sw\in p\), which must meet \(\gamma\), meets it only at \(\gamma(t_*)\), and there it crosses \(\gamma\) with \(n\cdot w=\dot\gamma_1(t_*)\gt0\). Thus the segment passes from the side of \(p\) to the side of \(q\) at \(\gamma(t_*)\), i.e. the points of the segment just below \(\gamma(t_*)\) lie in \(p\). But the part of the segment below \(\gamma(t_*)\) does not meet \(\gamma\), so it lies in the component of \(y\), which is \(q\), a contradiction.</p>
-<p>For the second statement, we show that the initial velocity of an admissible motion does not push \(q\) into \(p\) anywhere. Let \(g(\tau)\), \(0\le\tau\le1\), be an admissible motion which is not constant. We may assume that \(g(\tau)\) is not the identity for arbitrarily small \(\tau\gt0\), for otherwise we start the motion at the last time at which \(g(\tau)\) is the identity. Choose \(\tau_j\searrow0\) such that \(g(\tau_j)\) is not the identity. For large \(j\), \(g(\tau_j)\) is the rotation by a small angle \(\theta_j\) followed by the translation by a small vector \(a_j\). Put</p>
+</li>
+<li>
+<p>Suppose that no \(w\neq0\) satisfies \(n\cdot w\ge0\) at every smooth point of \(\gamma\), and let \(g(\tau)\), \(0\le\tau\le1\), be an admissible motion which is not constant. To first order, \(g\) starts as a slide or as a turn, and since \(g\) is admissible, this initial velocity cannot push \(q\) into \(p\) anywhere along \(\gamma\). For a slide this contradicts our assumption, and for a turn it contradicts the observation made before the theorem. We now make this precise. We may assume that \(g(\tau)\) is not the identity for arbitrarily small \(\tau\gt0\), for otherwise we start the motion at the last time at which \(g(\tau)\) is the identity. Choose \(\tau_j\searrow0\) such that \(g(\tau_j)\) is not the identity. For large \(j\), \(g(\tau_j)\) is the rotation by a small angle \(\theta_j\) followed by the translation by a small vector \(a_j\). Put</p>
 <span class="math">\[
 r_j=\big(|a_j|^2+\theta_j^2\big)^{1/2},
 \]</span>
@@ -323,11 +327,13 @@ f\big(g(\tau_j)(x_j)\big)=r_j\big(\alpha+n\cdot V(x)\big)+o(r_j)\lt0,
 <span class="math">\[
 n\cdot V\ge0\qquad\text{at every smooth point of }\gamma.
 \]</span>
-<p>If \(\omega=0\), then \(b\neq0\) and \(n\cdot b\ge0\) at every smooth point, contrary to the assumption of the second case. If \(\omega\neq0\), then by <a href="#eq-2">(2)</a>,</p>
+<p>If \(\omega=0\), then \(b\neq0\) and \(n\cdot b\ge0\) at every smooth point, contrary to our assumption. If \(\omega\neq0\), then by <a href="#eq-2">(2)</a>,</p>
 <span class="math">\[
 \omega\,\dot\gamma\cdot(\gamma-z)\ge0\qquad\text{at every smooth point of }\gamma,
 \]</span>
 <p>which is impossible for a curve going off to infinity at both ends, as shown before the theorem.</p>
+</li>
+</ol>
 </details>
 <details class="proof exercises"><summary>Exercises</summary>
 <ol class="ex">
