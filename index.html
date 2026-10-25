@@ -732,6 +732,10 @@ function playground(root, o){
   const reset = document.createElement('button'); reset.type = 'button'; reset.textContent = o.plain ? '\u21ba' : 'reset'; reset.title = 'put the piece back'; ctl3.appendChild(reset);
   const putBack = () => { pose = {th: 0, tx: 0, ty: 0}; ghost = null; status = ''; done = false; won = false; render(); };
   reset.addEventListener('click', putBack); again.addEventListener('click', putBack);
+  const pinBack = document.createElement('button'); pinBack.type = 'button'; pinBack.textContent = 'put the pin back'; ctl3.appendChild(pinBack);
+  pinBack.addEventListener('click', () => { pin = (o.pin || SHAPES[key].pin).slice(); status = ''; render(); });
+  // the pin stays where it can be seen, with its head inside the figure
+  const keepPin = (m) => { const [x, y] = V.inv(Math.min(Math.max(V.X(m[0]), 6), W - 20), Math.min(Math.max(V.Y(m[1]), 30), H - 6)); return [x, y]; };
   // o.drawable: the reader draws the cut
   let drawBtn = null, hasCut = false; if (o.drawable) drawing = true;
   if (o.drawable){ drawBtn = document.createElement('button'); drawBtn.type = 'button'; drawBtn.className = 'pz-primary'; drawBtn.textContent = 'draw a new cut';
@@ -854,6 +858,7 @@ function playground(root, o){
     layer.q.setAttribute('transform', tf(pose));
     stage.classList.toggle('done', done); stage.classList.toggle('won', done && won);
     again.innerHTML = o.plain ? '&#8634;' : won ? '<b>Separated!</b> &nbsp;Put <i>q</i> back' : 'Put <i>q</i> back'; if (o.plain){ again.title = 'put the piece back'; rd.style.display = 'none'; } reset.style.display = mode === 'wiggle' || o.steps ? '' : 'none';
+    const home = o.pin || SHAPES[key].pin; pinBack.style.display = mode === 'turn' && !o.pinFixed && !drawing && Math.hypot(pin[0] - home[0], pin[1] - home[1]) > 1e-9 ? '' : 'none';
     layer.qOut.setAttribute('stroke', grab && grab.kind === 'q' ? '#3f6e68' : '#26211d');
     layer.qOut.setAttribute('stroke-width', grab && grab.kind === 'q' ? 3 : 2.2);
     layer.ghost.innerHTML = ''; layer.rail.innerHTML = '';
@@ -955,7 +960,7 @@ function playground(root, o){
     const near = (dx, dy) => Math.hypot(V.X(m[0]) - V.X(pin[0]) - dx, V.Y(m[1]) - V.Y(pin[1]) - dy);
     if (mode === 'turn' && !o.pinFixed && (near(0, 0) < 18 || near(8, -18) < 16)){ grab = {kind: 'pin'}; pinTouched = true; }
     else if (PZ.inPoly(m, place(pose, G.q))) { const c = Math.cos(pose.th), s = Math.sin(pose.th), X = m[0] - pose.tx, Y = m[1] - pose.ty; grab = {kind: 'q', m0: m, pose0: pose, a: 0, gl: [c*X + s*Y, -s*X + c*Y]}; }
-    else if (mode === 'turn' && !o.pinFixed){ pin = m; grab = {kind: 'pin'}; pinTouched = true; }
+    else if (mode === 'turn' && !o.pinFixed){ pin = keepPin(m); grab = {kind: 'pin'}; pinTouched = true; }
     else return;
     try { svg.setPointerCapture(e.pointerId); } catch (err) {}
     e.preventDefault(); move(m);
@@ -981,7 +986,7 @@ function playground(root, o){
   const blocksFirstOrder = (f) => G.iface.some((pc) => pc.slice(1, -1).some((o) => f(o) < -1e-3));
   function move(m){
     if (grab.kind === 'draw'){ const l = stroke[stroke.length - 1]; if (Math.hypot(m[0] - l[0], m[1] - l[1]) > 0.03){ stroke.push(m); render(); } return; }
-    if (grab.kind === 'pin'){ pin = m; status = ''; render(); return; }
+    if (grab.kind === 'pin'){ pin = keepPin(m); status = ''; render(); return; }
     const {m0, pose0} = grab, dx = m[0] - m0[0], dy = m[1] - m0[1];
     if (mode === 'slide'){ const L0 = Math.hypot(dx, dy);
       // the first movement of the pointer fixes the direction; after that q stays on this line
