@@ -187,7 +187,6 @@ window.addEventListener('afterprint', () => { closedBeforePrint.forEach((d) => d
 <li><a href="#counterexamples">&hellip; unless the contact is not clean</a></li>
 <li><a href="#taking-out">Moving a piece vs. taking it out</a></li>
 <li><a href="#curvature">Bonus: how much must the cut bend?</a></li>
-<li><a href="#appendix">Appendix: proof of Theorem 2</a></li>
 </ul></nav>
 
 <details class="sec" open><summary><h3 id="setup">The question</h3></summary>
@@ -350,13 +349,13 @@ n\cdot V\ge0\qquad\text{at every smooth point of }\gamma.
 <p>For instance, clean contact holds when a board with smooth boundary is cut into two pieces along a curve meeting the boundary transversally.</p>
 </details>
 <div class="callout" id="theorem-2"><div class="callout-title">Theorem 2 (a bounded puzzle)</div>
-<p>Let \(p,q\) be adjacent pieces of a jigsaw puzzle in clean contact. Parametrize their interface \(\gamma\) by arclength, so that \(q\) lies to its left, and let \(n\) be the unit normal of \(\gamma\) pointing into \(q\). For \(z\in\mathbb{R}^2\) and \(\theta\in\mathbb{R}\), let \(\rho_z(\theta)\) be the counterclockwise rotation about \(z\) by the angle \(\theta\). Then \(p\) and \(q\) are interlocked if and only if the following two conditions hold:</p>
-<ol type="a">
-<li>for every \(w\neq0\) there is a smooth point of \(\gamma\) at which \(n\cdot w\lt0\);</li>
-<li>for every \(z\in\mathbb{R}^2\) there are smooth points \(\gamma(t_1)\) and \(\gamma(t_2)\) with \(\dot\gamma(t_1)\cdot(\gamma(t_1)-z)\gt0\gt\dot\gamma(t_2)\cdot(\gamma(t_2)-z)\).</li>
-</ol>
-<p>Moreover, if (a) fails, then \(q\) can be moved by a slide: whenever \(w\neq0\) satisfies \(n\cdot w\ge0\) at every smooth point of \(\gamma\), there is \(s_0\gt0\) with \((q+sw)\cap p=\varnothing\) for every \(s\in[0,s_0]\). If (b) fails, then \(q\) can be moved by a turn: whenever \(z\in\mathbb{R}^2\) and \(\varepsilon\in\{1,-1\}\) satisfy \(\varepsilon\,\dot\gamma\cdot(\gamma-z)\ge0\) at every smooth point of \(\gamma\), there is \(\theta_0\gt0\) with \(\rho_z(\varepsilon\theta)(q)\cap p=\varnothing\) for every \(\theta\in[0,\theta_0]\).</p></div>
-<p>In particular, if \(q\) can be moved at all, then it can already be moved by a single slide or a single turn. The proof of Theorem 2 is given in the <a href="#appendix">appendix</a>.</p>
+<p>Let \(p,q\) be adjacent pieces of a jigsaw puzzle in clean contact. Parametrize their interface \(\gamma\) by arclength, so that \(q\) lies to its left, and let \(n\) be the unit normal of \(\gamma\) pointing into \(q\). For \(z\in\mathbb{R}^2\) and \(\theta\in\mathbb{R}\), let \(\rho_z(\theta)\) be the counterclockwise rotation about \(z\) by the angle \(\theta\).</p>
+<ol>
+<li>If a vector \(w\neq0\) satisfies \(n\cdot w\ge0\) at every smooth point of \(\gamma\), then \(q\) can be moved by a slide in the direction \(w\): there is \(s_0\gt0\) with \((q+sw)\cap p=\varnothing\) for every \(s\in[0,s_0]\).</li>
+<li>If a point \(z\in\mathbb{R}^2\) and a sign \(\varepsilon\in\{1,-1\}\) satisfy \(\varepsilon\,\dot\gamma\cdot(\gamma-z)\ge0\) at every smooth point of \(\gamma\), then \(q\) can be moved by a turn about \(z\): there is \(\theta_0\gt0\) with \(\rho_z(\varepsilon\theta)(q)\cap p=\varnothing\) for every \(\theta\in[0,\theta_0]\).</li>
+<li>Otherwise, \(p\) and \(q\) are interlocked.</li>
+</ol></div>
+<p>In particular, if \(q\) can be moved at all, then it can already be moved by a single slide or a single turn. We will not prove Theorem 2 in this note.</p>
 <p><b>Make your own puzzle.</b> In the figure below you can cut the board yourself, decide what Theorem 2 predicts for your cut, and check the prediction by trying to move \(q\).</p>
 <details class="fig" open><summary><b>Figure 5: your own cut</b></summary>
 <p class="figcap">Drag across the board to cut it in two. While you draw, the circle on the right collects the directions of the normals of your cut.</p>
@@ -365,12 +364,12 @@ n\cdot V\ge0\qquad\text{at every smooth point of }\gamma.
 <!-- <p><b>On the proofs.</b> The idea is to look at the initial velocity of an admissible motion. To first order, every rigid motion close to the identity is an infinitesimal slide or an infinitesimal turn about some pivot. If an admissible motion starts with a given velocity, then this velocity cannot push \(q\) into \(p\) anywhere along the interface. For a slide this is condition <a href="#eq-1">(1)</a>, and for a turn it means, by <a href="#eq-2">(2)</a>, that the distance to the pivot is monotone along the interface. Thus (a) and (b) block every admissible motion; this direction does not use clean contact. Conversely, if <a href="#eq-1">(1)</a> holds, a barrier argument shows that the slide actually works for a short time, and similarly for turns. Clean contact enters here, near the endpoints of the interface.</p> -->
 <!-- <p>Readers from robotics will recognize the first-order part of Theorem 2. Encode the contact at a point \(x\) of the interface by the vector \((n,\ x\wedge n)\in\mathbb{R}^3\), where \(x\wedge n=x_1n_2-x_2n_1\). Conditions (a) and (b) together say that these vectors are not contained in any closed half-space of \(\mathbb{R}^3\) bounded by a plane through the origin. This is the planar case of <i>form closure</i> in the theory of grasping and fixturing<sup class="fn"><a href="#fn-mnp" id="fnref-mnp">2</a></sup>, which goes back to Reuleaux<sup class="fn"><a href="#fn-reuleaux" id="fnref-reuleaux">3</a></sup>. What Theorem 2 adds is the passage from the first-order test to arbitrary motions. This passage is not automatic: a body which the first-order test declares free may still be immobilized by second-order, curvature effects<sup class="fn"><a href="#fn-rb" id="fnref-rb">4</a></sup>. In our setting, a failure of clean contact can have a similar effect, and it can also allow motions which no single slide or turn achieves, as the next section shows.</p> -->
 <p>Clean contact cannot be dropped from Theorem 2, as the next two examples show.</p>
-<p><b>The wedged triangle.</b> Cut a triangular hole in a board, with base \(AB\) and base angles less than \(60^\circ\), and let \(q\) be a slightly less tall triangle with the same base, resting in the hole. Then \(q\) touches \(p\) only along its base, so the interface is the segment \(AB\), and all its normals point straight up. Thus condition (a) fails, and without the assumption of clean contact, Theorem 2 would predict that a small slide or turn moves \(q\). In fact \(q\) cannot move at all. </p>
+<p><b>The wedged triangle.</b> Cut a triangular hole in a board, with base \(AB\) and base angles less than \(60^\circ\), and let \(q\) be a slightly less tall triangle with the same base, resting in the hole. Then \(q\) touches \(p\) only along its base, so the interface is the segment \(AB\), and all its normals point straight up. Thus, without the assumption of clean contact, the first statement of Theorem 2 would predict that \(q\) can be slid upward. In fact \(q\) cannot move at all. </p>
 <details class="fig" open><summary><b>Figure 6: the wedged triangle</b></summary>
 <p class="figcap">Try to move the triangle. </p>
 <div class="figure interactive" id="fig-sliver"></div>
 </details>
-<p><b>The drilled channel.</b> Drill a curved channel from a point inside a board out to its edge, and let \(q\) be a disk which fits the channel exactly, resting at its closed end. The disk touches \(p\) only along the rounded end of the channel, and the walls of the channel leave this interface tangentially, so the contact is not clean. To stay inside the channel, the disk must follow its curve. A single slide would carry the center of the disk along a straight line, and a single turn along a circle; if the channel bends in a way that is neither straight nor circular, neither keeps the disk inside the channel. So no single slide or turn displaces \(q\) (a turn about its center only spins it in place), and yet \(q\) comes out by following the channel. Here the normals of the rounded end fill a closed half-circle, so (a) fails, and without clean contact the second part of Theorem 2 would wrongly predict that a slide moves \(q\).</p>
+<p><b>The drilled channel.</b> Drill a curved channel from a point inside a board out to its edge, and let \(q\) be a disk which fits the channel exactly, resting at its closed end. The disk touches \(p\) only along the rounded end of the channel, and the walls of the channel leave this interface tangentially, so the contact is not clean. To stay inside the channel, the disk must follow its curve.</p>
 <details class="proof"><summary>Formally</summary>
 <p>Let \(\Gamma\) be an arc of a parabola, from a point \(E\) inside the board to its edge, and let \(r\gt0\) be so small that every point at distance less than \(2r\) from \(\Gamma\) has a unique nearest point on \(\Gamma\). Drill the channel \(\{x\colon\operatorname{dist}(x,\Gamma)\lt r\}\), and let \(q\) be the open disk of radius \(r\) centered at \(E\); the empty part of the channel belongs to neither piece. The interface is the semicircular end cap of the channel, and the walls of the channel, at distance \(r\) from \(\Gamma\), leave its endpoints tangentially. A disk of radius \(r\) fits in the channel only when it is centered on \(\Gamma\): if its center \(c\) is at distance \(d\in(0,r]\) from \(\Gamma\), then the point at distance \(r'\in(r-d,r)\) beyond \(c\), on the ray from the nearest point of \(\Gamma\) through \(c\), is at distance \(d+r'\gt r\) from \(\Gamma\). A slide moves the center along a segment and a turn along a circular arc, and a parabola contains neither; the only exception is the spin about \(E\), which does not displace the disk. On the other hand, translating \(q\) so that its center runs along \(\Gamma\) takes it out of the board without overlap.</p>
 </details>
@@ -380,9 +379,9 @@ n\cdot V\ge0\qquad\text{at every smooth point of }\gamma.
 </details>
 <details class="proof exercises"><summary>Exercises</summary>
 <ol class="ex">
-<li>Why do you think that condition (a) alone does not imply that the pieces are interlocked?
+<li>Suppose that the normals of the interface lie in no closed half-plane bounded by a line through the origin. Why does this alone not imply that the pieces are interlocked?
 <details class="proof"><summary>Solution</summary>
-<p>Condition (a) only rules out slides; a piece whose normals point in all directions may still be turned. For instance, a round head without a neck has normals in no closed half-plane, as in the previous exercise, but from the center of the head the interface is at constant distance, so (b) fails and the head can be turned about its center. This puzzle is discussed in <a href="#taking-out">Moving a piece vs. taking it out</a>.</p>
+<p>This assumption only rules out slides; a piece whose normals point in all directions may still be turned. For instance, a round head without a neck has normals in no closed half-plane, as in the previous exercise, but from the center of the head the interface is at constant distance, so by the second statement of Theorem 2 the head can be turned about its center. This puzzle is discussed in <a href="#taking-out">Moving a piece vs. taking it out</a>.</p>
 </details></li>
 <li>Show that the wedged triangle is not in clean contact: at which points, and why, does the definition fail?
 <details class="proof"><summary>Solution</summary>
@@ -410,7 +409,7 @@ n\cdot V\ge0\qquad\text{at every smooth point of }\gamma.
 <li>Can anything of this kind happen in the idealized puzzle of Theorem 1?</li>
 </ol>
 <details class="proof"><summary>Some observations</summary>
-<p>The head is not interlocked: condition (b) of Theorem 2 fails at the center of the head, and indeed \(q\) can be turned about it. A turn about the center keeps \(q\) inside its disk, so it never takes \(q\) out. No other single slide or turn moves \(q\) at all, since the normals of the interface sweep more than a half-circle, and from every pivot other than the center the interface both recedes and approaches. Nevertheless, \(q\) can be taken out: turn it about its center by about a quarter turn, and then slide it out obliquely.</p>
+<p>The head is not interlocked: from the center of the head the interface is at constant distance, so by the second statement of Theorem 2, \(q\) can be turned about the center. A turn about the center keeps \(q\) inside its disk, so it never takes \(q\) out. No other single slide or turn moves \(q\) at all, since the normals of the interface sweep more than a half-circle, and from every pivot other than the center the interface both recedes and approaches. Nevertheless, \(q\) can be taken out: turn it about its center by about a quarter turn, and then slide it out obliquely.</p>
 <p>Theorem 2 only concerns the beginning of a motion: it compares the velocity of the motion at time zero with the normals of the interface. Whether \(q\) can be taken out depends on the whole motion, and on the shape of the pieces away from their initial position.</p>
 <p>A natural question is whether a piece that can be taken out can always be taken out by finitely many slides and turns. Without clean contact, the answer is no: in the drilled channel of Figure 7, every slide, and every turn other than a spin about the center of the disk, carries its center off the curve along which the channel was drilled, so no finite sequence of slides and turns displaces the disk, although it can be taken out. We do not know the answer for pieces in clean contact.</p>
 <p>In the idealized puzzle, moving a piece and taking it out are the same thing: by Theorem 1, if \(q\) can be moved at all, then a single slide carries it away to infinity.</p>
@@ -433,7 +432,7 @@ n\cdot V\ge0\qquad\text{at every smooth point of }\gamma.
 <li>By our definition, the disk in a round hole is not interlocked, although it can never leave its place. Can you think of a definition of &ldquo;interlocked&rdquo; which fits our intuition better? How would Theorem 2 change?
 <details class="proof"><summary>One possible answer</summary>
 <p>Call \(p\) and \(q\) interlocked if every admissible motion leaves the set \(q\) in place, i.e. \(g(\tau)(q)=q\) for every \(\tau\). The disk must stay in the hole, and a disk fits in a round hole of the same size only in its original position; so \(g(\tau)(q)=q\) for every admissible motion, and the pieces are interlocked in the new sense.</p>
-<p>Theorem 2 survives with a single exception. If (a) and (b) hold, then every admissible motion is constant, so it leaves \(q\) in place. If (a) fails, then a small slide moves the set \(q\), since a bounded set is not mapped onto itself by a translation. If (b) fails at a pivot \(z\), then a small turn about \(z\) moves the set \(q\), unless \(q\) is mapped onto itself by all turns about \(z\), i.e. unless \(q\) is a disk or an annulus centered at \(z\), as in the round hole. In that case, if (a) holds, then the pieces are interlocked in the new sense: since \(q\) is symmetric about \(z\), the translation taking \(z\) to \(g(\tau)(z)\) maps \(q\) onto the same set as \(g(\tau)\), so these translations form an admissible motion, which is constant by (a) and the proof of Theorem 2. So with the new definition, condition (b) is not needed at the center of a disk or an annulus.</p>
+<p>Theorem 2 survives with a single exception. In its third case, every admissible motion is constant, so it leaves \(q\) in place. In the first case, a small slide moves the set \(q\), since a bounded set is not mapped onto itself by a translation. In the second case, a small turn about \(z\) moves the set \(q\), unless \(q\) is mapped onto itself by all turns about \(z\), i.e. unless \(q\) is a disk or an annulus centered at \(z\), as in the round hole. In that case, if no slide moves \(q\), then the pieces are interlocked in the new sense: since \(q\) is symmetric about \(z\), the translation taking \(z\) to \(g(\tau)(z)\) maps \(q\) onto the same set as \(g(\tau)\), so these translations form an admissible motion, and if it were not constant, then by the argument in the proof of Theorem 1 some slide would move \(q\). So with the new definition, Theorem 2 changes only in that a disk or an annulus which no slide moves counts as interlocked, although it can be turned about its center.</p>
 </details></li>
 </ol>
 </details>
@@ -457,11 +456,11 @@ n\cdot V\ge0\qquad\text{at every smooth point of }\gamma.
 </details>
 <details class="proof"><summary>Formally</summary>
 <p>Fix \(\delta\gt0\), and let \(\Gamma\) be the arc of the unit circle of angular width \(\pi+\delta\), symmetric about the first axis and open on the left. Its tangents at its endpoints meet at the point \((-1/\sin\frac\delta2,0)\).</p>
-<p>In a rectangular board which contains the closed unit disk but not this point, let the interface be \(\Gamma\), continued along these tangents to the edge of the board. It has no corners, so its total curvature is \(\pi+\delta\). Along \(\Gamma\) the normals point at the origin, so they sweep an arc of directions of length \(\pi+\delta\), and (a) holds. For (b), let \(z\) be a pivot. Along \(\Gamma\) we have \(\dot\gamma\cdot(\gamma-z)=-\dot\gamma\cdot z\), since \(\dot\gamma\) is perpendicular to \(\gamma\), and \(\dot\gamma\) sweeps an arc of directions of length \(\pi+\delta\). Thus if \(z\neq0\), the interface both approaches \(z\) and recedes from it along \(\Gamma\). If \(z=0\), it approaches \(z\) along the lower wall and recedes from it along the upper wall. Hence the pieces are interlocked.</p>
+<p>In a rectangular board which contains the closed unit disk but not this point, let the interface be \(\Gamma\), continued along these tangents to the edge of the board. It has no corners, so its total curvature is \(\pi+\delta\). Along \(\Gamma\) the normals point at the origin, so they sweep an arc of directions of length \(\pi+\delta\), which lies in no closed half-plane bounded by a line through the origin: no slide moves \(q\). For turns, let \(z\) be a pivot. Along \(\Gamma\) we have \(\dot\gamma\cdot(\gamma-z)=-\dot\gamma\cdot z\), since \(\dot\gamma\) is perpendicular to \(\gamma\), and \(\dot\gamma\) sweeps an arc of directions of length \(\pi+\delta\). Thus if \(z\neq0\), the interface both approaches \(z\) and recedes from it along \(\Gamma\). If \(z=0\), it approaches \(z\) along the lower wall and recedes from it along the upper wall. So no turn moves \(q\) either, and by Theorem 2 the pieces are interlocked.</p>
 <p>Across an infinite cut the two tangents would meet, so we replace them by the two horizontal half-lines which leave the endpoints of \(\Gamma\) to the left. They meet \(\Gamma\) at two corners of exterior angle \(\delta/2\), so the total curvature is \(\pi+2\delta\). The argument above applies without change: the interface approaches the origin along the lower half-line and recedes from it along the upper one.</p>
 <p>Letting \(\delta\to0\) proves the second statement of the Proposition.</p>
 </details>
-<p>The extremal shapes differ from those in Fenchel's theorem<sup class="fn"><a href="#fn-fenchel" id="fnref-fenchel">5</a></sup>, by which the total curvature of a closed curve is at least \(2\pi\), with equality only for plane convex curves. (A related theorem of F&aacute;ry<sup class="fn"><a href="#fn-fary" id="fnref-fary">6</a></sup> and Milnor<sup class="fn"><a href="#fn-milnor" id="fnref-milnor">7</a></sup> says that a knotted curve in space has total curvature greater than \(4\pi\).) Here a circular arc alone does not suffice in a bounded board: (b) fails at its center, and the piece can be turned about it (see <a href="#taking-out">Figure 8</a>). The straight walls of the hook cost no bending, and block that turn.</p>
+<p>The extremal shapes differ from those in Fenchel's theorem<sup class="fn"><a href="#fn-fenchel" id="fnref-fenchel">5</a></sup>, by which the total curvature of a closed curve is at least \(2\pi\), with equality only for plane convex curves. (A related theorem of F&aacute;ry<sup class="fn"><a href="#fn-fary" id="fnref-fary">6</a></sup> and Milnor<sup class="fn"><a href="#fn-milnor" id="fnref-milnor">7</a></sup> says that a knotted curve in space has total curvature greater than \(4\pi\).) Here a circular arc alone does not suffice in a bounded board: the piece can be turned about its center (see <a href="#taking-out">Figure 8</a>). The straight walls of the hook cost no bending, and block that turn.</p>
 <details class="proof exercises"><summary>Exercises</summary>
 <ol class="ex">
 <li>In Figure 10, suppose that the arc is shorter than a half-circle. Show that \(q\) slides out.
@@ -474,63 +473,6 @@ n\cdot V\ge0\qquad\text{at every smooth point of }\gamma.
 </details></li>
 </ol>
 </details>
-</details>
-
-<details class="sec"><summary><h3 id="appendix">Appendix: proof of Theorem 2</h3></summary>
-<p>Throughout, \(p\) and \(q\) are adjacent pieces in clean contact. We first show that if (a) and (b) hold, then the pieces are interlocked. The proof of the second statement of Theorem 1 uses neither the shape of the board nor clean contact. It shows that an admissible motion which is not constant has an initial velocity \(V(y)=b+\omega y^\perp\), with \((b,\omega)\neq(0,0)\), such that</p>
-<span class="math">\[
-n\cdot V\ge0\qquad\text{at every smooth point of }\gamma.
-\]</span>
-<p>If \(\omega=0\), this contradicts (a) with \(w=b\). If \(\omega\neq0\), then \(V(y)=\omega(y-z)^\perp\) with \(z=b^\perp/\omega\), and by <a href="#eq-2">(2)</a> it contradicts (b) at the pivot \(z\).</p>
-<p>The rest of the proof concerns the &ldquo;Moreover&rdquo; part, which implies that if (a) or (b) fails, then \(q\) can be moved. Let \(X\) be one of the vector fields</p>
-<span class="math">\[
-X(x)=w\quad(w\neq0)\qquad\text{or}\qquad X(x)=\varepsilon(x-z)^\perp\quad(z\in\mathbb{R}^2,\ \varepsilon\in\{1,-1\}).
-\]</span>
-<p>Its flow \(\Phi_s\) is the slide \(\Phi_s(x)=x+sw\), respectively the turn \(\Phi_s=\rho_z(\varepsilon s)\). We call a curve \(s\mapsto\Phi_s(y)\), \(s_1\le s\le s_2\), a <i>trajectory</i>. By <a href="#eq-2">(2)</a>, both assumptions in the &ldquo;Moreover&rdquo; part read</p>
-<span id="eq-3"></span><span class="math">\[
-n\cdot X\ge0\qquad\text{at every smooth point of }\gamma.\tag{3}
-\]</span>
-<p>We must find \(s_0\gt0\) such that</p>
-<span class="math">\[
-\Phi_s(q)\cap p=\varnothing\qquad\text{for every }s\in[0,s_0].
-\]</span>
-<p>We begin with a barrier lemma. Let \(B\) be a disk, and let \(\Sigma\) be an oriented piecewise-smooth arc crossing \(B\), which divides \(B\) into two sides, \(B^+\) on its left and \(B^-\) on its right. Let \(\nu=\dot\Sigma^\perp\), and suppose that</p>
-<span id="eq-4"></span><span class="math">\[
-\nu\cdot X\ge0\qquad\text{at every smooth point of }\Sigma\text{ in }B.\tag{4}
-\]</span>
-<p>We claim that no trajectory in \(B\) which starts in \(B^+\) reaches \(\Sigma\).</p>
-<p>It suffices to show that no trajectory in \(B\) leads from \(B^+\) to \(B^-\). Indeed, suppose that \(y\in B^+\), that \(\Phi_s(y)\in\Sigma\), and that the trajectory from \(y\) to \(\Phi_s(y)\) lies in \(B\). Every point of \(\Sigma\) is a limit of points of \(B^-\), and \(\Phi_s\) is an isometry. So there are points \(y'\) arbitrarily close to \(y\) with \(\Phi_s(y')\in B^-\), and if \(y'\) is close enough to \(y\), then \(y'\in B^+\) and the trajectory from \(y'\) to \(\Phi_s(y')\) lies in \(B\).</p>
-<p>Put \(\ell(x)=x_1\) if \(X=w\), where we rotate the picture so that \(w=(0,1)\), and \(\ell(x)=\varepsilon|x-z|\) if \(X=\varepsilon(x-z)^\perp\). Then \(\ell\) is constant along trajectories. At a smooth point of \(\Sigma\) other than \(z\), by <a href="#eq-2">(2)</a>,</p>
-<span class="math">\[
-\nu\cdot X=(\ell\circ\Sigma)'\ \text{ for a slide},\qquad \nu\cdot X=|\Sigma-z|\,(\ell\circ\Sigma)'\ \text{ for a turn}.
-\]</span>
-<p>Hence \(\ell\circ\Sigma\) is differentiable, with nonnegative derivative by <a href="#eq-4">(4)</a>, except at the finitely many points where \(\Sigma\) has a corner or passes through \(z\). Being continuous, \(\ell\circ\Sigma\) is nondecreasing along \(\Sigma\cap B\).</p>
-<p>Now suppose that a trajectory in \(B\) leads from \(y\in B^+\) to \(\Phi_s(y)\in B^-\). Then \(y\neq z\), as the trajectory of \(z\) is constant; so \(\nabla\ell(y)\neq0\). Since \(B\), \(B^+\) and \(B^-\) are open, there is a disk \(D\) around \(y\) such that for every \(y'\in D\), the trajectory from \(y'\) to \(\Phi_s(y')\) also lies in \(B\) and leads from \(B^+\) to \(B^-\). Such a trajectory meets \(\Sigma\), at a point where \(\ell\) takes the value \(\ell(y')\). As \(\nabla\ell(y)\neq0\), the set \(\ell(D)\) is an interval of positive length, and \(\ell\circ\Sigma\) takes every value in it. Choose \(t_-\lt t_+\) with \(\ell(\Sigma(t_-))\lt\ell(\Sigma(t_+))\), both in \(\ell(D)\). Since \(\ell\circ\Sigma\) increases on \([t_-,t_+]\), it increases on some subinterval on which \(\Sigma\) is smooth and avoids \(z\), and by the mean value theorem there is \(t_*\) in that subinterval with</p>
-<span class="math">\[
-(\ell\circ\Sigma)'(t_*)\gt0.
-\]</span>
-<p>Thus \(\nu\cdot X\gt0\) at \(\Sigma(t_*)\). Moreover, \(\ell(\Sigma(t_*))\in\ell(D)\), so we may choose \(y'\in D\) with \(\ell(y')=\ell(\Sigma(t_*))\). Since \(\ell\circ\Sigma\) is nondecreasing, the set of \(t\) with \(\ell(\Sigma(t))=\ell(y')\) is an interval containing \(t_*\), hence \(\{t_*\}\). The trajectory of \(y'\) lies in the level set \(\{\ell=\ell(y')\}\), so it meets \(\Sigma\) only at \(\Sigma(t_*)\). As \(\nu\cdot X\gt0\) there, it crosses \(\Sigma\) from \(B^-\) to \(B^+\). But it starts in \(B^+\) and does not meet \(\Sigma\) before \(\Sigma(t_*)\), so it lies in \(B^+\) until then. This contradiction proves the lemma.</p>
-<p>We now prove the &ldquo;Moreover&rdquo; part. Suppose that no such \(s_0\) exists. Then there are \(s_j\searrow0\) and \(y_j\in q\) with \(\Phi_{s_j}(y_j)\in p\). Since \(|\Phi_s(y)-y|\le s|w|\), respectively \(\le s|y-z|\), we may pass to a subsequence such that \(y_j\) and \(\Phi_{s_j}(y_j)\) converge to the same point \(x\). Then \(x\in\overline q\cap\overline p=\gamma\), and for every disk \(B\) around \(x\), the trajectory from \(y_j\) to \(\Phi_{s_j}(y_j)\) lies in \(B\) for all large \(j\). We derive a contradiction, distinguishing whether or not \(x\) is an endpoint of \(\gamma\).</p>
-<p>Let first \(x\) be any point of \(\gamma\) other than an endpoint, and let \(B\) be a small disk around \(x\). Then \(\gamma\cap B\) is a single arc, dividing \(B\) into two sides, and \(B\setminus\gamma\subseteq p\cup q\) by clean contact. Each side is connected, hence contained in \(p\) or in \(q\); since \(q\) lies to the left of \(\gamma\) and \(p\) meets \(B\), the left side is \(q\cap B\) and the right side is \(p\cap B\). By <a href="#eq-3">(3)</a>, the barrier lemma applies to \(\Sigma=\gamma\), \(\nu=n\):</p>
-<span id="eq-5"></span><span class="math">\[
-\text{no trajectory in }B\text{ which starts in }q\text{ reaches }\gamma.\tag{5}
-\]</span>
-<p>In particular, if the point \(x\) found above is not an endpoint, then for large \(j\) the trajectory from \(y_j\in q\) to \(\Phi_{s_j}(y_j)\in p\) lies in \(B\), hence meets \(\gamma\), contradicting <a href="#eq-5">(5)</a>.</p>
-<p>Suppose then that \(x=x_0\) is an endpoint of \(\gamma\). Let \(\hat\gamma\) be as in the definition of clean contact, oriented like \(\gamma\), and let \(\nu=\dot{\hat\gamma}^\perp\), which agrees with \(n\) along \(\gamma\). Let \(\psi\) be the polar angle about \(x_0\), measured from the tangent ray, in the sense for which \(\nu(x_0)\) has angle \(\pi/2\); thus \(\gamma\) leaves \(x_0\) in the direction \(\psi=\pi\). By clean contact, there is a small disk \(B\) around \(x_0\) in which \(q\) lies on the side of \(\hat\gamma\) to which \(\nu\) points, and \(p\) on the other side. In \(B\), the boundaries of \(p\) and \(q\) consist of \(\gamma\) and of finitely many arcs leaving \(x_0\), none of them tangent to \(\hat\gamma\). Hence there is \(\beta\in(0,\pi/4)\) such that, after shrinking \(B\),</p>
-<span id="eq-6"></span><span class="math">\[
-\begin{aligned}&\text{the arcs of }\partial q\text{ other than }\gamma\text{ lie in }\{\beta\le\psi\le\pi-\beta\},\\&\text{the arcs of }\partial p\text{ other than }\gamma\text{ lie in }\{-\pi+\beta\le\psi\le-\beta\}.\end{aligned}\tag{6}
-\]</span>
-<p>By <a href="#eq-3">(3)</a> and continuity, \(\nu(x_0)\cdot X(x_0)\ge0\).</p>
-<p>Suppose first that \(X(x_0)\neq0\). We find an arc \(\Sigma\) through \(x_0\), oriented like \(\gamma\), which divides a small disk \(B\) around \(x_0\) into two sides, with \(q\cap B\) on its left and \(p\cap B\) on its right, and which satisfies <a href="#eq-4">(4)</a>. Then, for large \(j\), the trajectory from \(y_j\in q\) to \(\Phi_{s_j}(y_j)\in p\) lies in \(B\), hence meets \(\Sigma\), contradicting the barrier lemma.</p>
-<p>If \(\nu(x_0)\cdot X(x_0)\gt0\), let \(\Sigma=\hat\gamma\). Along \(\gamma\), <a href="#eq-4">(4)</a> is <a href="#eq-3">(3)</a>; along the tangent ray, \(\nu\cdot X\gt0\) if \(B\) is small.</p>
-<p>Otherwise, \(X(x_0)\) is parallel to the tangent ray. Let \(O\) be the orbit of \(x_0\), i.e. the line or circle traced by \(x_0\) under the flow; it is tangent to the ray at \(x_0\). Let \(\Sigma\) be the curve obtained by continuing \(\gamma\) beyond \(x_0\) by the half of \(O\) which starts in the direction \(\psi=0\). Along \(O\) we have \(\nu\cdot X=0\), since \(X\) is tangent to its own orbits, so \(\Sigma\) satisfies <a href="#eq-4">(4)</a>.</p>
-<p>It remains to show that \(q\) and \(p\) lie on the two sides of \(\Sigma\). Near \(x_0\), the half of \(O\) and the region between it and the tangent ray lie in the sector \(\{|\psi|\lt\beta\}\). We show that this sector contains no point of \(p\cup q\). By <a href="#eq-6">(6)</a>, and since \(\gamma\) leaves \(x_0\) in the direction \(\psi=\pi\), neither half of the sector meets \(\partial p\) or \(\partial q\). So the half \(\{0\lt\psi\lt\beta\}\) is either contained in \(q\) or disjoint from it. In the first case, the tangent ray would be a boundary arc of \(q\) tangent to \(\hat\gamma\), which is excluded. It is also disjoint from \(p\), which lies on the other side of \(\hat\gamma\). The same argument applies to the half \(\{-\beta\lt\psi\lt0\}\). Hence \(q\) and \(p\) lie on the same sides of \(\Sigma\) as of \(\hat\gamma\).</p>
-<p>Suppose now that \(X(x_0)=0\). Then \(z=x_0\), and \(\Phi_s=\rho_{x_0}(\varepsilon s)\) turns points about \(x_0\) by the angle \(\varepsilon s\), keeping their distance to \(x_0\). Since \(q\) lies on the side of \(\hat\gamma\) to which \(\nu\) points, and \(\hat\gamma\) is tangent at \(x_0\) to the line \(\{\psi\in\{0,\pi\}\}\), we have, if \(B\) is small,</p>
-<span class="math">\[
--\beta/2\lt\psi\lt\pi+\beta/2\pmod{2\pi}\qquad\text{on }q\cap B.
-\]</span>
-<p>Let \(j\) be so large that \(s_j\le\beta/2\) and the trajectory from \(y_j\) lies in \(B\). It stays in \(\{-\beta\lt\psi\lt\pi+\beta\}\), so by <a href="#eq-6">(6)</a> it does not meet \(\partial p\setminus\gamma\); and it does not meet \(x_0\). Let \(x^*\) be its first point in \(\overline p\). Since \(p\) is open and \(y_j\notin\overline p\), the point \(x^*\) lies in \(\partial p\); so it is a point of \(\gamma\) other than \(x_0\), which is smooth if \(B\) is small. Just before \(x^*\), the trajectory lies in a small disk around \(x^*\), as in <a href="#eq-5">(5)</a>, and outside \(\overline p\), hence in \(q\). This contradicts <a href="#eq-5">(5)</a>.</p>
-<p>In all cases we have reached a contradiction, and the proof is complete.</p>
 </details>
 
 <h4>Acknowledgements</h4>
@@ -775,16 +717,16 @@ function makeCut(raw, B){
   return {samples, lp, lq, note};
 }
 
-// What Theorem 2 predicts for an interface: (a) do the normals lie in no closed half-plane, (b) does every pivot see the
+// What Theorem 2 predicts for an interface: do the normals lie in no closed half-plane, and does every pivot see the
 // interface both recede and approach?
 function verdict(iface, B){
   const smp = iface.flat();
   const a = !Array.from({length: 720}, (_, k) => [Math.cos(k*Math.PI/360), Math.sin(k*Math.PI/360)]).some((u) => smp.every((s) => -s.T[1]*u[0] + s.T[0]*u[1] >= -1e-6));
   const big = [[B[0] - 9, B[2] - 9], [B[1] + 9, B[2] - 9], [B[1] + 9, B[3] + 9], [B[0] - 9, B[3] + 9]];
   const b = [1, -1].every((sg) => { let poly = big; for (const s of smp){ poly = PZ.clip(poly, [sg*s.T[0], sg*s.T[1]], sg*(s.T[0]*s.P[0] + s.T[1]*s.P[1]) + 1e-3); if (!poly.length) return true; } return false; });
-  return a && b ? 'Theorem 2 predicts that the pieces are <b>interlocked</b>: conditions (a) and (b) both hold.'
-    : !a ? 'Theorem 2 predicts that <b>a slide moves <i>q</i></b>: condition (a) fails, the normals fit in a half-plane.'
-    : 'Theorem 2 predicts that <b>a turn moves <i>q</i></b>: condition (b) fails, there is a pivot from which the interface only recedes, or only approaches.';
+  return a && b ? 'Theorem 2 predicts that the pieces are <b>interlocked</b>: the normals fit in no half-plane, and from every pivot the interface both recedes and approaches.'
+    : !a ? 'Theorem 2 predicts that <b>a slide moves <i>q</i></b>: the normals fit in a half-plane.'
+    : 'Theorem 2 predicts that <b>a turn moves <i>q</i></b>: there is a pivot from which the interface only recedes, or only approaches.';
 }
 
 function playground(root, o){

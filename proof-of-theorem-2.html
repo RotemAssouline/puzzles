@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Proof of Theorem 2</title>
+<style>
+body { max-width: 46rem; margin: 2rem auto; padding: 0 1rem; font-family: Georgia, 'Times New Roman', serif; font-size: 17px; line-height: 1.55; color: #2b3330; background: #fbfbf9; }
+h1 { font-size: 1.5rem; } h2 { font-size: 1.2rem; margin-top: 2rem; }
+.callout { background: #f1f3ef; border-left: 4px solid #3f6e68; padding: .6rem 1rem; margin: 1rem 0; }
+.callout-title { font-weight: bold; margin-bottom: .3rem; }
+.note { font-size: .92rem; color: #6a736f; border: 1px solid #d9dde3; padding: .5rem .8rem; }
+ol li { margin: .3rem 0; }
+</style>
+<script>window.MathJax = {tex: {tags: 'none'}};</script>
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-chtml.js"></script>
+</head>
+<body>
+<h1>Proof of Theorem 2 of &ldquo;Why jigsaw pieces cannot slide apart&rdquo;</h1>
+<p class="note">Archived on October 25, 2026 from the appendix of the <a href="index.html">note</a>, which states Theorem 2 without proof. Notation, the definition of clean contact and equation (2) are those of the note; equation (2) is restated below.</p>
+<p>Recall that at a smooth point of the interface \(\gamma\), parametrized by arclength with \(q\) on its left, \(n=\dot\gamma^\perp\) is the unit normal pointing into \(q\), and for a pivot \(z\),</p>
+<span id="eq-2"></span><span class="math">\[
+n\cdot(\gamma-z)^\perp=\dot\gamma^\perp\cdot(\gamma-z)^\perp=\dot\gamma\cdot(\gamma-z)=\frac12\,\frac{d}{dt}\,|\gamma-z|^2 .\tag{2}
+\]</span>
+<div class="callout" id="theorem-2"><div class="callout-title">Theorem 2 (a bounded puzzle)</div>
+<p>Let \(p,q\) be adjacent pieces of a jigsaw puzzle in clean contact. Parametrize their interface \(\gamma\) by arclength, so that \(q\) lies to its left, and let \(n\) be the unit normal of \(\gamma\) pointing into \(q\). For \(z\in\mathbb{R}^2\) and \(\theta\in\mathbb{R}\), let \(\rho_z(\theta)\) be the counterclockwise rotation about \(z\) by the angle \(\theta\).</p>
+<ol>
+<li>If a vector \(w\neq0\) satisfies \(n\cdot w\ge0\) at every smooth point of \(\gamma\), then \(q\) can be moved by a slide in the direction \(w\): there is \(s_0\gt0\) with \((q+sw)\cap p=\varnothing\) for every \(s\in[0,s_0]\).</li>
+<li>If a point \(z\in\mathbb{R}^2\) and a sign \(\varepsilon\in\{1,-1\}\) satisfy \(\varepsilon\,\dot\gamma\cdot(\gamma-z)\ge0\) at every smooth point of \(\gamma\), then \(q\) can be moved by a turn about \(z\): there is \(\theta_0\gt0\) with \(\rho_z(\varepsilon\theta)(q)\cap p=\varnothing\) for every \(\theta\in[0,\theta_0]\).</li>
+<li>Otherwise, \(p\) and \(q\) are interlocked.</li>
+</ol></div>
+<h2>Proof</h2>
+<p>Throughout, \(p\) and \(q\) are adjacent pieces in clean contact. We first prove the third statement. The proof of the second statement of Theorem 1 in the note uses neither the shape of the board nor clean contact. It shows that an admissible motion which is not constant has an initial velocity \(V(y)=b+\omega y^\perp\), with \((b,\omega)\neq(0,0)\), such that</p>
+<span class="math">\[
+n\cdot V\ge0\qquad\text{at every smooth point of }\gamma.
+\]</span>
+<p>If \(\omega=0\), this contradicts (a) with \(w=b\). If \(\omega\neq0\), then \(V(y)=\omega(y-z)^\perp\) with \(z=b^\perp/\omega\), and by <a href="#eq-2">(2)</a> it contradicts (b) at the pivot \(z\).</p>
+<p>The rest of the proof concerns the first two statements. Let \(X\) be one of the vector fields</p>
+<span class="math">\[
+X(x)=w\quad(w\neq0)\qquad\text{or}\qquad X(x)=\varepsilon(x-z)^\perp\quad(z\in\mathbb{R}^2,\ \varepsilon\in\{1,-1\}).
+\]</span>
+<p>Its flow \(\Phi_s\) is the slide \(\Phi_s(x)=x+sw\), respectively the turn \(\Phi_s=\rho_z(\varepsilon s)\). We call a curve \(s\mapsto\Phi_s(y)\), \(s_1\le s\le s_2\), a <i>trajectory</i>. By <a href="#eq-2">(2)</a>, the assumptions of the first two statements read</p>
+<span id="eq-3"></span><span class="math">\[
+n\cdot X\ge0\qquad\text{at every smooth point of }\gamma.\tag{3}
+\]</span>
+<p>We must find \(s_0\gt0\) such that</p>
+<span class="math">\[
+\Phi_s(q)\cap p=\varnothing\qquad\text{for every }s\in[0,s_0].
+\]</span>
+<p>We begin with a barrier lemma. Let \(B\) be a disk, and let \(\Sigma\) be an oriented piecewise-smooth arc crossing \(B\), which divides \(B\) into two sides, \(B^+\) on its left and \(B^-\) on its right. Let \(\nu=\dot\Sigma^\perp\), and suppose that</p>
+<span id="eq-4"></span><span class="math">\[
+\nu\cdot X\ge0\qquad\text{at every smooth point of }\Sigma\text{ in }B.\tag{4}
+\]</span>
+<p>We claim that no trajectory in \(B\) which starts in \(B^+\) reaches \(\Sigma\).</p>
+<p>It suffices to show that no trajectory in \(B\) leads from \(B^+\) to \(B^-\). Indeed, suppose that \(y\in B^+\), that \(\Phi_s(y)\in\Sigma\), and that the trajectory from \(y\) to \(\Phi_s(y)\) lies in \(B\). Every point of \(\Sigma\) is a limit of points of \(B^-\), and \(\Phi_s\) is an isometry. So there are points \(y'\) arbitrarily close to \(y\) with \(\Phi_s(y')\in B^-\), and if \(y'\) is close enough to \(y\), then \(y'\in B^+\) and the trajectory from \(y'\) to \(\Phi_s(y')\) lies in \(B\).</p>
+<p>Put \(\ell(x)=x_1\) if \(X=w\), where we rotate the picture so that \(w=(0,1)\), and \(\ell(x)=\varepsilon|x-z|\) if \(X=\varepsilon(x-z)^\perp\). Then \(\ell\) is constant along trajectories. At a smooth point of \(\Sigma\) other than \(z\), by <a href="#eq-2">(2)</a>,</p>
+<span class="math">\[
+\nu\cdot X=(\ell\circ\Sigma)'\ \text{ for a slide},\qquad \nu\cdot X=|\Sigma-z|\,(\ell\circ\Sigma)'\ \text{ for a turn}.
+\]</span>
+<p>Hence \(\ell\circ\Sigma\) is differentiable, with nonnegative derivative by <a href="#eq-4">(4)</a>, except at the finitely many points where \(\Sigma\) has a corner or passes through \(z\). Being continuous, \(\ell\circ\Sigma\) is nondecreasing along \(\Sigma\cap B\).</p>
+<p>Now suppose that a trajectory in \(B\) leads from \(y\in B^+\) to \(\Phi_s(y)\in B^-\). Then \(y\neq z\), as the trajectory of \(z\) is constant; so \(\nabla\ell(y)\neq0\). Since \(B\), \(B^+\) and \(B^-\) are open, there is a disk \(D\) around \(y\) such that for every \(y'\in D\), the trajectory from \(y'\) to \(\Phi_s(y')\) also lies in \(B\) and leads from \(B^+\) to \(B^-\). Such a trajectory meets \(\Sigma\), at a point where \(\ell\) takes the value \(\ell(y')\). As \(\nabla\ell(y)\neq0\), the set \(\ell(D)\) is an interval of positive length, and \(\ell\circ\Sigma\) takes every value in it. Choose \(t_-\lt t_+\) with \(\ell(\Sigma(t_-))\lt\ell(\Sigma(t_+))\), both in \(\ell(D)\). Since \(\ell\circ\Sigma\) increases on \([t_-,t_+]\), it increases on some subinterval on which \(\Sigma\) is smooth and avoids \(z\), and by the mean value theorem there is \(t_*\) in that subinterval with</p>
+<span class="math">\[
+(\ell\circ\Sigma)'(t_*)\gt0.
+\]</span>
+<p>Thus \(\nu\cdot X\gt0\) at \(\Sigma(t_*)\). Moreover, \(\ell(\Sigma(t_*))\in\ell(D)\), so we may choose \(y'\in D\) with \(\ell(y')=\ell(\Sigma(t_*))\). Since \(\ell\circ\Sigma\) is nondecreasing, the set of \(t\) with \(\ell(\Sigma(t))=\ell(y')\) is an interval containing \(t_*\), hence \(\{t_*\}\). The trajectory of \(y'\) lies in the level set \(\{\ell=\ell(y')\}\), so it meets \(\Sigma\) only at \(\Sigma(t_*)\). As \(\nu\cdot X\gt0\) there, it crosses \(\Sigma\) from \(B^-\) to \(B^+\). But it starts in \(B^+\) and does not meet \(\Sigma\) before \(\Sigma(t_*)\), so it lies in \(B^+\) until then. This contradiction proves the lemma.</p>
+<p>We now prove the first two statements. Suppose that no such \(s_0\) exists. Then there are \(s_j\searrow0\) and \(y_j\in q\) with \(\Phi_{s_j}(y_j)\in p\). Since \(|\Phi_s(y)-y|\le s|w|\), respectively \(\le s|y-z|\), we may pass to a subsequence such that \(y_j\) and \(\Phi_{s_j}(y_j)\) converge to the same point \(x\). Then \(x\in\overline q\cap\overline p=\gamma\), and for every disk \(B\) around \(x\), the trajectory from \(y_j\) to \(\Phi_{s_j}(y_j)\) lies in \(B\) for all large \(j\). We derive a contradiction, distinguishing whether or not \(x\) is an endpoint of \(\gamma\).</p>
+<p>Let first \(x\) be any point of \(\gamma\) other than an endpoint, and let \(B\) be a small disk around \(x\). Then \(\gamma\cap B\) is a single arc, dividing \(B\) into two sides, and \(B\setminus\gamma\subseteq p\cup q\) by clean contact. Each side is connected, hence contained in \(p\) or in \(q\); since \(q\) lies to the left of \(\gamma\) and \(p\) meets \(B\), the left side is \(q\cap B\) and the right side is \(p\cap B\). By <a href="#eq-3">(3)</a>, the barrier lemma applies to \(\Sigma=\gamma\), \(\nu=n\):</p>
+<span id="eq-5"></span><span class="math">\[
+\text{no trajectory in }B\text{ which starts in }q\text{ reaches }\gamma.\tag{5}
+\]</span>
+<p>In particular, if the point \(x\) found above is not an endpoint, then for large \(j\) the trajectory from \(y_j\in q\) to \(\Phi_{s_j}(y_j)\in p\) lies in \(B\), hence meets \(\gamma\), contradicting <a href="#eq-5">(5)</a>.</p>
+<p>Suppose then that \(x=x_0\) is an endpoint of \(\gamma\). Let \(\hat\gamma\) be as in the definition of clean contact, oriented like \(\gamma\), and let \(\nu=\dot{\hat\gamma}^\perp\), which agrees with \(n\) along \(\gamma\). Let \(\psi\) be the polar angle about \(x_0\), measured from the tangent ray, in the sense for which \(\nu(x_0)\) has angle \(\pi/2\); thus \(\gamma\) leaves \(x_0\) in the direction \(\psi=\pi\). By clean contact, there is a small disk \(B\) around \(x_0\) in which \(q\) lies on the side of \(\hat\gamma\) to which \(\nu\) points, and \(p\) on the other side. In \(B\), the boundaries of \(p\) and \(q\) consist of \(\gamma\) and of finitely many arcs leaving \(x_0\), none of them tangent to \(\hat\gamma\). Hence there is \(\beta\in(0,\pi/4)\) such that, after shrinking \(B\),</p>
+<span id="eq-6"></span><span class="math">\[
+\begin{aligned}&\text{the arcs of }\partial q\text{ other than }\gamma\text{ lie in }\{\beta\le\psi\le\pi-\beta\},\\&\text{the arcs of }\partial p\text{ other than }\gamma\text{ lie in }\{-\pi+\beta\le\psi\le-\beta\}.\end{aligned}\tag{6}
+\]</span>
+<p>By <a href="#eq-3">(3)</a> and continuity, \(\nu(x_0)\cdot X(x_0)\ge0\).</p>
+<p>Suppose first that \(X(x_0)\neq0\). We find an arc \(\Sigma\) through \(x_0\), oriented like \(\gamma\), which divides a small disk \(B\) around \(x_0\) into two sides, with \(q\cap B\) on its left and \(p\cap B\) on its right, and which satisfies <a href="#eq-4">(4)</a>. Then, for large \(j\), the trajectory from \(y_j\in q\) to \(\Phi_{s_j}(y_j)\in p\) lies in \(B\), hence meets \(\Sigma\), contradicting the barrier lemma.</p>
+<p>If \(\nu(x_0)\cdot X(x_0)\gt0\), let \(\Sigma=\hat\gamma\). Along \(\gamma\), <a href="#eq-4">(4)</a> is <a href="#eq-3">(3)</a>; along the tangent ray, \(\nu\cdot X\gt0\) if \(B\) is small.</p>
+<p>Otherwise, \(X(x_0)\) is parallel to the tangent ray. Let \(O\) be the orbit of \(x_0\), i.e. the line or circle traced by \(x_0\) under the flow; it is tangent to the ray at \(x_0\). Let \(\Sigma\) be the curve obtained by continuing \(\gamma\) beyond \(x_0\) by the half of \(O\) which starts in the direction \(\psi=0\). Along \(O\) we have \(\nu\cdot X=0\), since \(X\) is tangent to its own orbits, so \(\Sigma\) satisfies <a href="#eq-4">(4)</a>.</p>
+<p>It remains to show that \(q\) and \(p\) lie on the two sides of \(\Sigma\). Near \(x_0\), the half of \(O\) and the region between it and the tangent ray lie in the sector \(\{|\psi|\lt\beta\}\). We show that this sector contains no point of \(p\cup q\). By <a href="#eq-6">(6)</a>, and since \(\gamma\) leaves \(x_0\) in the direction \(\psi=\pi\), neither half of the sector meets \(\partial p\) or \(\partial q\). So the half \(\{0\lt\psi\lt\beta\}\) is either contained in \(q\) or disjoint from it. In the first case, the tangent ray would be a boundary arc of \(q\) tangent to \(\hat\gamma\), which is excluded. It is also disjoint from \(p\), which lies on the other side of \(\hat\gamma\). The same argument applies to the half \(\{-\beta\lt\psi\lt0\}\). Hence \(q\) and \(p\) lie on the same sides of \(\Sigma\) as of \(\hat\gamma\).</p>
+<p>Suppose now that \(X(x_0)=0\). Then \(z=x_0\), and \(\Phi_s=\rho_{x_0}(\varepsilon s)\) turns points about \(x_0\) by the angle \(\varepsilon s\), keeping their distance to \(x_0\). Since \(q\) lies on the side of \(\hat\gamma\) to which \(\nu\) points, and \(\hat\gamma\) is tangent at \(x_0\) to the line \(\{\psi\in\{0,\pi\}\}\), we have, if \(B\) is small,</p>
+<span class="math">\[
+-\beta/2\lt\psi\lt\pi+\beta/2\pmod{2\pi}\qquad\text{on }q\cap B.
+\]</span>
+<p>Let \(j\) be so large that \(s_j\le\beta/2\) and the trajectory from \(y_j\) lies in \(B\). It stays in \(\{-\beta\lt\psi\lt\pi+\beta\}\), so by <a href="#eq-6">(6)</a> it does not meet \(\partial p\setminus\gamma\); and it does not meet \(x_0\). Let \(x^*\) be its first point in \(\overline p\). Since \(p\) is open and \(y_j\notin\overline p\), the point \(x^*\) lies in \(\partial p\); so it is a point of \(\gamma\) other than \(x_0\), which is smooth if \(B\) is small. Just before \(x^*\), the trajectory lies in a small disk around \(x^*\), as in <a href="#eq-5">(5)</a>, and outside \(\overline p\), hence in \(q\). This contradicts <a href="#eq-5">(5)</a>.</p>
+<p>In all cases we have reached a contradiction, and the proof is complete.</p>
+</body>
+</html>
