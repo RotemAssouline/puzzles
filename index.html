@@ -23,6 +23,9 @@ details.sec > p > i, .callout p > i, details.proof p > i, .footnotes i { color: 
 .toc { font-family: system-ui, sans-serif; font-size: .9rem; margin: 1rem 0 2rem; }
 .toc a { text-decoration: none; }
 .toc li { margin: .15rem 0; }
+ol.pz-bullets { list-style: none; padding-left: 1.7em; }
+ol.pz-bullets > li { position: relative; margin: .35rem 0; }
+ol.pz-bullets > li::before { content: ""; position: absolute; left: -1.5em; top: .3em; width: .85em; height: .85em; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0.6 -1 20 20'%3E%3Cpath d='M3 3H7.7A1.5 1.5 0 1 0 10.3 3H15V7.2A2.1 2.1 0 1 1 15 10.8V15H10.3A1.5 1.5 0 1 0 7.7 15H3V10.3A1.5 1.5 0 1 0 3 7.7Z' fill='%239aa39e'/%3E%3C/svg%3E") center / contain no-repeat; }
 details.proof > summary, details.fig > summary { cursor: pointer; margin: .8rem 0; list-style: none; }
 details.proof > summary::-webkit-details-marker, details.fig > summary::-webkit-details-marker { display: none; }
 details.proof > summary::before, details.fig > summary::before { content: ""; display: inline-block; width: .85em; height: .85em; margin-right: .45em; vertical-align: -.05em;
@@ -30,6 +33,9 @@ details.proof > summary::before, details.fig > summary::before { content: ""; di
 details.proof[open] > summary::before, details.fig[open] > summary::before { transform: rotate(90deg); }
 details.proof > summary { color: #3f6e68; }
 details.proof > summary:hover { text-decoration: underline; text-underline-offset: 3px; }details.proof > summary { font-style: italic; }
+details.proof.exercises > summary { font-style: normal; font-weight: bold; }
+ol.ex > li { margin: .6rem 0; }
+ol.ex details.proof[open] { margin: .4rem 0 .8rem; }
 details.proof[open] { border: 1px solid var(--background-modifier-border); border-radius: 4px; padding: 0 1rem; margin: .8rem 0; }
 details.sec > summary { list-style: none; cursor: pointer; }
 details.sec > summary::-webkit-details-marker { display: none; }
@@ -57,6 +63,7 @@ details.sec:not([open]) > summary > h3::before { transform: none; }
 .figure .pz-ctl label { display: inline-flex; align-items: center; gap: .4rem; cursor: pointer; }
 .figure .pz-ctl input[type=range] { width: 8rem; accent-color: #3f6e68; cursor: pointer; }
 .figure .pz-param { background: #f6f8f4; border: 1px solid #cdd5cb; border-radius: 999px; padding: .2rem .8rem; color: #3c4a45; }
+.figure .pz-param input[type=range] { width: 16rem; max-width: 50vw; }
 .figure .pz-param i { font: italic 1.05rem Georgia, serif; }
 .figure .pz-param b { font-weight: 500; min-width: 2.6em; font-variant-numeric: tabular-nums; }
 .figure .pz-ctl input[type=checkbox] { accent-color: #3f6e68; width: 1rem; height: 1rem; cursor: pointer; }
@@ -178,7 +185,7 @@ window.addEventListener('afterprint', () => { closedBeforePrint.forEach((d) => d
 <li><a href="#turning">Turning</a></li>
 <li><a href="#wiggling">Wiggling does not help</a></li>
 <li><a href="#counterexamples">&hellip; unless the contact is not clean</a></li>
-<li><a href="#taking-out">Taking a piece out</a></li>
+<li><a href="#taking-out">Moving a piece vs. taking it out</a></li>
 <li><a href="#curvature">How much must the cut bend?</a></li>
 </ul></nav>
 
@@ -195,7 +202,7 @@ window.addEventListener('afterprint', () => { closedBeforePrint.forEach((d) => d
 </details>
 <div class="figure" id="fig-normal"></div>
 <p class="figcap">The interface \(\gamma\), traversed with \(q\) on its left, and the unit tangent \(\dot\gamma\) and unit normal \(n\) at one of its points.</p>
-<p>We hold \(p\) in place and try to move the piece \(q\) in the plane, without lifting it. The two pieces must not overlap. (They may, however, stay in contact, so \(q\) is allowed to slide along \(p\).) Such a motion is<i>admissible</i>. If no admissible motion moves \(q\) at all, the pieces are <i>interlocked</i>.</p>
+<p>We hold \(p\) in place and try to move the piece \(q\) in the plane, without lifting it. The two pieces must not overlap. (They may, however, stay in contact, so \(q\) is allowed to slide along \(p\).) Such a motion is <i>admissible</i>. If no admissible motion moves \(q\) at all, the pieces are <i>interlocked</i>.</p>
 <details class="proof"><summary>Formally</summary>
 <p>A motion of \(q\) is a continuous family \(g(t)\), \(0\le t\le1\), of orientation-preserving isometries of \(\mathbb{R}^2\), with \(g(0)\) being the identity. It is admissible if \(g(t)(q)\cap p=\varnothing\) for every \(t\). Since the pieces are open sets, \(\overline{g(t)(q)}\cap\overline p\) may be nonempty: the pieces may stay in contact. The pieces are interlocked if for every admissible motion, \(g(t)\) is the identity for all \(t\).</p>
 </details>
@@ -204,10 +211,22 @@ window.addEventListener('afterprint', () => { closedBeforePrint.forEach((d) => d
 <p>Two kinds of motions are easy to test: sliding \(q\) in a fixed direction, and turning it about a fixed pivot. We first find the conditions under which these fail, and then show that, under a mild assumption, they are the only motions that need to be tested.</p>
 <div class="figure" id="fig-kinds"></div>
 <p class="figcap">A slide of \(q\) in the direction of a vector \(w\), and a turn of \(q\) about a pivot \(z\).</p>
+<details class="proof exercises"><summary>Exercises</summary>
+<ol class="ex">
+<li>Interlocking is symmetric. Show that \(p\) and \(q\) are interlocked if and only if no admissible motion moves \(p\) while \(q\) is held in place.
+<details class="proof"><summary>Solution</summary>
+<p>Let \(g(t)\), \(0\le t\le1\), be a motion of \(q\), and put \(h(t)=g(t)^{-1}\). Then \(h\) is again a continuous family of orientation-preserving isometries, \(h(0)\) is the identity, and \(h(t)\) is the identity exactly when \(g(t)\) is. Since \(g(t)\) is a bijection, \(g(t)(q)\cap p=\varnothing\) if and only if \(q\cap h(t)(p)=\varnothing\). So \(g\) is an admissible motion of \(q\) that moves it if and only if \(h\) is an admissible motion of \(p\) that moves it.</p>
+</details></li>
+<li>Why do we allow the pieces to stay in contact? Find a puzzle in which \(q\) can be slid out, but in which \(\overline{g(t)(q)}\cap\overline p\neq\varnothing\) for every motion \(g\) that moves \(q\) a little, and for all small \(t\).
+<details class="proof"><summary>Solution</summary>
+<p>Cut a rectangular slot into the board, open at the edge of the board, and let \(q\) be a rectangle filling it, so that \(q\) touches \(p\) along three of its sides. Sliding \(q\) along the slot moves it out of the board without overlap, but the long sides of \(q\) stay in contact with the walls of the slot until \(q\) is out. Any motion that moves \(q\) a little must keep \(q\) in the slot, as a rectangle of the slot's width fits in the slot only when it is parallel to the walls; so the closures of the pieces meet at all small times. If contact were forbidden, \(q\) could not be moved at all, although it can be taken out by a slide.</p>
+</details></li>
+</ol>
+</details>
 </details>
 
 <details class="sec" open><summary><h3 id="sliding">Sliding</h3></summary>
-<p>Suppose we slide the piece \(q\) in some direction. Wherever a normal of the interface makes an obtuse angle with the direction of the slide, the slide pushes \(q\) into \(p\) at once. If, on the other hand, no normal makes an obtuse angle with it, then each part of the interface either moves into the side of \(q\) or slides along itself, and \(q\) can be slid a little in that direction.<sup class="fn"><a href="#fn-draft" id="fnref-draft">1</a></sup> Hence, in order for it to be impossible to separate the pieces by a slide, the normals must point in all directions; more precisely, if we place all normals on a single circle,they should not all fit in a half-circle.</p>
+<p>Suppose we slide the piece \(q\) in some direction. Wherever a normal of the interface makes an obtuse angle with the direction of the slide, the slide pushes \(q\) into \(p\) at once. If, on the other hand, no normal makes an obtuse angle with it, then each part of the interface either moves into the side of \(q\) or slides along itself, and \(q\) can be slid a little in that direction.<sup class="fn"><a href="#fn-draft" id="fnref-draft">1</a></sup> Hence, in order for it to be impossible to separate the pieces by a slide, the normals must point in all directions; more precisely, if we place all normals on a single circle, they should not all fit in a half-circle.</p>
 <details class="proof"><summary>Formally</summary>
 <p>Let \(w\neq0\) be the direction of the slide. At a smooth point of \(\gamma\) where \(n\cdot w\lt 0\), the slide immediately pushes \(q\) into \(p\). If, on the other hand,</p>
 <span id="eq-1"></span><span class="math">\[
@@ -218,11 +237,22 @@ n\cdot w\ge 0\qquad\text{at every smooth point of }\gamma,\tag{1}
 <details class="fig" open><summary><b>Figure 2: sliding</b></summary>
 <div class="figure interactive" id="fig-slide"></div>
 </details>
-<p class="figcap">Pull \(q\) in some direction \(w\); it slides along a straight line until it hits \(p\). Arrows: some of the normals \(n\). Right: the directions of all the normals, marked on the unit circle; the green arc, when there is one, consists of the directions \(w\) satisfying <a href="#eq-1">(1)</a>. Normals with \(n\cdot w\lt0\) are drawn in red.</p>
+<details class="proof exercises"><summary>Exercises</summary>
+<ol class="ex">
+<li>Show that a set of unit vectors lies in no closed half-plane if and only if the origin lies in the interior of its convex hull.
+<details class="proof"><summary>Solution</summary>
+<p>Let \(N\) be the set and \(K\) its convex hull. If \(N\subseteq\{v\colon v\cdot w\ge0\}\) for some \(w\neq0\), then \(K\) lies in the same half-plane, and the origin, which lies on its boundary line, is not an interior point of \(K\). Conversely, if the origin is not an interior point of the convex set \(K\), then there is a line through the origin with \(K\) on one side of it (by the separation theorem if \(0\notin\overline K\), and by the supporting line theorem if \(0\) lies on the boundary of \(K\)). That is, \(K\subseteq\{v\colon v\cdot w\ge0\}\) for some \(w\neq0\), and so is \(N\).</p>
+</details></li>
+<li>In the dovetail of Figure 2, the interface consists of a horizontal segment, a segment from \((0.6,-1)\) to \((0,0)\), and another horizontal segment. Find all directions in which \(q\) can slide.
+<details class="proof"><summary>Solution</summary>
+<p>Along the horizontal segments, \(n=(0,1)\), and along the slanted segment, \(n=(-1,-0.6)/|(-1,-0.6)|\). A direction \(w\) satisfies <a href="#eq-1">(1)</a> if and only if \(w_2\ge0\) and \(w_1+0.6\,w_2\le0\). These are the directions between \((-1,0)\), straight to the left, and \((-0.6,1)\), parallel to the slanted segment; in Figure 2, this is the green arc.</p>
+</details></li>
+</ol>
+</details>
 </details>
 
 <details class="sec" open><summary><h3 id="turning">Turning</h3></summary>
-<p>Next, turn the piece \(q\) about a pivot \(z\), and travel along the interface with \(q\) on the left, as before. A counterclockwise turn pushes \(q\) into \(p\) wherever the interface approaches \(z\), and a clockwise turn wherever the interface recedes from \(z\). So \(q\) can be turned counterclockwise about \(z\) if the interface never approaches \(z\), and clockwise if it never recedes from \(z\). For example, if the interface is an arc of a spiral around \(z\), then \(q\) can be unscrewed. To block every turn, the interface must, viewed from every point \(z\) of the plane, somewhere recede from \(z\) and somewhere approach it. As \(z\) moves off to infinity, a turn about \(z\) looks more and more like a slide.</p>
+<p>Next, we try to turn the piece \(q\) about a pivot \(z\). In this case, the piece \(q\) can be turned counterclockwise about \(z\) if the interface never approaches \(z\), and clockwise if it never recedes from \(z\). For example, if the interface is an arc of a spiral around \(z\), then \(q\) can be unscrewed. To block every turn, the interface must, viewed from every point \(z\) of the plane, somewhere recede from \(z\) and somewhere approach it. As \(z\) moves off to infinity, a turn about \(z\) looks more and more like a slide.</p>
 <details class="proof"><summary>Formally</summary>
 <p>Under the counterclockwise turn about \(z\), a point \(x\) moves with velocity \((x-z)^\perp\). Since \(n=\dot\gamma^\perp\), and rotating two vectors by \(90^\circ\) does not change their inner product, the normal component of the velocity along the interface is</p>
 <span id="eq-2"></span><span class="math">\[
@@ -233,46 +263,57 @@ n\cdot(\gamma-z)^\perp=\dot\gamma^\perp\cdot(\gamma-z)^\perp=\dot\gamma\cdot(\ga
 <details class="fig" open><summary><b>Figure 3: turning</b></summary>
 <div class="figure interactive" id="fig-turn"></div>
 </details>
-<p class="figcap">Pick up the pin to choose a pivot \(z\), then pull \(q\) to turn it about \(z\). While you hold the pin, each part of the interface is colored by the turns about \(z\) it blocks: where the interface approaches \(z\), it blocks counterclockwise turns, and where it recedes from \(z\), it blocks clockwise turns. The shaded regions consist of the pivots about which \(q\) can be turned, in the color of the direction of the turn: from a pivot in the amber region, no part of the interface blocks counterclockwise turns, and similarly for purple. By <a href="#eq-2">(2)</a>, for each point of the interface the condition is linear in \(z\), so each region is convex.</p>
+<p class="figcap">Pick up the pin to choose a pivot \(z\), then pull \(q\) to turn it about \(z\).</p>
+<details class="proof exercises"><summary>Exercises</summary>
+<ol class="ex">
+<li>Show that the set of pivots \(z\) about which \(q\) can be turned counterclockwise, that is, the set of \(z\) with \(\dot\gamma\cdot(\gamma-z)\ge0\) at every smooth point of \(\gamma\), is convex, and similarly for clockwise turns.
+<details class="proof"><summary>Solution</summary>
+<p>For a fixed smooth point \(\gamma(t)\), the condition \(\dot\gamma(t)\cdot(\gamma(t)-z)\ge0\) reads \(z\cdot\dot\gamma(t)\le\gamma(t)\cdot\dot\gamma(t)\). Since \(\dot\gamma(t)\neq0\), this is a closed half-plane of pivots \(z\). The set in question is the intersection of these half-planes over all smooth points, and an intersection of convex sets is convex. For clockwise turns, the inequalities are reversed.</p>
+</details></li>
+<li>Show that \(q\) can be turned about \(z\) in both directions if and only if \(\gamma\) is an arc of a circle centered at \(z\).
+<details class="proof"><summary>Solution</summary>
+<p>By <a href="#eq-2">(2)</a>, \(q\) can be turned about \(z\) in both directions if and only if \(\dot\gamma\cdot(\gamma-z)=0\) at every smooth point, i.e. the derivative of \(|\gamma(t)-z|^2\) vanishes away from the corners. As this function is continuous, this happens if and only if \(|\gamma(t)-z|\) is constant, i.e. \(\gamma\) lies on a circle centered at \(z\).</p>
+</details></li>
+</ol>
+</details>
 </details>
 
 <details class="sec" open><summary><h3 id="wiggling">Wiggling does not help</h3></summary>
-<p>The cleanest setting is an idealized puzzle: the whole plane, cut into two pieces along a single curve which goes off to infinity at both ends. Here turns are blocked automatically. Indeed, \(|\gamma(t)-z|\to\infty\) as \(t\to\pm\infty\), so this distance is monotone for no \(z\). Only slides remain, and they decide everything:</p>
+<p>The cleanest setting is an idealized puzzle: the whole plane, cut into two pieces along a single curve which goes off to infinity at both ends. Here turns are blocked automatically: whatever the pivot, the interface comes in from infinity and goes back out to infinity, so it somewhere approaches the pivot and somewhere recedes from it. Only slides remain, and they decide everything:</p>
+<details class="proof"><summary>Precisely</summary>
+<p>Parametrize \(\gamma\) by arclength, \(\gamma\colon\mathbb{R}\to\mathbb{R}^2\). That both ends go to infinity means that \(|\gamma(t)|\to\infty\) as \(t\to\pm\infty\). Fix \(z\in\mathbb{R}^2\) and put \(f(t)=|\gamma(t)-z|^2\). The function \(f\) is locally Lipschitz, with \(f'=2\,\dot\gamma\cdot(\gamma-z)\) away from the corners, and \(f(t)\to\infty\) as \(t\to\pm\infty\). If \(\dot\gamma\cdot(\gamma-z)\ge0\) at every smooth point, then \(f\) is nondecreasing, so \(f(t)\le f(0)\) for all \(t\le0\), contradicting \(f(t)\to\infty\) as \(t\to-\infty\). Hence \(\dot\gamma\cdot(\gamma-z)\lt0\) at some smooth point, and likewise, using \(t\to+\infty\), \(\dot\gamma\cdot(\gamma-z)\gt0\) at another. By <a href="#eq-2">(2)</a>, a counterclockwise turn about \(z\) pushes \(q\) into \(p\) at the first point, and a clockwise turn at the second.</p>
+</details>
 <div class="callout" id="theorem-1"><div class="callout-title">Theorem 1 (an infinite cut)</div>
-<p>Let the plane be cut into two pieces \(p,q\) along a piecewise-smooth embedded curve \(\gamma\) going to infinity at both ends.</p>
+<p>Let \(\gamma\colon\mathbb{R}\to\mathbb{R}^2\) be an injective, piecewise-smooth curve, parametrized by arclength, with \(|\gamma(t)|\to\infty\) as \(t\to\pm\infty\). Then \(\mathbb{R}^2\setminus\gamma\) has two components; let \(q\) be the one to the left of \(\gamma\) and \(p\) the other, and let \(n\) be the unit normal of \(\gamma\) pointing into \(q\).</p>
 <ol>
-<li>If <a href="#eq-1">(1)</a> holds for some \(w\neq0\), then \(q+sw\) does not overlap \(p\) for any \(s\ge0\): the piece \(q\) slides away to infinity.</li>
+<li>If there is a vector \(w\neq0\) with \(n\cdot w\ge0\) at every smooth point of \(\gamma\), then \((q+sw)\cap p=\varnothing\) for every \(s\ge0\).</li>
 <li>Otherwise, \(p\) and \(q\) are interlocked.</li>
 </ol></div>
-<p>In particular, a round head on a straight line interlocks two half-planes, even without a neck: the normals along the head sweep more than a half-circle of directions. In a bounded puzzle, the same head can be turned about its center (see <a href="#taking-out">Figure 8</a>).</p>
 <details class="fig" open><summary><b>Figure 4: the whole plane, cut in two</b></summary>
 <div class="figure interactive" id="fig-plane"></div>
 </details>
-<p class="figcap">A window onto an idealized puzzle: the cut continues to infinity in both directions. Try every mode; no turn about any pin moves \(q\), since the far ends of the cut are in the way.</p>
-<p>A real puzzle, however, is bounded. This has two effects. First, turns become genuinely available, and must be blocked by the shape of the interface. Second, the interface has endpoints, near which one piece may obstruct the other in ways that the normals of the interface do not detect. To rule this out, we require the pieces to be in <i>clean contact</i>: roughly speaking, near every point of the interface the two pieces lie on opposite sides of it, also near its endpoints, where the interface is continued by its tangent rays. This holds, for instance, when a board with smooth boundary is cut into two pieces along a curve meeting the boundary transversally.</p>
+<p class="figcap">A window onto an idealized puzzle: the cut continues to infinity in both directions.</p>
+<p>A real puzzle, however, is bounded. This has two effects. First, turns become genuinely available, and must be excluded by the shape of the interface. Second, the interface has endpoints, near which one piece may obstruct the other in ways that the normals of the interface do not detect. To rule this out, we require the pieces to be in <i>clean contact</i>: roughly speaking, near every point of the interface the two pieces lie on opposite sides of it, also near its endpoints.</p>
 <details class="proof"><summary>Precise definition of clean contact</summary>
 <p>The pieces \(p,q\) are in <i>clean contact</i> if every point of \(\gamma\) other than an endpoint has a neighborhood \(U\) with \(U\setminus\gamma\subseteq p\cup q\), and the following holds at each endpoint \(x_0\) of \(\gamma\) (if any). Let \(\hat\gamma\) be the curve obtained by continuing \(\gamma\) beyond \(x_0\) by its tangent ray at \(x_0\). Then in some neighborhood \(U\) of \(x_0\), the curve \(\hat\gamma\) separates \(U\) into two components, one containing \(p\cap U\) and the other containing \(q\cap U\), and no boundary arc of \(p\) or of \(q\) other than \(\gamma\) is tangent to \(\hat\gamma\) at \(x_0\).</p>
+<p>For instance, clean contact holds when a board with smooth boundary is cut into two pieces along a curve meeting the boundary transversally.</p>
 </details>
 <div class="callout" id="theorem-2"><div class="callout-title">Theorem 2 (a bounded puzzle)</div>
-<p>Let \(p,q\) be adjacent pieces of a jigsaw puzzle in clean contact. Then exactly one of the following holds.</p>
-<ol>
-<li>A single small slide or a single small turn moves \(q\) without overlapping \(p\).</li>
-<li>The pieces are interlocked.</li>
-</ol>
-<p>The second alternative occurs if and only if</p>
+<p>Let \(p,q\) be adjacent pieces of a jigsaw puzzle in clean contact. Parametrize their interface \(\gamma\) by arclength, so that \(q\) lies to its left, and let \(n\) be the unit normal of \(\gamma\) pointing into \(q\). For \(z\in\mathbb{R}^2\) and \(\theta\in\mathbb{R}\), let \(\rho_z(\theta)\) be the counterclockwise rotation about \(z\) by the angle \(\theta\). Then \(p\) and \(q\) are interlocked if and only if the following two conditions hold:</p>
 <ol type="a">
-<li>the normals of \(\gamma\) lie in no closed half-plane, and</li>
-<li>for every \(z\in\mathbb{R}^2\), the distance \(|\gamma(t)-z|\) is strictly increasing somewhere and strictly decreasing somewhere.</li>
-</ol></div>
-<p>In Figure 3, condition (b) says that there are no shaded regions. The standard jigsaw tab satisfies (a) because of its head, as above. It satisfies (b) because of its neck: from the center of the head, the head is at constant distance, but the interface recedes along one wall of the neck and approaches along the other; from any other pivot, the head itself both recedes and approaches.</p>
+<li>for every \(w\neq0\) there is a smooth point of \(\gamma\) at which \(n\cdot w\lt0\);</li>
+<li>for every \(z\in\mathbb{R}^2\) there are smooth points \(\gamma(t_1)\) and \(\gamma(t_2)\) with \(\dot\gamma(t_1)\cdot(\gamma(t_1)-z)\gt0\gt\dot\gamma(t_2)\cdot(\gamma(t_2)-z)\).</li>
+</ol>
+<p>Moreover, if (a) fails, that is, \(n\cdot w\ge0\) at every smooth point for some \(w\neq0\), then there is \(s_0\gt0\) with \((q+sw)\cap p=\varnothing\) for every \(s\in[0,s_0]\). If (b) fails, that is, \(\varepsilon\,\dot\gamma\cdot(\gamma-z)\ge0\) at every smooth point for some \(z\in\mathbb{R}^2\) and \(\varepsilon\in\{1,-1\}\), then there is \(\theta_0\gt0\) with \(\rho_z(\varepsilon\theta)(q)\cap p=\varnothing\) for every \(\theta\in[0,\theta_0]\).</p></div>
+<p>In particular, if \(q\) can be moved at all, then it can already be moved by a single slide or a single turn.</p>
 <p><b>Make your own puzzle.</b> In the figure below you can cut the board yourself, decide what Theorem 2 predicts for your cut, and check the prediction by trying to move \(q\).</p>
 <details class="fig" open><summary><b>Figure 5: your own cut</b></summary>
 <div class="figure interactive" id="fig-custom"></div>
 </details>
-<p class="figcap">Drag across the board to cut it in two. While you draw, the circle on the right collects the directions of the normals of your cut, with \(q\) the piece on your left. The cut is then smoothed, and continued along its ends to the edges of the board; it should not cross itself. To start over, press &ldquo;draw a new cut&rdquo;.</p>
+<p class="figcap">Drag across the board to cut it in two. While you draw, the circle on the right collects the directions of the normals of your cut.</p>
 <p><b>On the proofs.</b> The idea is to look at the initial velocity of an admissible motion. Every rigid motion close to the identity is, to first order, an infinitesimal slide \(V(x)=b\) or an infinitesimal turn \(V(x)=\omega(x-z)^\perp\) about some pivot \(z\). If a motion starting with velocity \(V\) is admissible, then \(V\) cannot push \(q\) into \(p\) anywhere, i.e. \(n\cdot V\ge0\) along \(\gamma\). By <a href="#eq-2">(2)</a>, this means that <a href="#eq-1">(1)</a> holds for \(w=b\), or that \(|\gamma-z|\) is monotone. Thus (a) and (b) block every admissible motion; this direction does not use clean contact. Conversely, if <a href="#eq-1">(1)</a> holds, a barrier argument shows that the slide in the direction \(w\) actually works for a short time, and similarly for turns. Clean contact enters here, near the endpoints of the interface.</p>
-<details class="proof"><summary>Proof that an admissible motion has an admissible initial velocity</summary>
-<p>Let \(g(t)\), \(0\le t\le1\), be an admissible motion which is not constant. We may assume that \(g(t)\) is not the identity for arbitrarily small \(t\gt0\), for otherwise we start the motion at the last time at which \(g(t)\) is the identity. Choose \(t_j\searrow0\) such that \(g(t_j)\) is not the identity. For large \(j\), \(g(t_j)\) is the rotation by a small angle \(\theta_j\) followed by the translation by a small vector \(a_j\). Put \(r_j=(|a_j|^2+\theta_j^2)^{1/2}\) and pass to a subsequence such that \(a_j/r_j\to b\) and \(\theta_j/r_j\to\omega\), so that \((b,\omega)\neq(0,0)\). Then</p>
+<details class="proof"><summary>Sketch of the proof of Theorem 2</summary>
+<p><b>If (a) and (b) hold, the pieces are interlocked.</b> We show that an admissible motion has an admissible initial velocity. Let \(g(t)\), \(0\le t\le1\), be an admissible motion which is not constant. We may assume that \(g(t)\) is not the identity for arbitrarily small \(t\gt0\), for otherwise we start the motion at the last time at which \(g(t)\) is the identity. Choose \(t_j\searrow0\) such that \(g(t_j)\) is not the identity. For large \(j\), \(g(t_j)\) is the rotation by a small angle \(\theta_j\) followed by the translation by a small vector \(a_j\). Put \(r_j=(|a_j|^2+\theta_j^2)^{1/2}\) and pass to a subsequence such that \(a_j/r_j\to b\) and \(\theta_j/r_j\to\omega\), so that \((b,\omega)\neq(0,0)\). Then</p>
 <span class="math">\[
 g(t_j)(y)=y+r_jV(y)+o(r_j),\qquad V(y):=b+\omega y^\perp,
 \]</span>
@@ -281,13 +322,24 @@ g(t_j)(y)=y+r_jV(y)+o(r_j),\qquad V(y):=b+\omega y^\perp,
 <span class="math">\[
 f\big(g(t_j)(x_j)\big)=r_j\big(\alpha+n\cdot V(x)\big)+o(r_j)\lt0,
 \]</span>
-<p>i.e. \(g(t_j)(x_j)\in p\), contradicting admissibility.</p>
-</details>
-<details class="proof"><summary>Why <a href="#eq-1">(1)</a> lets \(q\) slide</summary>
-<p>Near a smooth point of \(\gamma\), let \(f\) be the signed distance to \(\gamma\), positive on the side of \(q\). The function \(\nabla f\cdot w\) is Lipschitz and, by <a href="#eq-1">(1)</a>, nonnegative on \(\gamma=\{f=0\}\); hence \(\nabla f\cdot w\ge-Cf\) on the side of \(q\) for some constant \(C\). If the segment \(s\mapsto y+sw\) starts at a point \(y\) of \(q\) near \(\gamma\), then \(\varphi(s)=f(y+sw)\) satisfies \(\varphi'\ge-C\varphi\) as long as \(\varphi\gt0\), whence \(\varphi(s)\ge\varphi(0)e^{-Cs}\gt0\). Thus the segment never reaches \(\gamma\), and \(\gamma\) acts as a one-way barrier.</p>
+<p>i.e. \(g(t_j)(x_j)\in p\), contradicting admissibility. Hence \(n\cdot V\ge0\) at every smooth point of \(\gamma\). If \(\omega=0\), this contradicts (a) with \(w=b\); if \(\omega\neq0\), then by <a href="#eq-2">(2)</a> it contradicts (b) at the pivot \(z\).</p>
+<p><b>If (a) or (b) fails, a slide or a turn moves \(q\).</b> Suppose that \(n\cdot w\ge0\) at every smooth point of \(\gamma\). Near a smooth point of \(\gamma\), let \(f\) be the signed distance to \(\gamma\), positive on the side of \(q\). The function \(\nabla f\cdot w\) is Lipschitz and, by <a href="#eq-1">(1)</a>, nonnegative on \(\gamma=\{f=0\}\); hence \(\nabla f\cdot w\ge-Cf\) on the side of \(q\) for some constant \(C\). If the segment \(s\mapsto y+sw\) starts at a point \(y\) of \(q\) near \(\gamma\), then \(\varphi(s)=f(y+sw)\) satisfies \(\varphi'\ge-C\varphi\) as long as \(\varphi\gt0\), whence \(\varphi(s)\ge\varphi(0)e^{-Cs}\gt0\). Thus the segment never reaches \(\gamma\), and \(\gamma\) acts as a one-way barrier.</p>
 <p>Corners of \(\gamma\) are avoided by perturbing the starting point. For an infinite cut this already shows that \(q+sw\) and \(p\) are disjoint for all \(s\ge0\). For a bounded puzzle, a compactness argument gives a uniform time, and near the endpoints of \(\gamma\) the same argument is run with the continued curve \(\hat\gamma\) from the definition of clean contact; the analysis there is more delicate and is omitted. Turns are handled in the same way, with segments replaced by circular arcs about \(z\).</p>
 </details>
-<p>Readers from robotics will recognize the first-order part of Theorem 2. Encode the contact at a point \(x\) of the interface by the vector \((n,\ x\wedge n)\in\mathbb{R}^3\), where \(x\wedge n=x_1n_2-x_2n_1\). Conditions (a) and (b) together say that these vectors are not contained in any closed half-space of \(\mathbb{R}^3\). This is the planar case of <i>form closure</i> in the theory of grasping and fixturing<sup class="fn"><a href="#fn-mnp" id="fnref-mnp">2</a></sup>, which goes back to Reuleaux<sup class="fn"><a href="#fn-reuleaux" id="fnref-reuleaux">3</a></sup>. What Theorem 2 adds is the passage from the first-order test to arbitrary motions. This passage is not automatic: a body which the first-order test declares free may still be immobilized by second-order, curvature effects<sup class="fn"><a href="#fn-rb" id="fnref-rb">4</a></sup>, and conversely, as the next section shows.</p>
+<p>Readers from robotics will recognize the first-order part of Theorem 2. Encode the contact at a point \(x\) of the interface by the vector \((n,\ x\wedge n)\in\mathbb{R}^3\), where \(x\wedge n=x_1n_2-x_2n_1\). Conditions (a) and (b) together say that these vectors are not contained in any closed half-space of \(\mathbb{R}^3\). This is the planar case of <i>form closure</i> in the theory of grasping and fixturing<sup class="fn"><a href="#fn-mnp" id="fnref-mnp">2</a></sup>, which goes back to Reuleaux<sup class="fn"><a href="#fn-reuleaux" id="fnref-reuleaux">3</a></sup>. What Theorem 2 adds is the passage from the first-order test to arbitrary motions. This passage is not automatic: a body which the first-order test declares free may still be immobilized by second-order, curvature effects<sup class="fn"><a href="#fn-rb" id="fnref-rb">4</a></sup>. In our setting, a failure of clean contact can have a similar effect, and it can also allow motions which no single slide or turn achieves, as the next section shows.</p>
+<details class="proof exercises"><summary>Exercises</summary>
+<ol class="ex">
+<li>Cut the plane along a straight line carrying a round head whose arc is longer than a half-circle, as below. Show that the two pieces are interlocked.
+<div class="figure" id="fig-ex-head"></div>
+<details class="proof"><summary>Solution</summary>
+<p>Along the arc, the normal at each point is the direction from that point to the center of the arc, so these normals cover an arc of directions longer than a half-circle. A closed half-plane through the origin contains only a closed half-circle of directions, so it cannot contain all of them. By Theorem 1, the pieces are interlocked.</p>
+</details></li>
+<li>Why do you think that condition (a) alone does not imply that the pieces are interlocked?
+<details class="proof"><summary>Solution</summary>
+<p>Condition (a) only rules out slides; a piece whose normals point in all directions may still be turned. For instance, a round head without a neck has normals in no closed half-plane, as in the previous exercise, but from the center of the head the interface is at constant distance, so (b) fails and the head can be turned about its center. This puzzle is discussed in <a href="#taking-out">Moving a piece vs. taking it out</a>.</p>
+</details></li>
+</ol>
+</details>
 </details>
 
 <details class="sec" open><summary><h3 id="counterexamples">&hellip; unless the contact is not clean</h3></summary>
@@ -297,22 +349,35 @@ f\big(g(t_j)(x_j)\big)=r_j\big(\alpha+n\cdot V(x)\big)+o(r_j)\lt0,
 <div class="figure interactive" id="fig-sliver"></div>
 </details>
 <p class="figcap">Try to move the triangle. With &ldquo;show the math&rdquo; on, the normals of the interface and the green arc predict that \(q\) can slide upward; the corners of the hole say otherwise. (The triangle fits its hole with a hair of play, so it can move a tiny bit.)</p>
-<p>In the second example the contact fails to be clean in a subtler, tangential way, and wiggling genuinely helps.</p>
-<p><b>The drilled channel.</b> Drill a channel of width \(2r\) along a parabolic arc \(\Gamma\), from a point \(E\) inside a board to its edge, and let \(q\) be the disk of radius \(r\) resting at the closed end of the channel, centered at \(E\). The interface is the semicircular end cap of the channel; the walls of the channel leave its endpoints tangentially, so the contact is not clean. Whatever the motion, the center of the disk must stay on \(\Gamma\) (a disk of radius \(r\) fits in the channel only when centered on \(\Gamma\)). A slide or a turn moves the center along a straight segment or a circular arc, and a parabola contains neither. So no single slide or turn moves \(q\) (except the spin about \(E\), which does not move the disk at all), and yet \(q\) slides out along the channel.</p>
+<p><b>The drilled channel.</b> Drill a curved channel from a point inside a board out to its edge, and let \(q\) be a disk which fits the channel exactly, resting at its closed end. The disk touches \(p\) only along the rounded end of the channel, and the walls of the channel leave this interface tangentially, so the contact is not clean. To stay inside the channel, the disk must follow its curve. A single slide would carry the center of the disk along a straight line, and a single turn along a circle; if the channel bends in a way that is neither straight nor circular, neither keeps the disk inside the channel. So no single slide or turn moves \(q\), and yet \(q\) comes out by following the channel.</p>
+<details class="proof"><summary>Formally</summary>
+<p>Let \(\Gamma\) be an arc of a parabola, from a point \(E\) inside the board to its edge, and let \(r\gt0\) be so small that every point at distance less than \(2r\) from \(\Gamma\) has a unique nearest point on \(\Gamma\). Drill the channel \(\{x\colon\operatorname{dist}(x,\Gamma)\lt r\}\), and let \(q\) be the open disk of radius \(r\) centered at \(E\); the empty part of the channel belongs to neither piece. The interface is the semicircular end cap of the channel, and the walls of the channel, at distance \(r\) from \(\Gamma\), leave its endpoints tangentially. A disk of radius \(r\) fits in the channel only when it is centered on \(\Gamma\): if its center \(c\) is at distance \(d\in(0,r]\) from \(\Gamma\), then the point at distance \(r'\in(r-d,r)\) beyond \(c\), on the ray from the nearest point of \(\Gamma\) through \(c\), is at distance \(d+r'\gt r\) from \(\Gamma\). A slide moves the center along a segment and a turn along a circular arc, and a parabola contains neither; the only exception is the spin about \(E\), which does not move the disk at all. On the other hand, translating \(q\) so that its center runs along \(\Gamma\) takes it out of the board without overlap.</p>
+</details>
 <details class="fig" open><summary><b>Figure 7: the drilled channel</b></summary>
 <div class="figure interactive" id="fig-channel"></div>
 </details>
-<p class="figcap">Try a single straight slide, or a single turn about the pin, which starts at the center of the circle that best approximates \(\Gamma\) at \(E\). Then, in &ldquo;free&rdquo; mode, pull the ball out along the channel. (The ball fits its slot with a hair of play, so it can move a tiny bit in the first two modes.)</p>
+<p class="figcap">Try a single straight slide, or a single turn about the pin, which starts at the center of the circle that best fits the channel at its closed end. Then, in &ldquo;free&rdquo; mode, pull the disk out along the channel. (The disk fits the channel with a hair of play, so it can move a tiny bit in the first two modes.)</p>
+<details class="proof exercises"><summary>Exercises</summary>
+<ol class="ex">
+<li>Show that the wedged triangle is not in clean contact: at which points, and why, does the definition fail?
+<details class="proof"><summary>Solution</summary>
+<p>The interface is the segment \(AB\), whose endpoints are \(A\) and \(B\). Continue \(\gamma\) beyond \(A\) by its tangent ray, i.e. by the line through \(A\) and \(B\). Near \(A\), the piece \(p\) lies below this line, but also above it, between the line and the side of the hole through \(A\). So the continued curve does not separate \(p\) from \(q\) near \(A\), and the same happens at \(B\).</p>
+</details></li>
+<li>In the wedged triangle, where is it used that the base angles of the hole are less than \(60^\circ\)?
+<details class="proof"><summary>Solution</summary>
+<p>In a triangle, the longest side is opposite the largest angle. If the base angles of the hole are less than \(60^\circ\), then the third angle is greater than \(60^\circ\), hence greater than both base angles, so the base \(AB\) is the longest side of the hole, and \(A\) and \(B\) are the only two points of the hole at distance \(|AB|\) from each other. This is what forces the base of \(q\) to stay at \(AB\). If the base angles were \(60^\circ\) or more, the other two sides of the hole would be at least as long as \(AB\), and the argument would break down.</p>
+</details></li>
+</ol>
+</details>
 </details>
 
-<details class="sec" open><summary><h3 id="taking-out">Taking a piece out</h3></summary>
+<details class="sec" open><summary><h3 id="taking-out">Moving a piece vs. taking it out</h3></summary>
 <p>Theorem 2 tells us whether \(q\) can be moved, but a piece that can be moved need not come out. Here is a round head without a neck, in a socket at the edge of the board. In this figure you may make several slides and turns in a row.</p>
 <details class="fig" open><summary><b>Figure 8: a round head without a neck</b></summary>
 <div class="figure interactive" id="fig-out"></div>
 </details>
 <p class="figcap">Try to take \(q\) out. Here \(q\) stays where a slide or turn leaves it, and you may continue with another one; &ldquo;reset&rdquo; puts \(q\) back.</p>
-<p>Some questions to think about before reading on.</p>
-<ol>
+<ol class="pz-bullets">
 <li>Can \(q\) be moved? Can it be taken out by a single slide, or by a single turn?</li>
 <li>Can it be taken out at all?</li>
 <li>Theorem 2 does not answer the previous question. Why not?</li>
@@ -322,23 +387,64 @@ f\big(g(t_j)(x_j)\big)=r_j\big(\alpha+n\cdot V(x)\big)+o(r_j)\lt0,
 <details class="proof"><summary>Some observations</summary>
 <p>The head is not interlocked: condition (b) of Theorem 2 fails at the center of the head, and indeed \(q\) can be turned about it. A turn about the center keeps \(q\) inside its disk, so it never takes \(q\) out. No other single slide or turn moves \(q\) at all, since the normals of the interface sweep more than a half-circle, and from every pivot other than the center the interface both recedes and approaches. Nevertheless, \(q\) can be taken out: turn it about its center by a large enough angle, and then slide it out.</p>
 <p>Theorem 2 only concerns the beginning of a motion: it compares the velocity of the motion at time zero with the normals of the interface. Whether \(q\) can be taken out depends on the whole motion, and on the shape of the pieces away from their initial position.</p>
-<p>A natural question is whether a piece that can be taken out can always be taken out by finitely many slides and turns. Without clean contact, the answer is no: in the drilled channel of Figure 7, every slide or turn that moves the ball at all carries its center off \(\Gamma\), so no finite sequence of slides and turns moves the ball, although it can be taken out. We do not know the answer for pieces in clean contact.</p>
+<p>A natural question is whether a piece that can be taken out can always be taken out by finitely many slides and turns. Without clean contact, the answer is no: in the drilled channel of Figure 7, every slide or turn that moves the disk at all carries its center off the curve along which the channel was drilled, so no finite sequence of slides and turns moves the disk, although it can be taken out. We do not know the answer for pieces in clean contact.</p>
 <p>In the idealized puzzle, moving a piece and taking it out are the same thing: by Theorem 1, if \(q\) can be moved at all, then a single slide carries it away to infinity.</p>
 </details>
+<p><b>A disk in a round hole.</b> Here is an extreme case. Let \(q\) be a disk, fitted into a round hole of \(p\). The disk can be turned about its center, since this keeps it inside the hole, so by our definition the pieces are not interlocked. Yet the disk can never be taken out, or even displaced: it must stay in the hole, and a disk fits in a round hole of the same size in only one position.</p>
+<details class="fig" open><summary><b>Figure 9: a disk in a round hole</b></summary>
+<div class="figure interactive" id="fig-disk"></div>
+</details>
+<p class="figcap">Turn the disk about its center: it spins in its hole, but it never moves out of place.</p>
+<details class="proof exercises"><summary>Exercises</summary>
+<ol class="ex">
+<li>Show that the trouble with the disk disappears if the puzzle is infinite and the interface is not a closed curve. Formally: let \(p\) and \(q\) be the two pieces of an infinite cut, as in Theorem 1, and suppose that \(q\) can be moved; show that there is a vector \(w\) such that \(q+sw\) does not meet \(p\) for every \(s\ge0\), and \(q+sw\neq q\) for every \(s\gt0\).
+<details class="proof"><summary>Solution</summary>
+<p>If \(q\) can be moved, then by Theorem 1 there is \(w\neq0\) with \(n\cdot w\ge0\) at every smooth point of \(\gamma\), and \((q+sw)\cap p=\varnothing\) for every \(s\ge0\). Suppose that \(q+sw=q\) for some \(s\gt0\). Then \(\gamma\), the boundary of \(q\), is invariant under the translation by \(sw\), so it consists of copies of an arc from a point \(x\) to \(x+sw\). Since \(n=\dot\gamma^\perp\), the condition \(n\cdot w\ge0\) says that \(\dot\gamma\cdot w^\perp\le0\). Integrating over the arc from \(x\) to \(x+sw\) gives \(sw\cdot w^\perp=0\), so \(\dot\gamma\cdot w^\perp=0\) along the arc, i.e. the arc is a segment parallel to \(w\), and \(\gamma\) is a straight line. In that case, replace \(w\) by the normal \(n\), which is constant: then \(q+sn\) is a half-plane strictly inside \(q\), so it does not meet \(p\), and it differs from \(q\) for every \(s\gt0\).</p>
+</details></li>
+<li>Which assumption of Theorem 1 fails for the interface of the disk, and how does this allow the disk to spin?
+<details class="proof"><summary>Solution</summary>
+<p>The interface of the disk is a closed curve, while in Theorem 1 the interface goes off to infinity at both ends. The spin of the disk consists of turns about its center \(z\) by all small angles, and each of them maps the circle onto itself, so that the set \(q\) stays in place. A curve which is mapped onto itself by the turns about \(z\) by all small angles contains, together with each of its points \(x\), the whole circle through \(x\) centered at \(z\). But a curve going off to infinity at both ends, without crossing itself, contains no circle.</p>
+</details></li>
+<li>By our definition, the disk in a round hole is not interlocked, although it can never leave its place. Can you think of a definition of &ldquo;interlocked&rdquo; which fits our intuition better? How would Theorem 2 change?
+<details class="proof"><summary>One possible answer</summary>
+<p>Call \(p\) and \(q\) interlocked if every admissible motion leaves the set \(q\) in place, i.e. \(g(t)(q)=q\) for every \(t\). The disk must stay in the hole, and a disk fits in a round hole of the same size only in its original position; so \(g(t)(q)=q\) for every admissible motion, and the pieces are interlocked in the new sense.</p>
+<p>If (a) and (b) hold, then every admissible motion is constant, so it certainly leaves \(q\) in place: this half of Theorem 2 still holds. If (a) fails, then a small slide moves \(q\), and it moves the set \(q\), since a bounded set is not mapped onto itself by a translation. If (b) fails at a pivot \(z\), then a small turn about \(z\) moves \(q\), and it moves the set \(q\) unless \(q\) is mapped onto itself by all turns about \(z\) by small angles. In that case, together with each of its points, \(q\) contains the whole circle through it centered at \(z\), so \(q\) is a disk or an annulus centered at \(z\). So in the new sense, \(p\) and \(q\) are interlocked if and only if (a) and (b) hold, or \(q\) is a disk or an annulus centered at a point at which (b) fails.</p>
+</details></li>
+</ol>
 </details>
 
-<details class="sec" open><summary><h3 id="curvature">How much must the cut bend?</h3></summary>
-<p>The <i>total curvature</i> of \(\gamma\) is the total angle through which its tangent turns: \(\int|\kappa|\,dt\), plus the sum of the absolute exterior angles at the corners.</p>
+<details class="sec" open><summary><h3 id="curvature">Bonus: how much must the cut bend?</h3></summary>
+<p>As we travel along the interface, its direction turns. The total angle through which it turns, counting left and right turns alike, is called the <i>total curvature</i> of the interface. For example, a straight cut has total curvature \(0\), and a semicircle has total curvature \(\pi\).</p>
+<details class="proof"><summary>Formally</summary>
+<p>The total curvature of \(\gamma\) is \(\int|\kappa|\,dt\), where \(\kappa\) is the curvature of \(\gamma\) at its smooth points, plus the sum of the absolute values of the exterior angles at its corners. For an infinite cut, the integral and the sum are taken over all of \(\mathbb{R}\), and the total curvature may be infinite.</p>
+</details>
 <div class="callout" id="proposition"><div class="callout-title">Proposition</div>
-<p>If two pieces are interlocked (across an infinite cut, or in a bounded puzzle with clean contact), then the total curvature of their interface exceeds \(\pi\). The constant \(\pi\) is sharp.</p></div>
-<p>Indeed, if the total curvature is at most \(\pi\), then the angle of the tangent \(\dot\gamma\), and hence that of the normal \(n\), takes values in an interval of length at most \(\pi\). Thus the normals lie in a closed half-plane, and by Theorem 1 or Theorem 2 a slide moves \(q\).</p>
-<p>Sharpness is shown by the <i>hook</i> of Figure 9: a channel of width \(2\cos\frac\delta2\) ending in a round head of radius \(1\). The interface consists of two straight walls and a circular arc of angular width \(\pi+\delta\), meeting at two corners of exterior angle \(\delta/2\), so its total curvature is \(\pi+2\delta\). Along the arc the normals point at its center, so they sweep an arc of directions of length \(\pi+\delta\), and (a) holds. Condition (b) holds because the two walls are traversed in opposite directions. Viewed from a pivot \(z\) to the right of the left edge of the board, the interface approaches \(z\) near the left end of the lower wall and recedes from it near the left end of the upper wall; viewed from any other pivot, it is the other way round near the right ends of the walls. Hence the hook interlocks the two pieces, both across an infinite cut and in a bounded board, and letting \(\delta\to0\) shows that \(\pi\) is sharp.</p>
-<p>The extremal shapes differ from those in the theorems of Fenchel<sup class="fn"><a href="#fn-fenchel" id="fnref-fenchel">5</a></sup> and of F&aacute;ry and Milnor<sup class="fn"><a href="#fn-milnor" id="fnref-milnor">6</a></sup>, where the total curvature of a closed curve is at least \(2\pi\), with equality only for plane convex curves. Here a circular arc alone does not suffice in a bounded board: (b) fails at its center, and the piece can be turned about it (see <a href="#taking-out">Figure 8</a>). The straight walls of the neck cost almost no bending, and block that turn.</p>
-<details class="fig" open><summary><b>Figure 9: the hook</b></summary>
+<p>Let \(p\) and \(q\) be the two pieces of an infinite cut as in Theorem 1, or adjacent pieces of a jigsaw puzzle in clean contact. If \(p\) and \(q\) are interlocked, then the total curvature of their interface is greater than \(\pi\). Moreover, for every \(\varepsilon\gt0\), in both settings there are interlocked pieces whose interface has total curvature less than \(\pi+\varepsilon\).</p></div>
+<p>The reason is simple: if the interface turns by at most half a turn, then its normals cover at most half a circle of directions, so a slide moves \(q\).</p>
+<details class="proof"><summary>Proof</summary>
+<p>If the total curvature is at most \(\pi\), then the angle of the tangent \(\dot\gamma\), and hence that of the normal \(n\), takes values in an interval of length at most \(\pi\). Thus the normals lie in a closed half-plane, and by Theorem 1 or Theorem 2 a slide moves \(q\). The second statement is shown by the hook below.</p>
+</details>
+<p>The bound \(\pi\) is approached by the <i>hook</i> of Figure 10: a channel ending in a round head which is only slightly more than a semicircle. The head blocks every slide, and the two straight walls of the channel block every turn, at almost no cost in bending.</p>
+<details class="proof"><summary>Formally</summary>
+<p>Fix \(\delta\gt0\). The hook is a channel of width \(2\cos\frac\delta2\) ending in a round head of radius \(1\). The interface consists of two straight walls and a circular arc of angular width \(\pi+\delta\), meeting at two corners of exterior angle \(\delta/2\), so its total curvature is \(\pi+2\delta\). Along the arc the normals point at its center, so they sweep an arc of directions of length \(\pi+\delta\), and (a) holds. Condition (b) holds because the two walls are traversed in opposite directions. Viewed from a pivot \(z\) to the right of the left edge of the board, the interface approaches \(z\) near the left end of the lower wall and recedes from it near the left end of the upper wall; viewed from any other pivot, it is the other way round near the right ends of the walls. Hence the hook interlocks the two pieces, both across an infinite cut and in a bounded board, and letting \(\delta\to0\) proves the second statement of the Proposition.</p>
+</details>
+<p>The extremal shapes differ from those in Fenchel's theorem<sup class="fn"><a href="#fn-fenchel" id="fnref-fenchel">5</a></sup>, by which the total curvature of a closed curve is at least \(2\pi\), with equality only for plane convex curves. (A related theorem of F&aacute;ry<sup class="fn"><a href="#fn-fary" id="fnref-fary">6</a></sup> and Milnor<sup class="fn"><a href="#fn-milnor" id="fnref-milnor">7</a></sup> says that a knotted curve in space has total curvature greater than \(4\pi\).) Here a circular arc alone does not suffice in a bounded board: (b) fails at its center, and the piece can be turned about it (see <a href="#taking-out">Figure 8</a>). The straight walls of the neck cost almost no bending, and block that turn.</p>
+<details class="fig" open><summary><b>Figure 10: the hook</b></summary>
 <div class="figure interactive" id="fig-hook"></div>
 </details>
-<p class="figcap">The slider changes \(\delta\). For negative \(\delta\), the arc is shorter than a half-circle, the head is narrower than the channel, and \(q\) slides out; the total curvature is then exactly \(\pi\). With &ldquo;show the math&rdquo; on, the slide and turn modes display the normals and the colored interface of Figures 2 and 3.</p>
-<p>For a closed interface, such as an island \(q\) fitted into a hole of \(p\), the threshold is \(2\pi\), and it is attained. Here (a) always holds: if \(\dot\gamma\cdot w\ge0\) everywhere, then \(\oint\dot\gamma\,dt=0\) forces \(\dot\gamma\cdot w\equiv0\), which is impossible for a closed curve. And if \(\dot\gamma\cdot(\gamma-z)\) never changes sign, then \(|\gamma-z|^2\) is monotone and periodic, hence constant, so \(\gamma\) is a circle about \(z\). Thus an island is interlocked unless it is a disk, which can spin in its hole. By Fenchel's theorem, every closed curve has total curvature at least \(2\pi\), with equality for every convex island.</p>
+<p class="figcap">The slider changes \(\delta\). For negative \(\delta\), the arc is shorter than a half-circle, and the walls of the channel continue it along its tangents, so that the channel widens and \(q\) slides out; the total curvature is then \(\pi+\delta\), less than \(\pi\). With &ldquo;show the math&rdquo; on, the figure displays the normals and their directions, as in Figure 2.</p>
+<details class="proof exercises"><summary>Exercises</summary>
+<ol class="ex">
+<li>In Figure 10, for negative \(\delta\), the walls of the channel continue the arc along its tangents. Show that the total curvature of the interface is \(\pi+\delta\), and that \(q\) slides out.
+<details class="proof"><summary>Solution</summary>
+<p>For \(\delta\lt0\), the arc has angular width \(\pi+\delta\), and the walls are straight and meet the arc without corners, so the total curvature is \(\pi+\delta\). The normals along the arc are \(-(\cos\varphi,\sin\varphi)\) with \(|\varphi|\le(\pi+\delta)/2\lt\pi/2\), so their first coordinates are negative, and the normals of the walls equal the normals at the ends of the arc. Thus \(w=(-1,0)\) satisfies \(n\cdot w\ge0\) everywhere, and \(q\) slides out to the left.</p>
+</details></li>
+<li>Show that the Proposition fails without clean contact: find interlocked pieces of a bounded puzzle whose interface has total curvature \(0\).
+<details class="proof"><summary>Solution</summary>
+<p>The wedged triangle of Figure 6: its interface is a straight segment, whose tangent does not turn at all, and yet the pieces are interlocked. The corners of the hole, which hold \(q\) in place, are not part of the interface.</p>
+</details></li>
+</ol>
+</details>
 </details>
 
 <h4>Acknowledgements</h4>
@@ -346,11 +452,12 @@ f\big(g(t_j)(x_j)\big)=r_j\big(\alpha+n\cdot V(x)\big)+o(r_j)\lt0,
 
 <h4>Notes and references</h4>
 <ol class="footnotes">
-<li id="fn-draft">This is the <i>draft-angle</i> rule familiar from casting: a part can be drawn out of its mold in the direction \(w\) if no surface normal makes an obtuse angle with \(w\); see <a href="https://en.wikipedia.org/wiki/Draft_(engineering)">Draft (engineering)</a> on Wikipedia. <a href="#fnref-draft" class="fnback">&#8617;</a></li>
+<li id="fn-draft">This is the <i>draft-angle</i> rule familiar from casting: a part can be drawn out of its mold in the direction \(w\) if no surface normal makes an obtuse angle with \(w\). For polyhedra, see M. de Berg, O. Cheong, M. van Kreveld and M. Overmars, <i>Computational Geometry: Algorithms and Applications</i>, 3rd ed., Springer, 2008, Section 4.1, Lemma 4.1. <a href="#fnref-draft" class="fnback">&#8617;</a></li>
 <li id="fn-mnp">X. Markenscoff, L. Ni and C. H. Papadimitriou, <i>The geometry of grasping</i>, Internat. J. Robotics Res. <b>9</b> (1990), no. 1, 61&ndash;74. <a href="#fnref-mnp" class="fnback">&#8617;</a></li>
 <li id="fn-reuleaux">F. Reuleaux, <i>Theoretische Kinematik: Grundz&uuml;ge einer Theorie des Maschinenwesens</i>, Vieweg, Braunschweig, 1875. <a href="#fnref-reuleaux" class="fnback">&#8617;</a></li>
 <li id="fn-rb">E. Rimon and J. W. Burdick, <i>Mobility of bodies in contact. I. A second-order mobility index for multiple-finger grasps</i>, IEEE Trans. Robotics and Automation <b>14</b> (1998), no. 5, 696&ndash;708. <a href="#fnref-rb" class="fnback">&#8617;</a></li>
 <li id="fn-fenchel">W. Fenchel, <i>&Uuml;ber Kr&uuml;mmung und Windung geschlossener Raumkurven</i>, Math. Ann. <b>101</b> (1929), 238&ndash;252. <a href="#fnref-fenchel" class="fnback">&#8617;</a></li>
+<li id="fn-fary">I. F&aacute;ry, <i>Sur la courbure totale d&rsquo;une courbe gauche faisant un n&oelig;ud</i>, Bull. Soc. Math. France <b>77</b> (1949), 128&ndash;138. <a href="#fnref-fary" class="fnback">&#8617;</a></li>
 <li id="fn-milnor">J. W. Milnor, <i>On the total curvature of knots</i>, Ann. of Math. (2) <b>52</b> (1950), 248&ndash;257. <a href="#fnref-milnor" class="fnback">&#8617;</a></li>
 </ol>
 
@@ -458,8 +565,13 @@ const SHAPES = {
   wave: { name: 'wave', board: [-2.4, 2.4, -1.4, 1.4], lp: [-1.6, -0.95], lq: [-1.6, 0.9], pin: [0, 0.9], build(){
     return {iface: [PZ.curve((t) => [t, 0.45*Math.sin(1.4*t)], -2.4, 2.4, 200)]}; } },
   hook: { name: 'hook', board: [-2.6, 1.6, -1.6, 1.6], lp: [-2.0, 1.25], lq: [-1.3, 0], pin: [0, 0], param: 40, build(deg){
-    const {seg, arc} = PZ, dl = deg*Math.PI/180, c = Math.cos(dl/2), s = Math.sin(dl/2);
-    return {iface: [seg([-2.6, -c], [-s, -c], 30), arc([0, 0], 1, -(Math.PI + dl)/2, (Math.PI + dl)/2, 160), seg([-s, c], [-2.6, c], 30)]}; } },
+    // for delta >= 0 the walls are horizontal; for delta < 0 they continue the arc along its tangents, until the edge of the board
+    const {seg, arc} = PZ, dl = deg*Math.PI/180, a = (Math.PI + dl)/2, B = this.board;
+    const wall = (E, d) => { let t = Infinity; for (const [k, b] of [[0, B[0]], [1, B[2]], [1, B[3]]]) if (d[k] && (b - E[k])/d[k] > 1e-9) t = Math.min(t, (b - E[k])/d[k]);
+      return [E[0] + t*d[0], E[1] + t*d[1]]; };
+    const E0 = [Math.cos(a), -Math.sin(a)], E1 = [Math.cos(a), Math.sin(a)];
+    const d0 = dl < 0 ? [-Math.sin(a), -Math.cos(a)] : [-1, 0], d1 = dl < 0 ? [-Math.sin(a), Math.cos(a)] : [-1, 0];
+    return {iface: [seg(wall(E0, d0), E0, 30), arc([0, 0], 1, -a, a, 160), seg(E1, wall(E1, d1), 30)]}; } },
   // idealized puzzles: the whole plane, cut along a curve going to infinity; the far ends are cut off at distance 25
   lineHead: { name: 'round head on a line', infinite: true, board: [-25, 25, -25, 25], view: [-3.2, 3.2, -2.3, 1.7], lp: [-2.2, -1.5], lq: [-2.2, 0.9], pin: [0, -0.7], build(){
     const {seg, arc} = PZ, a = Math.atan2(0.7, -0.714), b = Math.atan2(0.7, 0.714) + 2*Math.PI;
@@ -482,6 +594,12 @@ const SHAPES = {
     if (!this.cut) this.cut = makeCut([[-2.2, 0.3], [-1.2, 0.7], [-0.2, -0.3], [0.8, -0.6], [1.8, 0.2], [2.2, 0.3]], this.board);
     this.lp = this.cut.lp; this.lq = this.cut.lq;
     return {iface: [this.cut.samples]}; } },
+  // a disk in a round hole of the same size (p is joined to the hole by a slit of width zero along x = 0)
+  disk: { name: 'disk', board: [-1.8, 1.8, -1.4, 1.4], lp: [-1.45, 1.05], lq: [0.35, 0.3], pin: [0.6, -0.5], build(){
+    const circ = []; for (let k = 0; k < 180; k++){ const a = -Math.PI/2 + 2*Math.PI*k/180; circ.push([Math.cos(a), Math.sin(a)]); }
+    const B = this.board, hole = circ.slice().reverse();
+    return {q: circ, iface: [PZ.arc([0, 0], 1, -Math.PI/2, 3*Math.PI/2, 180)], outline: [circ, [[B[0], B[2]], [B[1], B[2]], [B[1], B[3]], [B[0], B[3]]]],
+      obstacles: [{poly: [[B[0], B[2]], [0, B[2]], [0, -1]].concat(hole.slice(1), [[0, -1], [0, B[2]], [B[1], B[2]], [B[1], B[3]], [B[0], B[3]]]), noOutline: true}]}; } },
   sliver: { name: 'sliver', board: [-1.08, 1.08, -1.08, 1.08], round: true, lp: [-0.5, 0], lq: [0.45, 0.45], pin: [0.5, -0.4], build(){
     const sector = (a0, a1) => { const pts = [[0, 0]]; for (let k = 0; k <= 90; k++){ const a = (a0 + (a1 - a0)*k/90)*Math.PI/180; pts.push([Math.cos(a), Math.sin(a)]); } return pts; };
     return {q: sector(-60, 90), obstacles: [{poly: sector(90, 290)}, {poly: sector(-70, -60), label: 'sliver', at: [0.33, -0.98]}], iface: [PZ.seg([0, 1], [0, 0], 30)]}; } },
@@ -499,16 +617,17 @@ const SHAPES = {
 };
 
 // ---------- the playground ----------
-// the colors of the turning hints: a part of the interface that recedes from the pin blocks clockwise turns,
-// and a part that approaches it blocks counterclockwise turns. The pins about which q turns counterclockwise (where no
-// part of the interface blocks counterclockwise turns) get the same color, and likewise for clockwise turns.
-const CW_BLOCK = '#7a5bb5', CCW_BLOCK = '#c98a1b';
+// the colors of the turning hints, one for each direction: a part of the interface that recedes from the pin allows
+// only counterclockwise turns, and a part that approaches it only clockwise turns. The pins about which q turns
+// counterclockwise (from which the whole interface has the counterclockwise color) get the same color, and likewise
+// for clockwise turns.
+const CW_COL = '#7a5bb5', CCW_COL = '#c98a1b';
 const TURN_LEGEND = (pin) => { const sw = (c, t, region) => `<span><i class="sw${region ? ' reg' : ''}" style="background:${region ? c + '55' : c};${region ? 'border-color:' + c : ''}"></i>${t}</span>`;
-  return `<span style="flex-basis:100%;text-align:center">While you hold ${pin}:</span>` + sw(CCW_BLOCK, 'blocks counterclockwise turns &#8634;')
-    + sw(CW_BLOCK, 'blocks clockwise turns &#8635;') + sw('#2b3330', 'blocks neither')
-    + sw(CCW_BLOCK, 'pins about which <i>q</i> turns counterclockwise', true) + sw(CW_BLOCK, 'pins about which <i>q</i> turns clockwise', true); };
+  return `<span style="flex-basis:100%;text-align:center">While you hold ${pin}:</span>` + sw(CCW_COL, 'allows only counterclockwise turns &#8634;')
+    + sw(CW_COL, 'allows only clockwise turns &#8635;') + sw('#2b3330', 'allows both')
+    + sw(CCW_COL, 'pins about which <i>q</i> turns counterclockwise', true) + sw(CW_COL, 'pins about which <i>q</i> turns clockwise', true); };
 const MODES = {wiggle: 'free', slide: 'slide straight', turn: 'turn about the pin'};
-const HELP_FIXED = 'Drag <i>q</i> to turn it about the pin, which is fixed at the center of the head.';
+const HELP_FIXED = 'Drag <i>q</i> to turn it about the pin, which is fixed.';
 const HELP_AXIS = 'Drag <i>q</i>: it moves only horizontally.';
 const HELP = {wiggle: 'Drag <i>q</i> anywhere: it follows your pointer, sliding and pivoting around whatever is in the way.',
                 slide: 'Drag <i>q</i>: your first movement chooses a direction, and after that <i>q</i> moves only along that line.',
@@ -791,14 +910,14 @@ function playground(root, o){
         const xs = poly.map((p) => p[0]), ys = poly.map((p) => p[1]);
         // sg = 1: from these pins the interface only recedes, and q turns counterclockwise; sg = -1: clockwise
         const dot = Math.max(...xs) - Math.min(...xs) < 0.05, cx = xs.reduce((a, b) => a + b)/xs.length, cy = ys.reduce((a, b) => a + b)/ys.length;
-        const col = sg > 0 ? CCW_BLOCK : CW_BLOCK;
+        const col = sg > 0 ? CCW_COL : CW_COL;
         if (dot) el('circle', {cx: V.X(xs[0]), cy: V.Y(ys[0]), r: 6, fill: col, 'fill-opacity': .6, stroke: col}, hg);
         else el('path', {d: poly.map((p, i) => (i ? 'L' : 'M') + V.X(p[0]) + ' ' + V.Y(p[1])).join('') + 'Z', fill: col, 'fill-opacity': .28, stroke: col}, hg);
         const gx = Math.min(Math.max(V.X(cx), 14), W - 14) + (dot ? 16 : 0), gy = Math.min(Math.max(V.Y(cy), 18), H - 8);
         const t = el('text', {x: gx, y: gy + 7, 'class': 'lbl glyph', 'text-anchor': 'middle', fill: col, style: `fill:${col}`}, hg); t.textContent = sg > 0 ? '\u21ba' : '\u21bb'; }
       const f = (s) => s.T[0]*(s.P[0] - pin[0]) + s.T[1]*(s.P[1] - pin[1]);
       for (const pc of G.iface) for (let i = 0; i + 1 < pc.length; i++){ const v = (f(pc[i]) + f(pc[i + 1]))/2;
-        ln(pc[i].P, pc[i + 1].P, v > 1e-4 ? CW_BLOCK : v < -1e-4 ? CCW_BLOCK : '#2b3330', 3.4); }
+        ln(pc[i].P, pc[i + 1].P, v > 1e-4 ? CCW_COL : v < -1e-4 ? CW_COL : '#2b3330', 3.4); }
     } else {
       for (const pc of G.iface){ const step = Math.max(1, Math.floor(pc.length/(pc.length > 60 ? 7 : 3)));
         for (let k = Math.floor(step/2); k < pc.length; k += step){ const s = pc[k], n = [-s.T[1], s.T[0]], bad = lastW && n[0]*lastW[0] + n[1]*lastW[1] < -1e-6;
@@ -847,7 +966,7 @@ function playground(root, o){
     // on release: if q has come free, the figure pauses until q is put back; otherwise a slide or a turn snaps back
     if (grab.kind === 'q' && !atRest(pose)){ won = separated();
       if (won){ done = true; status = SHAPES[key].infinite ? '<b>Free!</b> <i>q</i> can slide away forever.' : '<b>Separated!</b> <i>q</i> can now be pulled away from <i>p</i>.'; }
-      else if (mode !== 'wiggle' && o.steps){ if (!ghost) status = '<i>q</i> has moved. Try another slide or turn, or reset.'; }
+      else if (mode !== 'wiggle' && o.steps){ if (!ghost) status = o.stepsMsg || '<i>q</i> has moved. Try another slide or turn, or reset.'; }
       else if (mode !== 'wiggle'){ if (!ghost) status = `This ${mode === 'slide' ? 'slide' : 'turn'} moves <i>q</i>, but does not free it.`; pose = {th: 0, tx: 0, ty: 0}; } }
     // a pin dropped near a single point from which q can be turned (such as the center of a circular arc) snaps to it
     if (grab.kind === 'pin') for (const sg of [1, -1]){ let poly = [[pin[0] - .3, pin[1] - .3], [pin[0] + .3, pin[1] - .3], [pin[0] + .3, pin[1] + .3], [pin[0] - .3, pin[1] + .3]];
@@ -917,7 +1036,8 @@ playground(document.getElementById('fig-plane'), {shapes: ['lineHead', 'lineWave
 playground(document.getElementById('fig-custom'), {shapes: ['custom'], modes: ['wiggle'], hints: true, inset: true, drawable: true});
 playground(document.getElementById('fig-sliver'), {shapes: ['wedge'], modes: ['slide', 'turn', 'wiggle'], hints: true, inset: true});
 playground(document.getElementById('fig-channel'), {shapes: ['channel'], modes: ['slide', 'turn', 'wiggle']});
-playground(document.getElementById('fig-hook'), {shapes: ['hook'], modes: ['slide', 'turn'], hints: true, inset: true, axis: [1, 0]});
+playground(document.getElementById('fig-hook'), {shapes: ['hook'], modes: ['slide'], hints: true, inset: true, axis: [1, 0]});
+playground(document.getElementById('fig-disk'), {shapes: ['disk'], modes: ['turn'], steps: true, pin: [0, 0], pinFixed: true, stepsMsg: 'The disk has turned, but it is still in its hole.'});
 playground(document.getElementById('fig-out'), {shapes: ['cap'], modes: ['slide', 'turn', 'wiggle'], steps: true, pin: [0, 0], pinFixed: true});
 </script>
 
@@ -1032,6 +1152,22 @@ playground(document.getElementById('fig-out'), {shapes: ['cap'], modes: ['slide'
     el('path', {d: `M${f.X(s0[0])} ${f.Y(s0[1])} A${f.S*R} ${f.S*R} 0 0 0 ${f.X(s1[0])} ${f.Y(s1[1])}`, fill: 'none', stroke: C.w, 'stroke-width': 2.5}, f.svg);
     const an = a1 + PI/2, hx = f.X(s1[0]), hy = f.Y(s1[1]), sx = Math.cos(an), sy = -Math.sin(an);
     el('path', {d: `M${hx + 4*sx} ${hy + 4*sy} L${hx - 7*sx - 5*sy} ${hy - 7*sy + 5*sx} L${hx - 7*sx + 5*sy} ${hy - 7*sy - 5*sx}Z`, fill: C.w}, f.svg);
+  })();
+
+  // 5. for an exercise: a round head on an infinite straight line, with the normals along the head
+  (function(){
+    const box = wrap('fig-ex-head'), B = [-2.6, 2.6, -1.95, 0.85], f = frame(panel(box), B, 300, 'A straight line, carrying a round head whose arc is longer than a half-circle; the normals along the head point to its center.');
+    const c = [0, -0.7], a0 = Math.atan2(0.7, -0.714), a1 = Math.atan2(0.7, 0.714) + 2*PI, cut = [[B[0], 0], [-0.714, 0]];
+    for (let k = 0; k <= 80; k++){ const a = a0 + (a1 - a0)*k/80; cut.push([c[0] + Math.cos(a), c[1] + Math.sin(a)]); }
+    cut.push([0.714, 0], [B[1], 0]);
+    el('path', {d: f.d(cut.concat([[B[1], B[2]], [B[0], B[2]]]), true), fill: C.p}, f.svg);
+    el('path', {d: f.d(cut.concat([[B[1], B[3]], [B[0], B[3]]]), true), fill: C.q}, f.svg);
+    el('path', {d: f.d(cut), fill: 'none', stroke: C.ink, 'stroke-width': 2.2, 'stroke-linejoin': 'round'}, f.svg);
+    for (const d of [190, 230, 270, 310, 350]){ const a = d*PI/180, P = [c[0] + Math.cos(a), c[1] + Math.sin(a)];
+      arrow(f, P, [P[0] - 0.45*Math.cos(a), P[1] - 0.45*Math.sin(a)], C.n); }
+    // the cut goes on beyond the picture
+    for (const x of [B[0] + .12, B[1] - .32]) txt(f, x, .12, '⋯', 'small muted', 'start');
+    txt(f, -1.8, .45, 'q'); txt(f, -1.8, -1.3, 'p'); txt(f, .62, -1.25, 'n', 'small', 'start');
   })();
 })();
 </script>
