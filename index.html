@@ -310,7 +310,7 @@ y+(c,0)\in q\qquad\text{and}\qquad y+(c,0)+sw\in p\qquad\text{for every }c\in(-\
 <p>Since \(\gamma_1\) is nondecreasing, the set of \(t\) with \(\gamma_1(t)=y_1\) is an interval containing \(t_*\), and since \(\dot\gamma_1(t_*)\gt0\), it is \(\{t_*\}\). Hence the vertical segment from \(y\in q\) to \(y+sw\in p\), which must meet \(\gamma\), meets it only at \(\gamma(t_*)\), and there it crosses \(\gamma\) with \(n\cdot w=\dot\gamma_1(t_*)\gt0\). Thus the segment passes from the side of \(p\) to the side of \(q\) at \(\gamma(t_*)\), i.e. the points of the segment just below \(\gamma(t_*)\) lie in \(p\). But the part of the segment below \(\gamma(t_*)\) does not meet \(\gamma\), so it lies in the component of \(y\), which is \(q\), a contradiction.</p>
 </li>
 <li>
-<p>Suppose that no \(w\neq0\) satisfies \(n\cdot w\ge0\) at every smooth point of \(\gamma\), and let \(g(\tau)\), \(0\le\tau\le1\), be an admissible motion which is not constant. To first order, \(g\) starts as a slide or as a turn, and since \(g\) is admissible, this initial velocity cannot push \(q\) into \(p\) anywhere along \(\gamma\). For a slide this contradicts our assumption, and for a turn it contradicts the observation made before the theorem. We now make this precise. We may assume that \(g(\tau)\) is not the identity for arbitrarily small \(\tau\gt0\), for otherwise we start the motion at the last time at which \(g(\tau)\) is the identity. Choose \(\tau_j\searrow0\) such that \(g(\tau_j)\) is not the identity. For large \(j\), \(g(\tau_j)\) is the rotation by a small angle \(\theta_j\) followed by the translation by a small vector \(a_j\). Put</p>
+<p>Suppose that no \(w\neq0\) satisfies \(n\cdot w\ge0\) at every smooth point of \(\gamma\), and let \(g(\tau)\), \(0\le\tau\le1\), be an admissible motion which is not constant. To first order, \(g\) starts as a slide or as a turn, and since \(g\) is admissible, this initial velocity cannot push \(q\) into \(p\) anywhere along \(\gamma\). For a slide this contradicts our assumption, and a turn is impossible because \(\gamma\) goes off to infinity at both ends. We now make this precise. We may assume that \(g(\tau)\) is not the identity for arbitrarily small \(\tau\gt0\), for otherwise we start the motion at the last time at which \(g(\tau)\) is the identity. Choose \(\tau_j\searrow0\) such that \(g(\tau_j)\) is not the identity. For large \(j\), \(g(\tau_j)\) is the rotation by a small angle \(\theta_j\) followed by the translation by a small vector \(a_j\). Put</p>
 <span class="math">\[
 r_j=\big(|a_j|^2+\theta_j^2\big)^{1/2},
 \]</span>
@@ -319,11 +319,11 @@ r_j=\big(|a_j|^2+\theta_j^2\big)^{1/2},
 g(\tau_j)(y)=y+r_jV(y)+o(r_j),\qquad V(y):=b+\omega y^\perp,
 \]</span>
 <p>uniformly for \(y\) in compact sets. If \(\omega\neq0\), then \(V(y)=\omega(y-z)^\perp\) with \(z=b^\perp/\omega\).</p>
-<p>Suppose that \(n\cdot V(x)\lt0\) at some smooth point \(x\) of \(\gamma\), and choose \(\alpha\gt0\) with \(\alpha+n\cdot V(x)\lt0\). Near \(x\), let \(f\) be the signed distance to \(\gamma\), positive on the side of \(q\), so that \(\nabla f(x)=n\). For large \(j\), the point \(x_j=x+\alpha r_jn\) lies in \(q\), and</p>
+<p>Suppose that \(n\cdot V(x)\lt0\) at some smooth point \(x\) of \(\gamma\), and choose \(\alpha\gt0\) with \(\alpha+n\cdot V(x)\lt0\). In coordinates centered at \(x\), with the second axis in the direction of \(n\), the curve \(\gamma\) is near \(x\) the graph of a function \(h\) with \(h(0)=h'(0)=0\), and \(q\) and \(p\) lie above and below this graph. Hence, for a fixed vector \(e\), a point \(x+re+o(r)\) with small \(r\gt0\) lies at height \(r\,e\cdot n+o(r)\) above the graph: it lies in \(q\) if \(e\cdot n\gt0\), and in \(p\) if \(e\cdot n\lt0\). In particular, \(x_j=x+\alpha r_jn\) lies in \(q\) for large \(j\), and</p>
 <span class="math">\[
-f\big(g(\tau_j)(x_j)\big)=r_j\big(\alpha+n\cdot V(x)\big)+o(r_j)\lt0,
+g(\tau_j)(x_j)=x+r_j\big(\alpha n+V(x)\big)+o(r_j),\qquad\big(\alpha n+V(x)\big)\cdot n=\alpha+n\cdot V(x)\lt0,
 \]</span>
-<p>i.e. \(g(\tau_j)(x_j)\in p\), contradicting admissibility. Hence</p>
+<p>so \(g(\tau_j)(x_j)\in p\), contradicting admissibility. Hence</p>
 <span class="math">\[
 n\cdot V\ge0\qquad\text{at every smooth point of }\gamma.
 \]</span>
@@ -331,7 +331,11 @@ n\cdot V\ge0\qquad\text{at every smooth point of }\gamma.
 <span class="math">\[
 \omega\,\dot\gamma\cdot(\gamma-z)\ge0\qquad\text{at every smooth point of }\gamma,
 \]</span>
-<p>which is impossible for a curve going off to infinity at both ends, as shown before the theorem.</p>
+<p>i.e. the function \(f(t)=|\gamma(t)-z|^2\), which is continuous and satisfies \(f'=2\,\dot\gamma\cdot(\gamma-z)\) away from the corners, is nondecreasing if \(\omega\gt0\) and nonincreasing if \(\omega\lt0\). In the first case \(f(t)\le f(0)\) for all \(t\le0\), and in the second \(f(t)\le f(0)\) for all \(t\ge0\). Both contradict</p>
+<span class="math">\[
+f(t)\to\infty\qquad\text{as }t\to\pm\infty,
+\]</span>
+<p>which holds since \(|\gamma(t)|\to\infty\).</p>
 </li>
 </ol>
 </details>
