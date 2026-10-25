@@ -280,7 +280,7 @@ n\cdot(\gamma-z)^\perp=\dot\gamma^\perp\cdot(\gamma-z)^\perp=\dot\gamma\cdot(\ga
 </details>
 
 <details class="sec" open><summary><h3 id="wiggling">Wiggling does not help</h3></summary>
-<p>The cleanest setting is an idealized puzzle: the whole plane, cut into two pieces along a single curve which goes off to infinity at both ends. Here turns are blocked automatically: whatever the pivot, the interface comes in from infinity and goes back out to infinity, so it somewhere approaches the pivot and somewhere recedes from it. Only slides remain, and they decide everything.</p>
+<p>The cleanest setting is an idealized puzzle: the whole plane, cut into two pieces along a single curve which goes off to infinity at both ends. Here turns are blocked automatically: whatever the pivot, the interface comes in from infinity and goes back out to infinity, so it somewhere approaches the pivot and somewhere recedes from it. Slides are then the only way to separate the pieces.</p>
 <details class="proof"><summary>Formally</summary>
 <p>Parametrize \(\gamma\) by arclength, \(\gamma\colon\mathbb{R}\to\mathbb{R}^2\). That both ends go to infinity means that \(|\gamma(t)|\to\infty\) as \(t\to\pm\infty\). Fix \(z\in\mathbb{R}^2\) and put \(f(t)=|\gamma(t)-z|^2\). The function \(f\) is locally Lipschitz, with \(f'=2\,\dot\gamma\cdot(\gamma-z)\) away from the corners, and \(f(t)\to\infty\) as \(t\to\pm\infty\). If \(\dot\gamma\cdot(\gamma-z)\ge0\) at every smooth point, then \(f\) is nondecreasing, so \(f(t)\le f(0)\) for all \(t\le0\), contradicting \(f(t)\to\infty\) as \(t\to-\infty\). Hence \(\dot\gamma\cdot(\gamma-z)\lt0\) at some smooth point, and likewise, using \(t\to+\infty\), \(\dot\gamma\cdot(\gamma-z)\gt0\) at another. By <a href="#eq-2">(2)</a>, a counterclockwise turn about \(z\) pushes \(q\) into \(p\) at the first point, and a clockwise turn at the second.</p>
 </details>
@@ -288,8 +288,8 @@ n\cdot(\gamma-z)^\perp=\dot\gamma^\perp\cdot(\gamma-z)^\perp=\dot\gamma\cdot(\ga
 <p class="figcap">A window onto an idealized puzzle: the cut continues to infinity in both directions.</p>
 <div class="figure interactive" id="fig-plane"></div>
 </details>
-<div class="callout" id="theorem-1"><div class="callout-title">Theorem 1 (an infinite cut)</div>
-<p>Let \(\gamma\colon\mathbb{R}\to\mathbb{R}^2\) be an injective, piecewise-smooth curve, parametrized by arclength, with \(|\gamma(t)|\to\infty\) as \(t\to\pm\infty\). Then \(\mathbb{R}^2\setminus\gamma\) has two components; let \(q\) be the one to the left of \(\gamma\) and \(p\) the other, and let \(n\) be the unit normal of \(\gamma\) pointing into \(q\).</p>
+<div class="callout" id="theorem-1"><div class="callout-title">Theorem 1</div>
+<p>Let \(\gamma\colon\mathbb{R}\to\mathbb{R}^2\) be an injective, piecewise-smooth curve, parametrized by arclength, with \(|\gamma(t)|\to\infty\) as \(t\to\pm\infty\). Then \(\mathbb{R}^2\setminus\gamma\) has two components; let \(q\) be the component lying to the left of \(\gamma\) and denote the other component by \(p\). Let \(n\) be the unit normal of \(\gamma\) pointing into \(q\).</p>
 <ol>
 <li>If there is a vector \(w\neq0\) with \(n\cdot w\ge0\) at every smooth point of \(\gamma\), then \(q\) can be slid away to infinity in the direction \(w\): \((q+sw)\cap p=\varnothing\) for every \(s\ge0\).</li>
 <li>Otherwise, \(p\) and \(q\) are interlocked.</li>
@@ -297,45 +297,56 @@ n\cdot(\gamma-z)^\perp=\dot\gamma^\perp\cdot(\gamma-z)^\perp=\dot\gamma\cdot(\ga
 <details class="proof"><summary>Proof of Theorem 1</summary>
 <ol>
 <li>
-<p>Rotating the picture, we may assume that \(w=(0,1)\). Since \(n=\dot\gamma^\perp\), the assumption reads</p>
+<p>Rotating the picture, we may assume that \(w=(0,1)\). We write \(x=(x_1,x_2)\) and \(\gamma=(\gamma_1,\gamma_2)\). Since \(n=\dot\gamma^\perp\), the assumption reads</p>
 <span class="math">\[
 n\cdot w=\dot\gamma_1\ge0\qquad\text{at every smooth point of }\gamma,
 \]</span>
-<p>i.e. the first coordinate \(\gamma_1\) of \(\gamma\) is nondecreasing. Assume by contradiction that \(y\in q\) and \(y+sw\in p\) for some \(s\gt0\).</p>
+<p>i.e. \(\gamma_1\) is nondecreasing. Assume by contradiction that there exist \(y\in q\) and \(s\gt0\) such that \(y+sw\in p\).</p>
 <p>We first move \(y\) sideways to a convenient position. Since \(p\) and \(q\) are open, there is \(\delta\gt0\) such that</p>
 <span class="math">\[
 y+(c,0)\in q\qquad\text{and}\qquad y+(c,0)+sw\in p\qquad\text{for every }c\in(-\delta,\delta).
 \]</span>
-<p>For each such \(c\), the vertical segment from \(y+(c,0)\) to \(y+(c,0)+sw\) joins \(q\) to \(p\), so it meets \(\gamma\). Thus \(\gamma_1(t_\pm)=y_1\pm\delta/2\) for some \(t_-\lt t_+\). On \([t_-,t_+]\) the curve \(\gamma\) has finitely many corners, and \(\gamma_1\) increases by \(\delta\), so by the mean value theorem there is a smooth point \(t_*\in(t_-,t_+)\) with \(\dot\gamma_1(t_*)\gt0\). Replacing \(y\) by \(y+(\gamma_1(t_*)-y_1,0)\), we may assume that \(\gamma_1(t_*)=y_1\).</p>
-<p>Since \(\gamma_1\) is nondecreasing, the set of \(t\) with \(\gamma_1(t)=y_1\) is an interval containing \(t_*\), and since \(\dot\gamma_1(t_*)\gt0\), it is \(\{t_*\}\). Hence the vertical segment from \(y\in q\) to \(y+sw\in p\), which must meet \(\gamma\), meets it only at \(\gamma(t_*)\), and there it crosses \(\gamma\) with \(n\cdot w=\dot\gamma_1(t_*)\gt0\). Thus the segment passes from the side of \(p\) to the side of \(q\) at \(\gamma(t_*)\), i.e. the points of the segment just below \(\gamma(t_*)\) lie in \(p\). But the part of the segment below \(\gamma(t_*)\) does not meet \(\gamma\), so it lies in the component of \(y\), which is \(q\), a contradiction.</p>
+<p>For each such \(c\), the vertical segment from \(y+(c,0)\) to \(y+(c,0)+sw\) joins \(q\) to \(p\), so it meets \(\gamma\). Thus \(\gamma_1(t_\pm)=y_1\pm\delta/2\) for some \(t_-\lt t_+\). On \([t_-,t_+]\) the curve \(\gamma\) has finitely many corners, and \(\gamma_1\) increases by \(\delta\), so by the mean value theorem there is a smooth point \(t_0\in(t_-,t_+)\) with \(\dot\gamma_1(t_0)\gt0\). Put</p>
+<span class="math">\[
+y'=y+\big(\gamma_1(t_0)-y_1,0\big).
+\]</span>
+<p>Since \(|\gamma_1(t_0)-y_1|\lt\delta\), we have</p>
+<span class="math">\[
+y'\in q,\qquad y'+sw\in p\qquad\text{and}\qquad y'_1=\gamma_1(t_0).
+\]</span>
+<p>Since \(\dot\gamma_1(t_0)\gt0\) and \(\gamma_1\) is nondecreasing, \(\gamma_1(t)\lt\gamma_1(t_0)\) for \(t\lt t_0\) and \(\gamma_1(t)\gt\gamma_1(t_0)\) for \(t\gt t_0\). Hence the vertical segment from \(y'\in q\) to \(y'+sw\in p\), which must meet \(\gamma\), meets it only at \(\gamma(t_0)\), where \(n\cdot w=\dot\gamma_1(t_0)\gt0\). Thus the segment passes from the side of \(p\) to the side of \(q\) at \(\gamma(t_0)\), i.e. the points of the segment just below \(\gamma(t_0)\) lie in \(p\). But the part of the segment below \(\gamma(t_0)\) does not meet \(\gamma\), so it lies in the component of \(y'\), which is \(q\), a contradiction.</p>
+<p class="figcap">The vertical line through \(\gamma(t_0)\).</p>
+<div class="figure" id="fig-pf1"></div>
 </li>
 <li>
-<p>Suppose that no \(w\neq0\) satisfies \(n\cdot w\ge0\) at every smooth point of \(\gamma\), and let \(g(\tau)\), \(0\le\tau\le1\), be an admissible motion which is not constant. To first order, \(g\) starts as a slide or as a turn, and since \(g\) is admissible, this initial velocity cannot push \(q\) into \(p\) anywhere along \(\gamma\). For a slide this contradicts our assumption, and a turn is impossible because \(\gamma\) goes off to infinity at both ends. We now make this precise. We may assume that \(g(\tau)\) is not the identity for arbitrarily small \(\tau\gt0\), for otherwise we start the motion at the last time at which \(g(\tau)\) is the identity. Choose \(\tau_j\searrow0\) such that \(g(\tau_j)\) is not the identity. For large \(j\), \(g(\tau_j)\) is the rotation by a small angle \(\theta_j\) followed by the translation by a small vector \(a_j\). Put</p>
+<p>Suppose that no \(w\neq0\) satisfies \(n\cdot w\ge0\) at every smooth point of \(\gamma\), and let \(g(\tau)\), \(0\le\tau\le1\), be an admissible motion which is not constant. We may assume that \(g(\tau)\) is not the identity for arbitrarily small \(\tau\gt0\), for otherwise we start the motion at the last time at which \(g(\tau)\) is the identity. Choose \(\tau_j\searrow0\) such that \(g(\tau_j)\) is not the identity. Every orientation-preserving isometry is a rotation about the origin followed by a translation, so</p>
+<span class="math">\[
+g(\tau_j)(y)=(\cos\theta_j)\,y+(\sin\theta_j)\,y^\perp+a_j,\qquad\text{where }\theta_j\in(-\pi,\pi]\text{ and }a_j\in\mathbb{R}^2.
+\]</span>
+<p>Since \(g\) is continuous and \(g(0)\) is the identity, \(\theta_j\to0\) and \(a_j\to0\). Put</p>
 <span class="math">\[
 r_j=\big(|a_j|^2+\theta_j^2\big)^{1/2},
 \]</span>
 <p>and pass to a subsequence such that \(a_j/r_j\to b\) and \(\theta_j/r_j\to\omega\), so that \((b,\omega)\neq(0,0)\). Then</p>
 <span class="math">\[
-g(\tau_j)(y)=y+r_jV(y)+o(r_j),\qquad V(y):=b+\omega y^\perp,
+g(\tau_j)(y)=y+r_jV(y)+o(r_j),\qquad\text{where }V(y)=b+\omega y^\perp,
 \]</span>
-<p>uniformly for \(y\) in compact sets. If \(\omega\neq0\), then \(V(y)=\omega(y-z)^\perp\) with \(z=b^\perp/\omega\).</p>
-<p>Suppose that \(n\cdot V(x)\lt0\) at some smooth point \(x\) of \(\gamma\), and choose \(\alpha\gt0\) with \(\alpha+n\cdot V(x)\lt0\). In coordinates centered at \(x\), with the second axis in the direction of \(n\), the curve \(\gamma\) is near \(x\) the graph of a function \(h\) with \(h(0)=h'(0)=0\), and \(q\) and \(p\) lie above and below this graph. Hence, for a fixed vector \(e\), a point \(x+re+o(r)\) with small \(r\gt0\) lies at height \(r\,e\cdot n+o(r)\) above the graph: it lies in \(q\) if \(e\cdot n\gt0\), and in \(p\) if \(e\cdot n\lt0\). In particular, \(x_j=x+\alpha r_jn\) lies in \(q\) for large \(j\), and</p>
+<p>uniformly for \(y\) in compact sets. We claim that there is a smooth point \(x\) of \(\gamma\) such that</p>
 <span class="math">\[
-g(\tau_j)(x_j)=x+r_j\big(\alpha n+V(x)\big)+o(r_j),\qquad\big(\alpha n+V(x)\big)\cdot n=\alpha+n\cdot V(x)\lt0,
+n\cdot V(x)\lt0.
 \]</span>
-<p>so \(g(\tau_j)(x_j)\in p\), contradicting admissibility. Hence</p>
+<p>If \(\omega=0\), then \(V=b\neq0\), and the claim follows from the assumption that no \(w\neq0\) satisfies \(n\cdot w\ge0\) at every smooth point. If \(\omega\neq0\), then \(V(y)=\omega(y-z)^\perp\), where \(z=b^\perp/\omega\), and by <a href="#eq-2">(2)</a>,</p>
 <span class="math">\[
-n\cdot V\ge0\qquad\text{at every smooth point of }\gamma.
+n\cdot V(\gamma)=\omega\,\dot\gamma\cdot(\gamma-z)=\frac\omega2\,f',\qquad\text{where }f(t)=|\gamma(t)-z|^2.
 \]</span>
-<p>If \(\omega=0\), then \(b\neq0\) and \(n\cdot b\ge0\) at every smooth point, contrary to our assumption. If \(\omega\neq0\), then by <a href="#eq-2">(2)</a>,</p>
+<p>The function \(f\) is continuous, and \(f(t)\to\infty\) as \(t\to\pm\infty\), since \(|\gamma(t)|\to\infty\). If \(\omega f'\ge0\) at every smooth point, then \(f\) is nondecreasing if \(\omega\gt0\), so that \(f(t)\le f(0)\) for all \(t\le0\), and nonincreasing if \(\omega\lt0\), so that \(f(t)\le f(0)\) for all \(t\ge0\). Both contradict \(f(t)\to\infty\), as \(t\to-\infty\) and as \(t\to+\infty\), respectively, which proves the claim.</p>
+<p class="figcap">\(g(\tau_j)\) pushes \(x_j\) into \(p\).</p>
+<div class="figure" id="fig-pf2"></div>
+<p>Choose \(\alpha\gt0\) with \(\alpha+n\cdot V(x)\lt0\), and choose coordinates centered at \(x\), with the second axis in the direction of \(n\). There is a neighborhood \(U\) of \(x\) in which \(\gamma\) is the graph of a function \(h\) with \(h(0)=h'(0)=0\), and \(q\cap U\) and \(p\cap U\) lie above and below this graph, respectively. Hence, for a fixed vector \(e\), a point \(x+re+o(r)\) with small \(r\gt0\) lies at height \(r\,e\cdot n+o(r)\) above the graph: it lies in \(q\) if \(e\cdot n\gt0\), and in \(p\) if \(e\cdot n\lt0\). In particular, \(x_j=x+\alpha r_jn\) lies in \(q\) for large \(j\), and</p>
 <span class="math">\[
-\omega\,\dot\gamma\cdot(\gamma-z)\ge0\qquad\text{at every smooth point of }\gamma,
+g(\tau_j)(x_j)=x+r_j\big(\alpha n+V(x)\big)+o(r_j)\qquad\text{and}\qquad\big(\alpha n+V(x)\big)\cdot n=\alpha+n\cdot V(x)\lt0,
 \]</span>
-<p>i.e. the function \(f(t)=|\gamma(t)-z|^2\), which is continuous and satisfies \(f'=2\,\dot\gamma\cdot(\gamma-z)\) away from the corners, is nondecreasing if \(\omega\gt0\) and nonincreasing if \(\omega\lt0\). In the first case \(f(t)\le f(0)\) for all \(t\le0\), and in the second \(f(t)\le f(0)\) for all \(t\ge0\). Both contradict</p>
-<span class="math">\[
-f(t)\to\infty\qquad\text{as }t\to\pm\infty,
-\]</span>
-<p>which holds since \(|\gamma(t)|\to\infty\).</p>
+<p>so \(g(\tau_j)(x_j)\in p\). Thus \(g(\tau_j)(q)\) meets \(p\), which contradicts the assumption that \(g\) is admissible.</p>
 </li>
 </ol>
 </details>
@@ -475,7 +486,7 @@ f(t)\to\infty\qquad\text{as }t\to\pm\infty,
 <ol class="ex">
 <li>In Figure 10, suppose that the arc is shorter than a half-circle. Show that \(q\) slides out.
 <details class="proof"><summary>Solution</summary>
-<p>Let \(\alpha\lt\pi\) be the angular width of the arc. The normals along the arc are \(-(\cos\varphi,\sin\varphi)\) with \(|\varphi|\le\alpha/2\lt\pi/2\), so their first coordinates are negative, and the normals of the walls equal the normals at the ends of the arc. Thus \(w=(-1,0)\) satisfies \(n\cdot w\ge0\) everywhere, and \(q\) slides out to the left.</p>
+<p>Let \(\alpha\lt\pi\) be the angular width of the arc. The normals along the arc are \(-(\cos\varphi,\sin\varphi)\), where \(|\varphi|\le\alpha/2\lt\pi/2\), so their first coordinates are negative, and the normals of the walls equal the normals at the ends of the arc. Thus \(w=(-1,0)\) satisfies \(n\cdot w\ge0\) everywhere, and \(q\) slides out to the left.</p>
 </details></li>
 <li>Show that the Proposition fails without clean contact: find interlocked pieces of a bounded puzzle whose interface has total curvature \(0\).
 <details class="proof"><summary>Solution</summary>
@@ -1049,7 +1060,11 @@ function playground(root, o){
   }
   // q is apart from p if, from where it is, q can be pulled away along some straight line without overlapping p,
   // and q is either visibly clear of p or has already come a long way (it may still be sliding along p)
-  function separated(){ if (SHAPES[key].infinite) return Math.hypot(pose.tx, pose.ty) > 2.5;
+  // across an infinite cut, a slide which works for a while works forever (Theorem 1): q is free once it has slid a
+  // little and can go on in the same direction
+  function separated(){ if (SHAPES[key].infinite){ const d = Math.hypot(pose.tx, pose.ty);
+      if (d < 0.2 || Math.abs(pose.th) > 1e-6) return false;
+      return !sweep((s) => shift(pose, s*pose.tx/d, s*pose.ty/d), 30, 0.05).blocked; }
     if (PZ.hits(G.col, place(pose, G.qFat)) && Math.hypot(pose.tx, pose.ty) < 1) return false;
     const B = G.board, far = 2*Math.hypot(B[1] - B[0], B[3] - B[2]);
     for (let k = 0; k < 32; k++){ const a = 2*PI*k/32, ux = Math.cos(a), uy = Math.sin(a);
@@ -1211,6 +1226,55 @@ playground(document.getElementById('fig-out'), {shapes: ['cap'], modes: ['slide'
     // the cut goes on beyond the picture
     for (const x of [B[0] + .12, B[1] - .32]) txt(f, x, .12, '⋯', 'small muted', 'start');
     txt(f, -1.8, .45, 'q'); txt(f, -1.8, -1.3, 'p'); txt(f, .62, -1.25, 'n', 'small', 'start');
+  })();
+
+  // labels with subscripts: parts = [[text, sub?], ...]
+  function rich(f, x, y, parts, cls, anchor){ const t = el('text', {x: f.X(x), y: f.Y(y), 'class': 'lbl ' + (cls || ''), 'text-anchor': anchor || 'middle'}, f.svg);
+    let down = false; for (const [str, sub] of parts){ const ts = el('tspan', sub ? {dy: down ? 0 : 4, 'font-size': '72%'} : {dy: down ? -4 : 0}, t); ts.textContent = str; down = !!sub; }
+    return t; }
+
+  // 7. for the proof of Theorem 1: a cut whose first coordinate is nondecreasing, and a vertical line crossing it once
+  (function(){
+    const B = [-2.7, 2.7, -1.45, 1.55], f = frame(panel(wrap('fig-pf1')), B, 340, 'An interface whose first coordinate is nondecreasing, with q above and p below, and a vertical line crossing it once, from p to q.');
+    const fl = (x) => -0.45 + 0.25*Math.sin(1.6*x), fr = (x) => 0.5 + 0.35*Math.sin(1.4*(x + 0.5)) - 0.35*Math.sin(0.7);
+    const x0 = -0.5, cut = [];
+    for (let k = 0; k <= 60; k++){ const x = B[0] - 0.2 + (x0 - B[0] + 0.2)*k/60; cut.push([x, fl(x)]); }
+    for (let k = 0; k <= 60; k++){ const x = x0 + (B[1] + 0.2 - x0)*k/60; cut.push([x, fr(x)]); }
+    el('path', {d: f.d(cut.concat([[B[1] + .2, B[2] - .2], [B[0] - .2, B[2] - .2]]), true), fill: C.p}, f.svg);
+    el('path', {d: f.d(cut.concat([[B[1] + .2, B[3] + .2], [B[0] - .2, B[3] + .2]]), true), fill: C.q}, f.svg);
+    // a vertical line along the vertical piece, and the line through gamma(t0)
+    el('path', {d: f.d([[x0, B[2]], [x0, B[3]]]), fill: 'none', stroke: C.muted, 'stroke-width': 1, 'stroke-dasharray': '3 4'}, f.svg);
+    const c = 1.35, P = [c, fr(c)];
+    el('path', {d: f.d([[c, B[2] + .15], [c, B[3] - .15]]), fill: 'none', stroke: C.w, 'stroke-width': 1.8, 'stroke-dasharray': '6 4'}, f.svg);
+    el('path', {d: f.d(cut), fill: 'none', stroke: C.ink, 'stroke-width': 2.4, 'stroke-linejoin': 'round'}, f.svg);
+    // normals: on the vertical piece horizontal, elsewhere weakly upward
+    const nrm = (x, fn) => { const h = 1e-4, t = [h, fn(x + h) - fn(x)], L = Math.hypot(...t); return [-t[1]/L, t[0]/L]; };
+    for (const x of [-2.2, -1.2]){ const Q = [x, fl(x)], n = nrm(x, fl); arrow(f, Q, [Q[0] + .45*n[0], Q[1] + .45*n[1]], C.n); }
+    for (const x of [0.2, 2.2]){ const Q = [x, fr(x)], n = nrm(x, fr); arrow(f, Q, [Q[0] + .45*n[0], Q[1] + .45*n[1]], C.n); }
+    arrow(f, [x0, 0.1], [x0 - .45, 0.1], C.n);
+    const n0 = nrm(c, fr); arrow(f, P, [P[0] + .5*n0[0], P[1] + .5*n0[1]], C.n);
+    el('circle', {cx: f.X(P[0]), cy: f.Y(P[1]), r: 3.2, fill: C.ink}, f.svg);
+    rich(f, P[0] - .5, P[1] - .4, [['γ(t'], ['0', 1], [')']], 'small');
+    arrow(f, [-2.35, .55], [-2.35, 1.25], C.w, 2.5); txt(f, -2.2, .85, 'w', 'small', 'start');
+    txt(f, -1.4, 0.75, 'q'); txt(f, 1.9, -0.95, 'p'); txt(f, -1.75, -0.95, 'γ', 'small');
+  })();
+
+  // 8. for the proof of Theorem 1: an initial velocity pushing q into p at x
+  (function(){
+    const B = [-1.5, 1.9, -1.0, 1.0], f = frame(panel(wrap('fig-pf2')), B, 300, 'Near a smooth point x of the interface: the point x_j above x is carried below the interface, into p.');
+    const h = (u) => 0.22*u*u, cut = []; for (let k = 0; k <= 60; k++){ const u = B[0] - .2 + (B[1] - B[0] + .4)*k/60; cut.push([u, h(u)]); }
+    el('path', {d: f.d(cut.concat([[B[1] + .2, B[2] - .2], [B[0] - .2, B[2] - .2]]), true), fill: C.p}, f.svg);
+    el('path', {d: f.d(cut.concat([[B[1] + .2, B[3] + .2], [B[0] - .2, B[3] + .2]]), true), fill: C.q}, f.svg);
+    el('path', {d: f.d([[B[0], 0], [B[1], 0]]), fill: 'none', stroke: C.muted, 'stroke-width': 1, 'stroke-dasharray': '3 4'}, f.svg);
+    el('path', {d: f.d(cut), fill: 'none', stroke: C.ink, 'stroke-width': 2.4}, f.svg);
+    const V = [1.05, -0.62], al = 0.35, xj = [0, al], im = [al*0 + V[0], al + V[1]];
+    arrow(f, [0, 0], [0, .62], C.n); arrow(f, [0, 0], V, C.bad);
+    el('path', {d: f.d([xj, im]), fill: 'none', stroke: C.ink, 'stroke-width': 1.3, 'stroke-dasharray': '4 3'}, f.svg);
+    for (const P of [[0, 0], xj, im]) el('circle', {cx: f.X(P[0]), cy: f.Y(P[1]), r: 3.2, fill: C.ink}, f.svg);
+    txt(f, -.12, -.25, 'x', 'small'); rich(f, -.22, al - .05, [['x'], ['j', 1]], 'small', 'end');
+    txt(f, .1, .72, 'n', 'small', 'start'); rich(f, .68, -.62, [['V(x)']], 'small', 'end');
+    rich(f, im[0] + .1, im[1] - .3, [['g(τ'], ['j', 1], [')(x'], ['j', 1], [')']], 'small', 'start');
+    txt(f, -1.1, .55, 'q'); txt(f, -1.1, -.6, 'p'); txt(f, 1.65, h(1.65) + .15, 'γ', 'small');
   })();
 
   // 6. clean contact near an endpoint x0 of the interface, and its failure in the wedged triangle
