@@ -839,8 +839,9 @@ const SHAPES = {
     const {seg, arc} = PZ, dl = deg*Math.PI/180, c = Math.cos(dl/2), s = Math.sin(dl/2);
     return {iface: [seg([-25, -c], [-5, -c], 1), seg([-5, -c], [-s, -c], 10), arc([0, 0], 1, -(Math.PI + dl)/2, (Math.PI + dl)/2, 160), seg([-s, c], [-5, c], 10), seg([-5, c], [-25, c], 1)]}; } },
   // a triangle wedged into a slightly taller triangular hole: q touches p only along the base
-  // (p is a single polygon, joined to the hole by a slit of width zero along x = 1)
-  wedge: { name: 'wedged triangle', board: [-0.7, 2.7, -0.55, 1.65], lp: [-0.3, 1.15], lq: [1, 0.38], pin: [1, 0.45], build(){
+  // (p is a single polygon, joined to the hole by a slit of width zero along x = 1); q is shrunk by a tiny gap only, since any
+  // gap lets it wiggle
+  wedge: { name: 'wedged triangle', gap: 1e-4, board: [-0.7, 2.7, -0.55, 1.65], lp: [-0.3, 1.15], lq: [1, 0.38], pin: [1, 0.45], build(){
     const h = Math.tan(49*Math.PI/180);
     return {q: [[0, 0], [2, 0], [1, 1]], iface: [PZ.seg([0, 0], [2, 0], 40)],
       outline: [[[0, 0], [2, 0], [1, h]], [[-0.7, -0.55], [2.7, -0.55], [2.7, 1.65], [-0.7, 1.65]]],
@@ -1050,7 +1051,7 @@ function playground(root, o){
     g.board = sh.board;
     if (!g.q){ const pts = g.iface.flat().map((s) => s.P), S0 = pts[0], E0 = pts[pts.length - 1];
       g.q = pts.concat(PZ.walk(sh.board, E0, S0, true)); g.obstacles = [{poly: pts.concat(PZ.walk(sh.board, E0, S0, false))}]; }
-    g.q = PZ.dedupe(g.q); g.qGap = PZ.shrink(g.q, 0.008); g.qFat = PZ.shrink(g.q, -0.08); g.col = PZ.collider(g.obstacles.map((ob) => ob.poly), sh.infinite ? 0.12 : 0);
+    g.q = PZ.dedupe(g.q); g.qGap = PZ.shrink(g.q, sh.gap || 0.008); g.qFat = PZ.shrink(g.q, -0.08); g.col = PZ.collider(g.obstacles.map((ob) => ob.poly), sh.infinite ? 0.12 : 0);
     G = g; pose = {th: 0, tx: 0, ty: 0}; pin = (o.pin || sh.pin).slice(); pinTouched = pinTouched || !!o.pinFixed; done = false; ghost = null; status = ''; lastW = null;
     if (dIn) dl.style.display = sh.param !== undefined ? '' : 'none';
     if (o.drawable) vd.innerHTML = verdict(G.iface, G.board) + (sh.cut && sh.cut.note ? sh.cut.note : '');
@@ -1187,7 +1188,13 @@ function playground(root, o){
         const col = sg > 0 ? CCW_COL : CW_COL;
         if (dot) el('circle', {cx: V.X(xs[0]), cy: V.Y(ys[0]), r: 6, fill: col, 'fill-opacity': .6, stroke: col}, hg);
         else el('path', {d: poly.map((p, i) => (i ? 'L' : 'M') + V.X(p[0]) + ' ' + V.Y(p[1])).join('') + 'Z', fill: col, 'fill-opacity': .28, stroke: col}, hg);
-        const gx = Math.min(Math.max(V.X(cx), 14), W - 14) + (dot ? 16 : 0), gy = Math.min(Math.max(V.Y(cy), 18), H - 8);
+        // the glyph goes at the centroid of the visible part of the region
+        const [x0, y0] = V.inv(14, H - 8), [x1, y1] = V.inv(W - 14, 18);
+        let vis = poly; for (const [a, c] of [[[-1, 0], -x0], [[1, 0], x1], [[0, -1], -y0], [[0, 1], y1]]) if (vis.length) vis = PZ.clip(vis, a, c);
+        let ar = 0, mx = cx, my = cy;
+        if (!dot && vis.length > 2){ let sx = 0, sy = 0; for (let i = 0; i < vis.length; i++){ const P = vis[i], Q = vis[(i + 1) % vis.length], c = P[0]*Q[1] - Q[0]*P[1]; ar += c; sx += (P[0] + Q[0])*c; sy += (P[1] + Q[1])*c; }
+          if (Math.abs(ar) > 1e-9){ mx = sx/(3*ar); my = sy/(3*ar); } }
+        const gx = Math.min(Math.max(V.X(mx), 14), W - 14) + (dot ? 16 : 0), gy = Math.min(Math.max(V.Y(my), 18), H - 8);
         const t = el('text', {x: gx, y: gy + 7, 'class': 'lbl glyph', 'text-anchor': 'middle', fill: col, style: `fill:${col}`}, hg); t.textContent = sg > 0 ? '\u21ba' : '\u21bb'; }
       const f = (s) => s.T[0]*(s.P[0] - pin[0]) + s.T[1]*(s.P[1] - pin[1]);
       for (const pc of G.iface) for (let i = 0; i + 1 < pc.length; i++){ const v = (f(pc[i]) + f(pc[i + 1]))/2;
@@ -1316,7 +1323,7 @@ playground(document.getElementById('fig-slide'), {shapes: ['tab', 'wave', 'dovet
 panels(document.getElementById('fig-turn'), ['tab', 'spiral'], ['turn'], true);
 playground(document.getElementById('fig-plane'), {shapes: ['lineHead', 'lineWave'], modes: ['slide', 'turn', 'wiggle']});
 playground(document.getElementById('fig-custom'), {shapes: ['custom'], modes: ['wiggle'], hints: true, inset: true, drawable: true});
-playground(document.getElementById('fig-sliver'), {shapes: ['wedge'], modes: ['slide', 'turn', 'wiggle'], hints: true, inset: true});
+playground(document.getElementById('fig-sliver'), {shapes: ['wedge'], modes: ['wiggle'], hints: true, inset: true});
 playground(document.getElementById('fig-channel'), {shapes: ['channel'], modes: ['slide', 'turn', 'wiggle']});
 playground(document.getElementById('fig-hook'), {shapes: ['hook'], modes: ['slide'], hints: true, inset: true, axis: [1, 0]});
 playground(document.getElementById('fig-disk'), {shapes: ['disk'], modes: ['turn'], steps: true, pin: [0, 0], pinFixed: true, stepsMsg: 'The disk has turned, but it is still in its hole.'});
@@ -1474,9 +1481,11 @@ playground(document.getElementById('fig-out'), {shapes: ['cap'], modes: ['slide'
       const rec = (i) => (cut[i + 1][0] - cut[i][0])*((cut[i][0] + cut[i + 1][0])/2 - z[0]) + (cut[i + 1][1] - cut[i][1])*((cut[i][1] + cut[i + 1][1])/2 - z[1]) > 0;
       for (let i = 0; i + 1 < cut.length;){ let j = i + 1; while (j + 1 < cut.length && rec(j) === rec(i)) j++;
         el('path', {d: f.d(cut.slice(i, j + 1)), fill: 'none', stroke: rec(i) ? CCW_COL : CW_COL, 'stroke-width': 3.2, 'stroke-linejoin': 'round'}, f.svg); i = j; } };
-    // a logarithmic spiral about z = 0, which meets the circles about z at a fixed angle, from the bottom edge of the board to its top edge
-    const Bs = [-1.6, 2.4, -0.8*Math.exp(-0.35*PI), 0.8*Math.exp(0.35*PI)], sp = [];
-    for (let k = 0; k <= 120; k++){ const t = -PI/2 + PI*k/120, r = 0.8*Math.exp(0.7*t); sp.push([r*Math.cos(t), r*Math.sin(t)]); }
+    // a logarithmic spiral about z = 0, which meets the circles about z at a fixed angle, from the bottom edge of the board to its top edge;
+    // it starts where it last crosses the bottom edge, since just after t = -pi/2 it dips below it
+    const Bs = [-1.6, 2.4, -0.8*Math.exp(-0.35*PI), 0.8*Math.exp(0.35*PI)], sp = [], spy = (t) => 0.8*Math.exp(0.7*t)*Math.sin(t);
+    let lo = -PI/2 + 1e-3, hi = 0; for (let k = 0; k < 60; k++){ const mid = (lo + hi)/2; if (spy(mid) < Bs[2]) lo = mid; else hi = mid; }
+    for (let k = 0; k <= 120; k++){ const t = hi + (PI/2 - hi)*k/120, r = 0.8*Math.exp(0.7*t); sp.push([r*Math.cos(t), r*Math.sin(t)]); }
     let f = frame(panel(box, 'the interface recedes from <i>z</i>'), [Bs[0] - .1, Bs[1] + .1, Bs[2] - .1, Bs[3] + .1], 300, 'A spiral interface around z: along it, a counterclockwise turn about z moves every point into q.');
     draw(f, sp, sp.concat([[Bs[0], Bs[3]], [Bs[0], Bs[2]]]), sp.concat([[Bs[1], Bs[3]], [Bs[1], Bs[2]]]), [0, 0]);
     velocities(f, sp, [0, 0], [18, 45, 72, 100]); pivot(f, [0, 0]); orient(f, sp, [.3, .62, .9], recCol([0, 0]));
