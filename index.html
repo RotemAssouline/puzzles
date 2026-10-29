@@ -1200,6 +1200,10 @@ function playground(root, o){
           el('path', {d: `M${hx} ${hy} L${hx - 8*Math.cos(ang - .4)} ${hy - 8*Math.sin(ang - .4)} L${hx - 8*Math.cos(ang + .4)} ${hy - 8*Math.sin(ang + .4)}Z`, fill: col}, hg); } }
       if (o.inset) insetCircle(smp);
     }
+    // the orientation of the interface, with q on its left
+    if (o.orient) for (const pc of G.iface){ const step = Math.max(1, Math.floor(pc.length/(pc.length > 60 ? 7 : 3)));
+      for (let k = step; k < pc.length - 1; k += 2*step){ const s = pc[k], ang = Math.atan2(-s.T[1], s.T[0]), x = V.X(s.P[0]), y = V.Y(s.P[1]);
+        el('path', {d: `M${x + 7*Math.cos(ang)} ${y + 7*Math.sin(ang)} L${x - 6*Math.cos(ang - .55)} ${y - 6*Math.sin(ang - .55)} L${x - 6*Math.cos(ang + .55)} ${y - 6*Math.sin(ang + .55)}Z`, fill: '#2b3330'}, hg); } }
   }
   function insetCircle(smp){
     const g = layer.inset, cx = 95, cy = H/2 - 6, R = 66;
@@ -1308,7 +1312,7 @@ function panels(root, shapes, modes, hints, titles = true, plain = false){
 }
 
 panels(document.getElementById('fig-play'), ['tab', 'wave', 'tongue', 'spiral'], ['wiggle'], false, false, true);
-playground(document.getElementById('fig-slide'), {shapes: ['tab', 'wave', 'dovetail', 'spiral'], modes: ['slide'], hints: true, inset: true});
+playground(document.getElementById('fig-slide'), {shapes: ['tab', 'wave', 'dovetail', 'spiral'], modes: ['slide'], hints: true, inset: true, orient: true});
 panels(document.getElementById('fig-turn'), ['tab', 'spiral'], ['turn'], true);
 playground(document.getElementById('fig-plane'), {shapes: ['lineHead', 'lineWave'], modes: ['slide', 'turn', 'wiggle']});
 playground(document.getElementById('fig-custom'), {shapes: ['custom'], modes: ['wiggle'], hints: true, inset: true, drawable: true});
@@ -1348,6 +1352,13 @@ playground(document.getElementById('fig-out'), {shapes: ['cap'], modes: ['slide'
   function arrow(f, a, b, col, wd){ const ax = f.X(a[0]), ay = f.Y(a[1]), bx = f.X(b[0]), by = f.Y(b[1]), an = Math.atan2(by - ay, bx - ax), h = 9;
     el('line', {x1: ax, y1: ay, x2: bx - 0.7*h*Math.cos(an), y2: by - 0.7*h*Math.sin(an), stroke: col, 'stroke-width': wd || 2.2}, f.svg);
     el('path', {d: `M${bx} ${by} L${bx - h*Math.cos(an - .4)} ${by - h*Math.sin(an - .4)} L${bx - h*Math.cos(an + .4)} ${by - h*Math.sin(an + .4)}Z`, fill: col}, f.svg); }
+  // arrowheads at the given fractions of the length of a polyline, in the direction of travel; col(a, b) colors the one on the segment ab
+  function orient(f, pts, fracs, col){
+    const len = [0]; for (let i = 1; i < pts.length; i++) len.push(len[i - 1] + Math.hypot(pts[i][0] - pts[i - 1][0], pts[i][1] - pts[i - 1][1]));
+    for (const fr of fracs){ const l = fr*len[len.length - 1]; let i = 1; while (i < pts.length - 1 && len[i] < l) i++;
+      const a = pts[i - 1], b = pts[i], u = (l - len[i - 1])/(len[i] - len[i - 1]), x = f.X(a[0] + u*(b[0] - a[0])), y = f.Y(a[1] + u*(b[1] - a[1]));
+      const an = Math.atan2(f.Y(b[1]) - f.Y(a[1]), f.X(b[0]) - f.X(a[0]));
+      el('path', {d: `M${x + 7*Math.cos(an)} ${y + 7*Math.sin(an)} L${x - 6*Math.cos(an - .55)} ${y - 6*Math.sin(an - .55)} L${x - 6*Math.cos(an + .55)} ${y - 6*Math.sin(an + .55)}Z`, fill: col ? col(a, b) : C.ink}, f.svg); } }
   function wrap(id){ const root = document.getElementById(id), box = document.createElement('div'); box.className = 'pz-static'; root.appendChild(box); return box; }
   function panel(box, title){ const d = document.createElement('div'); d.className = 'pz-panel'; box.appendChild(d);
     if (title){ const t = document.createElement('div'); t.className = 'pz-title'; t.innerHTML = title.replace(/<i>([^<]*)<\/i>/g, (m, x) => '\\(' + toTex(x) + '\\)'); d.appendChild(t); } return d; }
@@ -1378,6 +1389,7 @@ playground(document.getElementById('fig-out'), {shapes: ['cap'], modes: ['slide'
       const col = i === 0 && j === 1 ? C.p : i === 1 && j === 1 ? C.q : C.other;
       el('path', {d: f.d(g.piece(i, j), true), fill: col, stroke: C.ink, 'stroke-width': 1.3, 'stroke-linejoin': 'round'}, f.svg); }
     el('path', {d: f.d(g.V['1,1']), fill: 'none', stroke: C.ink, 'stroke-width': 3.4, 'stroke-linejoin': 'round'}, f.svg);
+    orient(f, g.V['1,1'].slice().reverse(), [.15, .5, .85]);
     txt(f, .62, 2.55, 'p'); txt(f, 2.6, 2.65, 'q'); txt(f, 1.72, 2.92, 'γ', 'small', 'start');
   })();
 
@@ -1457,6 +1469,7 @@ playground(document.getElementById('fig-out'), {shapes: ['cap'], modes: ['slide'
       const r = [P[0] - z[0], P[1] - z[1]], L = Math.hypot(...r), v = [-r[1]/L, r[0]/L], col = T[0]*r[0] + T[1]*r[1] > 0 ? C.w : C.bad;
       arrow(f, P, [P[0] + .42*v[0], P[1] + .42*v[1]], col, 2); el('circle', {cx: f.X(P[0]), cy: f.Y(P[1]), r: 2.6, fill: C.ink}, f.svg); } };
     // the interface in the colors of Figure 3: where it recedes from z, and where it approaches z
+    const recCol = (z) => (a, b) => (b[0] - a[0])*((a[0] + b[0])/2 - z[0]) + (b[1] - a[1])*((a[1] + b[1])/2 - z[1]) > 0 ? CCW_COL : CW_COL;
     const draw = (f, cut, qPoly, pPoly, z) => { el('path', {d: f.d(pPoly, true), fill: C.p}, f.svg); el('path', {d: f.d(qPoly, true), fill: C.q}, f.svg);
       const rec = (i) => (cut[i + 1][0] - cut[i][0])*((cut[i][0] + cut[i + 1][0])/2 - z[0]) + (cut[i + 1][1] - cut[i][1])*((cut[i][1] + cut[i + 1][1])/2 - z[1]) > 0;
       for (let i = 0; i + 1 < cut.length;){ let j = i + 1; while (j + 1 < cut.length && rec(j) === rec(i)) j++;
@@ -1466,13 +1479,13 @@ playground(document.getElementById('fig-out'), {shapes: ['cap'], modes: ['slide'
     for (let k = 0; k <= 120; k++){ const t = -PI/2 + PI*k/120, r = 0.8*Math.exp(0.7*t); sp.push([r*Math.cos(t), r*Math.sin(t)]); }
     let f = frame(panel(box, 'the interface recedes from <i>z</i>'), [Bs[0] - .1, Bs[1] + .1, Bs[2] - .1, Bs[3] + .1], 300, 'A spiral interface around z: along it, a counterclockwise turn about z moves every point into q.');
     draw(f, sp, sp.concat([[Bs[0], Bs[3]], [Bs[0], Bs[2]]]), sp.concat([[Bs[1], Bs[3]], [Bs[1], Bs[2]]]), [0, 0]);
-    velocities(f, sp, [0, 0], [18, 45, 72, 100]); pivot(f, [0, 0]);
+    velocities(f, sp, [0, 0], [18, 45, 72, 100]); pivot(f, [0, 0]); orient(f, sp, [.3, .62, .9], recCol([0, 0]));
     txt(f, -.28, -.15, 'z', 'small'); txt(f, -1.1, 1.8, 'q'); txt(f, 1.9, 1.2, 'p'); txt(f, 1.12, .05, 'γ', 'small', 'start');
     // the wave, with z in p below it
     const z = [0, -0.95];
     f = frame(panel(box, 'the interface approaches <i>z</i>, then recedes'), [-2.5, 2.5, -1.45, 1.45], 300, 'A wavy interface: a counterclockwise turn about z moves the points where the interface approaches z into p.');
     draw(f, wave.q.slice(0, 161), wave.q, wave.p, z);
-    velocities(f, wave.q, z, [22, 52, 108, 138]); pivot(f, z);
+    velocities(f, wave.q, z, [22, 52, 108, 138]); pivot(f, z); orient(f, wave.q.slice(0, 161), [.25, .5, .75], recCol(z));
     txt(f, z[0] + .2, z[1] - .3, 'z', 'small'); txt(f, -1.7, .95, 'q'); txt(f, -1.7, -.95, 'p'); txt(f, 2.05, .3, 'γ', 'small');
   })();
 
