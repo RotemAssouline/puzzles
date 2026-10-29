@@ -7,8 +7,8 @@
 <style>
 :root { --text-normal:#1f2328; --text-muted:#6b7280; --background-primary:#ffffff; --background-secondary:#f5f5f7;
         --background-modifier-border:#d9dde3; --interactive-accent:#4a6a8a; --callout:#2a78d6; }
-html { background: var(--background-primary); color: var(--text-normal); }
-body { max-width: 52rem; margin: 2.5rem auto; padding: 0 1.25rem; font: 17px/1.55 Georgia, "Times New Roman", serif; }
+html { background: var(--background-primary); color: var(--text-normal); font-size: 112.5%; }
+body { max-width: 52rem; margin: 2.5rem auto; padding: 0 1.25rem; font: 19px/1.55 Georgia, "Times New Roman", serif; }
 h1 { font-size: 1.8rem; line-height: 1.2; margin-bottom: .25rem; }
 h3 { margin-top: 2.4rem; font-size: 1.5rem; line-height: 1.25; }
 p { margin: .8rem 0; }
@@ -35,6 +35,15 @@ details.proof > summary { color: #3f6e68; }
 details.proof > summary:hover { text-decoration: underline; text-underline-offset: 3px; }details.proof > summary { font-style: italic; }
 details.proof.exercises > summary { font-style: normal; font-weight: bold; }
 ol.ex > li { margin: .6rem 0; }
+/* the statements of Theorem 2, marked by one, two and three puzzle pieces */
+ol.pz-pieces { list-style: none; padding-left: 3.8em; }
+ol.pz-pieces > li { position: relative; margin: .35rem 0; }
+ol.pz-pieces > li::before { content: ""; position: absolute; left: -3.6em; top: .3em; }
+ol.pz-pieces > li::before, .pz-piece { height: .95em; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0.6 -1 20 20'%3E%3Cpath d='M3 3H7.7A1.5 1.5 0 1 0 10.3 3H15V7.2A2.1 2.1 0 1 1 15 10.8V15H10.3A1.5 1.5 0 1 0 7.7 15H3V10.3A1.5 1.5 0 1 0 3 7.7Z' fill='%239aa39e'/%3E%3C/svg%3E") left center / 1.05em .95em repeat-x; }
+ol.pz-pieces > li:nth-child(1)::before, .pz-piece.n1 { width: 1.05em; }
+ol.pz-pieces > li:nth-child(2)::before, .pz-piece.n2 { width: 2.1em; }
+ol.pz-pieces > li:nth-child(3)::before, .pz-piece.n3 { width: 3.15em; }
+.pz-piece { display: inline-block; vertical-align: -.12em; }
 ol.ex details.proof[open] { margin: .4rem 0 .8rem; }
 details.proof[open] { border: 1px solid var(--background-modifier-border); border-radius: 4px; padding: 0 1rem; margin: .8rem 0; }
 details.sec > summary { list-style: none; cursor: pointer; }
@@ -55,6 +64,8 @@ details.sec:not([open]) > summary > h3::before { transform: none; }
 .figure .pz-ctl { display: flex; flex-wrap: wrap; gap: .4rem .8rem; align-items: center; font-size: .85em; color: var(--muted); margin: .4rem 0; }
 .figure .pz-ctl button { font: inherit; font-size: .92em; color: #3c4a45; background: #f6f8f4; border: 1px solid #cdd5cb; border-radius: 999px;
   padding: .28rem .85rem; cursor: pointer; transition: background .15s, border-color .15s, color .15s, box-shadow .15s; }
+.figure .pz-ctl button.pz-shape { display: inline-flex; align-items: center; gap: .45rem; padding-left: .5rem; }
+.figure .pz-ctl button .pz-thumb { width: 42px; height: 26px; border: none; border-radius: 3px; background: none; display: block; flex: none; overflow: hidden; }
 .figure .pz-ctl button:hover { background: #e9eee6; border-color: #bfc8bd; }
 .figure .pz-ctl button:focus-visible { outline: none; box-shadow: 0 0 0 3px rgba(63,110,104,.3); }
 .figure .pz-ctl button[aria-pressed="true"] { background: #3f6e68; border-color: #3f6e68; color: #fff; box-shadow: 0 1px 3px rgba(63,110,104,.35); }
@@ -93,7 +104,12 @@ details.sec:not([open]) > summary > h3::before { transform: none; }
 .figure .pz-static { display: flex; flex-wrap: wrap; justify-content: center; gap: .6rem 1.4rem; margin: 1rem auto .2rem; }
 .figure .pz-static svg { border: none; background: transparent; max-width: 420px; }
 .figure .pz-panel { flex: 0 1 300px; }
-.figure .pz-panel:only-child { flex-basis: auto; }
+.figure .pz-frame { position: relative; width: 100%; margin: 0 auto; }
+.figure .pz-frame svg { max-width: none; }
+.figure .pz-tex { position: absolute; font: 17px Georgia, "Times New Roman", serif; line-height: 1; color: var(--ink); white-space: nowrap; pointer-events: none; }
+.figure .pz-tex.small { font-size: 14px; }
+.figure .pz-tex.muted { color: var(--muted); }
+.figure .pz-panel:only-child { flex: 1 1 100%; }
 .figure .pz-stage { position: relative; }
 .figure .pz-stage svg { transition: opacity .25s; }
 .figure .pz-stage.done svg { opacity: .8; }
@@ -117,6 +133,11 @@ details.sec:not([open]) > summary > h3::before { transform: none; }
 .figure svg .qpiece { cursor: grab; }
 .figure .handle { cursor: grab; }
 .figcap { font-size: .92rem; color: var(--text-muted); margin: .2rem 0 .6rem; }
+.tryit { display: flex; align-items: center; gap: .6rem; margin: .5rem 0 .8rem; padding: .5rem .85rem; font-size: .92em; background: #e8f1ee; border-left: 4px solid #3f6e68;
+         border-radius: 4px; color: #23423e; font-weight: bold; }
+.tryit::before { content: "\261B"; font-size: 1.45em; line-height: 1; color: #3f6e68; animation: tryit-nudge 1.6s ease-in-out infinite; }
+@keyframes tryit-nudge { 50% { transform: translateX(5px); } }
+@media (prefers-reduced-motion: reduce) { .tryit::before { animation: none; } }
 
 @media print {
   body { max-width: none; margin: 0; font-size: 11pt; }
@@ -133,7 +154,7 @@ details.sec:not([open]) > summary > h3::before { transform: none; }
 window.MathJax = {
   tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']], tags: 'none', processEscapes: true,
          packages: {'[+]': ['ams']} },
-  options: { skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'], ignoreHtmlClass: 'figure' },
+  options: { skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'], ignoreHtmlClass: 'figure', processHtmlClass: 'pz-tex|pz-title' },
   chtml: { scale: 1 }
 };
 </script>
@@ -174,7 +195,7 @@ window.addEventListener('afterprint', () => { closedBeforePrint.forEach((d) => d
 
 <p>The following question arose when one of us (Itai) was assembling a two-piece jigsaw puzzle with his toddler granddaughter Ayala. To separate two adjacent pieces of a jigsaw puzzle, one has to lift one of them off the table: no amount of sliding and turning in the plane will do. Which geometric property of the cut between the two pieces is responsible for this?</p>
 <details class="fig" open><summary><b>Figure 1: try to take the puzzle apart</b></summary>
-<p class="figcap">Try to take the puzzles apart without lifting the pieces: drag the upper piece of each puzzle.</p>
+<p class="tryit">Try to take the puzzles apart without lifting the pieces: drag the upper piece of each puzzle.</p>
 <div class="figure interactive" id="fig-play"></div>
 </details>
 
@@ -186,6 +207,7 @@ window.addEventListener('afterprint', () => { closedBeforePrint.forEach((d) => d
 <li><a href="#wiggling">Wiggling does not help</a></li>
 <li><a href="#counterexamples">&hellip; unless the contact is not clean</a></li>
 <li><a href="#taking-out">Moving a piece vs. taking it out</a></li>
+<li><a href="#own-puzzle">Make your own puzzle</a></li>
 <li><a href="#curvature">Bonus: how much must the cut bend?</a></li>
 <li><a href="#appendix">Appendix: proof of Theorem 2</a></li>
 </ul></nav>
@@ -193,7 +215,7 @@ window.addEventListener('afterprint', () => { closedBeforePrint.forEach((d) => d
 <details class="sec" open><summary><h3 id="setup">The question</h3></summary>
 <p>A jigsaw puzzle is a <i>board</i> cut into <i>pieces</i>. Two pieces \(p\) and \(q\) are <i>adjacent</i> if they touch, and the curve along which they touch is their <i>interface</i>, which we denote by \(\gamma\).</p>
 <details class="proof"><summary>Formally</summary>
-<p>The board is a compact subset of \(\mathbb{R}^2\) containing finitely many pieces. The pieces are pairwise disjoint connected open sets, each bounded by finitely many piecewise-smooth simple closed curves. Two pieces \(p\) and \(q\) are adjacent if \(\overline p\cap\overline q\neq\varnothing\). We assume that their interface \(\gamma:=\overline p\cap\overline q\) is a piecewise-smooth simple curve, either an arc or a closed curve. Only \(p\) and \(q\) play a role below: the other pieces are ignored, and parts of the board may belong to no piece.</p>
+<p>The board is a compact subset of \(\mathbb{R}^2\) containing finitely many pieces. The pieces are pairwise disjoint connected open sets, each bounded by finitely many piecewise-smooth simple closed curves. Two pieces \(p\) and \(q\) are adjacent if \(\overline p\cap\overline q\neq\varnothing\). We assume that their interface \(\gamma:=\overline p\cap\overline q\) is a piecewise-smooth simple curve, either an arc or a closed curve. This definition does not cover the unbounded puzzle of <a href="#theorem-1">Theorem 1</a>, whose two pieces are described in its statement.</p>
 </details>
 <p class="figcap">A board cut into six pieces. The pieces \(p\) and \(q\) are adjacent, and their interface \(\gamma\) is drawn thick.</p>
 <div class="figure" id="fig-def"></div>
@@ -205,7 +227,7 @@ window.addEventListener('afterprint', () => { closedBeforePrint.forEach((d) => d
 <div class="figure" id="fig-normal"></div>
 <p>We hold \(p\) in place and try to move the piece \(q\) in the plane, without lifting it. The two pieces must not overlap. (They may, however, stay in contact, so \(q\) is allowed to slide along \(p\).) Such a motion is <i>admissible</i>. If no admissible motion moves \(q\) at all, the pieces are <i>interlocked</i>.</p>
 <details class="proof"><summary>Formally</summary>
-<p>A motion of \(q\) is a continuous family \(g(\tau)\), \(0\le\tau\le1\), of orientation-preserving isometries of \(\mathbb{R}^2\), with \(g(0)\) being the identity. It is admissible if \(g(\tau)(q)\cap p=\varnothing\) for every \(\tau\). Since the pieces are open sets, \(\overline{g(\tau)(q)}\cap\overline p\) may be nonempty: the pieces may stay in contact. The pieces are interlocked if for every admissible motion, \(g(\tau)\) is the identity for all \(\tau\).</p>
+<p>A motion of \(q\) is a continuous family \(g_\tau\), \(0\le\tau\le1\), of orientation-preserving isometries of \(\mathbb{R}^2\), with \(g_0\) being the identity. It is admissible if \(g_\tau(q)\cap p=\varnothing\) for every \(\tau\). Since the pieces are open sets, \(\overline{g_\tau(q)}\cap\overline p\) may be nonempty: the pieces may stay in contact. The pieces are interlocked if for every admissible motion, \(g_\tau\) is the identity for all \(\tau\).</p>
 </details>
 <p class="figcap">Left: \(q\) has moved without overlapping \(p\). Right: \(q\) overlaps \(p\) (in red), which is not allowed. The dashed curve shows the original position of \(q\).</p>
 <div class="figure" id="fig-admissible"></div>
@@ -216,9 +238,9 @@ window.addEventListener('afterprint', () => { closedBeforePrint.forEach((d) => d
 <ol class="ex">
 <li>Interlocking is symmetric. Show that \(p\) and \(q\) are interlocked if and only if no admissible motion moves \(p\) while \(q\) is held in place.
 <details class="proof"><summary>Solution</summary>
-<p>Let \(g(\tau)\), \(0\le\tau\le1\), be a motion of \(q\), and put \(h(\tau)=g(\tau)^{-1}\). Then \(h\) is again a continuous family of orientation-preserving isometries, \(h(0)\) is the identity, and \(h(\tau)\) is the identity exactly when \(g(\tau)\) is. Since \(g(\tau)\) is a bijection, \(g(\tau)(q)\cap p=\varnothing\) if and only if \(q\cap h(\tau)(p)=\varnothing\). So \(g\) is an admissible motion of \(q\) that moves it if and only if \(h\) is an admissible motion of \(p\) that moves it.</p>
+<p>Let \(g_\tau\), \(0\le\tau\le1\), be a motion of \(q\), and put \(h_\tau=g_\tau^{-1}\). Then \(h\) is again a continuous family of orientation-preserving isometries, \(h_0\) is the identity, and \(h_\tau\) is the identity exactly when \(g_\tau\) is. Since \(g_\tau\) is a bijection, \(g_\tau(q)\cap p=\varnothing\) if and only if \(q\cap h_\tau(p)=\varnothing\). So \(g\) is an admissible motion of \(q\) that moves it if and only if \(h\) is an admissible motion of \(p\) that moves it.</p>
 </details></li>
-<li>Why do we allow the pieces to stay in contact? Find a puzzle in which \(q\) can be slid out, but in which \(\overline{g(\tau)(q)}\cap\overline p\neq\varnothing\) for every motion \(g\) that moves \(q\) a little, and for all small \(\tau\).
+<li>Why do we allow the pieces to stay in contact? Find a puzzle in which \(q\) can be slid out, but in which \(\overline{g_\tau(q)}\cap\overline p\neq\varnothing\) for every motion \(g\) that moves \(q\) a little, and for all small \(\tau\).
 <details class="proof"><summary>Solution</summary>
 <p>Cut a rectangular slot into the board, open at the edge of the board, and let \(q\) be a rectangle filling it, so that \(q\) touches \(p\) along three of its sides. Sliding \(q\) along the slot moves it out of the board without overlap, but the long sides of \(q\) stay in contact with the walls of the slot until \(q\) is out. Any motion that moves \(q\) a little must keep \(q\) in the slot, as a rectangle of the slot's width fits in the slot only when it is parallel to the walls; so the closures of the pieces meet at all small times. If contact were forbidden, \(q\) could not be moved at all, although it can be taken out by a slide.</p>
 </details></li>
@@ -227,7 +249,7 @@ window.addEventListener('afterprint', () => { closedBeforePrint.forEach((d) => d
 </details>
 
 <details class="sec" open><summary><h3 id="sliding">Sliding</h3></summary>
-<p>Suppose we slide the piece \(q\) in some direction. Wherever a normal of the interface makes an obtuse angle with the direction of the slide, the slide pushes \(q\) into \(p\) at once. If, on the other hand, no normal makes an obtuse angle with it, then each part of the interface either moves into the side of \(q\) or slides along itself, and, if the contact between the pieces is clean (see Theorem 2 below), \(q\) can be slid a little in that direction.<sup class="fn"><a href="#fn-draft" id="fnref-draft">1</a></sup> Hence, in order for it to be impossible to separate the pieces by a slide, the normals must point in sufficiently many directions: if we place all normals on a single circle, they should not all fit in a closed half-circle.</p>
+<p>Suppose we slide the piece \(q\) in some direction. Wherever a normal of the interface makes an obtuse angle with the direction of the slide, the slide pushes \(q\) into \(p\) at once. If, on the other hand, no normal makes an obtuse angle with it, then each part of the interface either moves into the side of \(q\) or slides along itself, and \(q\) can be slid a little in that direction.<sup class="fn"><a href="#fn-clean" id="fnref-clean">1</a>,<a href="#fn-draft" id="fnref-draft">2</a></sup> Hence, in order for it to be impossible to separate the pieces by a slide, the normals must point in sufficiently many directions: if we place all normals on a single circle, they should not all fit in a closed half-circle.</p>
 <details class="proof"><summary>Formally</summary>
 <p>Let \(w\neq0\) be the direction of the slide. At a smooth point of \(\gamma\) where \(n\cdot w\lt 0\), the slide immediately pushes \(q\) into \(p\). If, on the other hand,</p>
 <span id="eq-1"></span><span class="math">\[
@@ -241,9 +263,9 @@ n\cdot w\ge 0\qquad\text{at every smooth point of }\gamma,\tag{1}
 </details>
 <details class="proof exercises"><summary>Exercises</summary>
 <ol class="ex">
-<li>Show that a set of unit vectors lies in no closed half-plane bounded by a line through the origin if and only if the origin lies in the interior of its convex hull.
+<li>Let \(N\) be the set of normals of the interface, and let \(K\) be its convex hull. Show that no \(w\neq0\) satisfies <a href="#eq-1">(1)</a> if and only if the origin is an interior point of \(K\).
 <details class="proof"><summary>Solution</summary>
-<p>Let \(N\) be the set and \(K\) its convex hull. If \(N\subseteq\{v\colon v\cdot w\ge0\}\) for some \(w\neq0\), then \(K\) lies in the same half-plane, and the origin, which lies on its boundary line, is not an interior point of \(K\). Conversely, if the origin is not an interior point of the convex set \(K\), then there is a line through the origin with \(K\) on one side of it (by the separation theorem if \(0\notin\overline K\), and by the supporting line theorem if \(0\) lies on the boundary of \(K\)). That is, \(K\subseteq\{v\colon v\cdot w\ge0\}\) for some \(w\neq0\), and so is \(N\).</p>
+<p>If \(N\subseteq\{v\colon v\cdot w\ge0\}\) for some \(w\neq0\), then \(K\) lies in the same half-plane, and the origin, which lies on its boundary line, is not an interior point of \(K\). Conversely, if the origin is not an interior point of the convex set \(K\), then there is a line through the origin with \(K\) on one side of it (by the separation theorem if \(0\notin\overline K\), and by the supporting line theorem if \(0\) lies on the boundary of \(K\)). That is, \(K\subseteq\{v\colon v\cdot w\ge0\}\) for some \(w\neq0\), and so is \(N\).</p>
 </details></li>
 <li>In the dovetail of Figure 2, the interface consists of a horizontal segment, a segment from \((0.6,-1)\) to \((0,0)\), and another horizontal segment. Find all directions in which \(q\) can slide.
 <details class="proof"><summary>Solution</summary>
@@ -262,6 +284,8 @@ n\cdot(\gamma-z)^\perp=\dot\gamma^\perp\cdot(\gamma-z)^\perp=\dot\gamma\cdot(\ga
 \]</span>
 <p>So the analogue of <a href="#eq-1">(1)</a> for counterclockwise turns about \(z\) is that \(t\mapsto|\gamma(t)-z|\) is nondecreasing, and for clockwise turns, that it is nonincreasing. As \(z\) goes to infinity in a fixed direction \(u\), the normalized velocity field \((x-z)^\perp/|z|\) converges to the constant vector \(w=-u^\perp\), and the condition for turns becomes <a href="#eq-1">(1)</a>.</p>
 </details>
+<p class="figcap">The velocities of a counterclockwise turn about \(z\). The interface is orange where it recedes from \(z\), and purple where it approaches \(z\).</p>
+<div class="figure" id="fig-recede"></div>
 <details class="fig" open><summary><b>Figure 3: turning</b></summary>
 <p class="figcap">Pick up the pin to choose a pivot \(z\), then pull \(q\) to turn it about \(z\).</p>
 <div class="figure interactive" id="fig-turn"></div>
@@ -283,7 +307,7 @@ n\cdot(\gamma-z)^\perp=\dot\gamma^\perp\cdot(\gamma-z)^\perp=\dot\gamma\cdot(\ga
 <details class="sec" open><summary><h3 id="wiggling">Wiggling does not help</h3></summary>
 <p>The cleanest setting is an idealized puzzle: the whole plane, cut into two pieces along a single curve which goes off to infinity at both ends. Here turns are blocked automatically: whatever the pivot, the interface comes in from infinity and goes back out to infinity, so it somewhere approaches the pivot and somewhere recedes from it. Slides are then the only way to separate the pieces.</p>
 <details class="proof"><summary>Formally</summary>
-<p>Parametrize \(\gamma\) by arclength, \(\gamma\colon\mathbb{R}\to\mathbb{R}^2\). That both ends go to infinity means that \(|\gamma(t)|\to\infty\) as \(t\to\pm\infty\). Fix \(z\in\mathbb{R}^2\) and put \(f(t)=|\gamma(t)-z|^2\). The function \(f\) is locally Lipschitz, with \(f'=2\,\dot\gamma\cdot(\gamma-z)\) away from the corners, and \(f(t)\to\infty\) as \(t\to\pm\infty\). If \(\dot\gamma\cdot(\gamma-z)\ge0\) at every smooth point, then \(f\) is nondecreasing, so \(f(t)\le f(0)\) for all \(t\le0\), contradicting \(f(t)\to\infty\) as \(t\to-\infty\). Hence \(\dot\gamma\cdot(\gamma-z)\lt0\) at some smooth point, and likewise, using \(t\to+\infty\), \(\dot\gamma\cdot(\gamma-z)\gt0\) at another. By <a href="#eq-2">(2)</a>, a counterclockwise turn about \(z\) pushes \(q\) into \(p\) at the first point, and a clockwise turn at the second.</p>
+<p>Parametrize \(\gamma\) by arclength, \(\gamma\colon\mathbb{R}\to\mathbb{R}^2\). That both ends go to infinity means that \(|\gamma(t)|\to\infty\) as \(t\to\pm\infty\). Fix \(z\in\mathbb{R}^2\) and put \(f(t)=|\gamma(t)-z|^2\). The function \(f\) is piecewise smooth, with \(f'=2\,\dot\gamma\cdot(\gamma-z)\) away from the corners, and \(f(t)\to\infty\) as \(t\to\pm\infty\). If \(\dot\gamma\cdot(\gamma-z)\ge0\) at every smooth point, then \(f\) is nondecreasing, so \(f(t)\le f(0)\) for all \(t\le0\), contradicting \(f(t)\to\infty\) as \(t\to-\infty\). Hence \(\dot\gamma\cdot(\gamma-z)\lt0\) at some smooth point, and likewise, using \(t\to+\infty\), \(\dot\gamma\cdot(\gamma-z)\gt0\) at another. By <a href="#eq-2">(2)</a>, a counterclockwise turn about \(z\) pushes \(q\) into \(p\) at the first point, and a clockwise turn at the second.</p>
 </details>
 <details class="fig" open><summary><b>Figure 4: the whole plane, cut in two</b></summary>
 <p class="figcap">A window onto an idealized puzzle: the cut continues to infinity in both directions.</p>
@@ -298,56 +322,87 @@ n\cdot(\gamma-z)^\perp=\dot\gamma^\perp\cdot(\gamma-z)^\perp=\dot\gamma\cdot(\ga
 <details class="proof"><summary>Proof of Theorem 1</summary>
 <ol>
 <li>
-<p>Rotating the picture, we may assume that \(w=(0,1)\). We write \(x=(x_1,x_2)\) and \(\gamma=(\gamma_1,\gamma_2)\). Since \(n=\dot\gamma^\perp\), the assumption reads</p>
+<p>Rotating the picture, we may assume that \(w=(0,1)\). For a point \(x \in \mathbb{R}^2\), write \(x=(x_1,x_2)\). Since \(n=\dot\gamma^\perp\) and \(v^\perp=(-v_2,v_1)\) for every \(v\in\mathbb{R}^2\), we have \(n=(-\dot\gamma_2,\dot\gamma_1)\). Thus the assumption \(n\cdot w\ge0\) reads</p>
 <span class="math">\[
 n\cdot w=\dot\gamma_1\ge0\qquad\text{at every smooth point of }\gamma,
 \]</span>
-<p>i.e. \(\gamma_1\) is nondecreasing. Assume by contradiction that there exist \(y\in q\) and \(s\gt0\) such that \(y+sw\in p\).</p>
-<p>We first move \(y\) sideways to a convenient position. Since \(p\) and \(q\) are open, there is \(\delta\gt0\) such that</p>
+<p>Since \(\gamma_1\) is continuous and piecewise smooth, this means that \(\gamma_1\) is nondecreasing.</p>
+<p>Let \(t_0\) be a smooth point of \(\gamma\) with \(\dot\gamma_1(t_0)\gt0\), and let \(L\) be the vertical line through \(\gamma(t_0)\). Since \(\gamma_1\) is nondecreasing and \(\dot\gamma_1(t_0)\gt0\),</p>
 <span class="math">\[
-y+(c,0)\in q\qquad\text{and}\qquad y+(c,0)+sw\in p\qquad\text{for every }c\in(-\delta,\delta).
+\gamma_1(t)\lt\gamma_1(t_0)\quad\text{for }t\lt t_0\qquad\text{and}\qquad\gamma_1(t)\gt\gamma_1(t_0)\quad\text{for }t\gt t_0,
 \]</span>
-<p>For each such \(c\), the vertical segment from \(y+(c,0)\) to \(y+(c,0)+sw\) joins \(q\) to \(p\), so it meets \(\gamma\). Thus \(\gamma_1(t_\pm)=y_1\pm\delta/2\) for some \(t_-\lt t_+\). On \([t_-,t_+]\) the curve \(\gamma\) has finitely many corners, and \(\gamma_1\) increases by \(\delta\), so by the mean value theorem there is a smooth point \(t_0\in(t_-,t_+)\) with \(\dot\gamma_1(t_0)\gt0\). Put</p>
-<span class="math">\[
-y'=y+\big(\gamma_1(t_0)-y_1,0\big).
-\]</span>
-<p>Since \(|\gamma_1(t_0)-y_1|\lt\delta\), we have</p>
-<span class="math">\[
-y'\in q,\qquad y'+sw\in p\qquad\text{and}\qquad y'_1=\gamma_1(t_0).
-\]</span>
-<p>Since \(\dot\gamma_1(t_0)\gt0\) and \(\gamma_1\) is nondecreasing, \(\gamma_1(t)\lt\gamma_1(t_0)\) for \(t\lt t_0\) and \(\gamma_1(t)\gt\gamma_1(t_0)\) for \(t\gt t_0\). Hence the vertical segment from \(y'\in q\) to \(y'+sw\in p\), which must meet \(\gamma\), meets it only at \(\gamma(t_0)\), where \(n\cdot w=\dot\gamma_1(t_0)\gt0\). Thus the segment passes from the side of \(p\) to the side of \(q\) at \(\gamma(t_0)\), i.e. the points of the segment just below \(\gamma(t_0)\) lie in \(p\). But the part of the segment below \(\gamma(t_0)\) does not meet \(\gamma\), so it lies in the component of \(y'\), which is \(q\), a contradiction.</p>
+<p>so \(L\) meets \(\gamma\) only at \(\gamma(t_0)\). Hence each of the two open half-lines into which \(\gamma(t_0)\) divides \(L\) is a connected subset of \(p\cup q\), and therefore lies in \(p\) or in \(q\). Since \(n\cdot w=\dot\gamma_1(t_0)\gt0\), the points \(\gamma(t_0)+\varepsilon w\) lie in \(q\), and the points \(\gamma(t_0)-\varepsilon w\) lie in \(p\), for small \(\varepsilon\gt0\). Thus the points of \(L\) above \(\gamma(t_0)\) lie in \(q\), and the points of \(L\) below \(\gamma(t_0)\) lie in \(p\).</p>
 <p class="figcap">The vertical line through \(\gamma(t_0)\).</p>
 <div class="figure" id="fig-pf1"></div>
+<p>Now assume by contradiction that there exist \(y\in q\) and \(s\gt0\) such that \(y+sw\in p\). We cannot apply the above to the vertical line through \(y\) directly, since it may contain a segment of \(\gamma\), along which \(\dot\gamma_1=0\). We therefore replace \(y\) by a nearby point \(y'\) whose vertical line passes through a point \(\gamma(t_0)\) with \(\dot\gamma_1(t_0)\gt0\) (see <a href="#fig-pf0">the figure below</a>). Since \(p\) and \(q\) are open, there is \(\delta\gt0\) such that</p>
+<span class="math">\[
+y+(u,0)\in q\qquad\text{and}\qquad y+(u,0)+sw\in p\qquad\text{for every }u\in(-\delta,\delta).
+\]</span>
+<p>For each \(u\in(-\delta,\delta)\), the vertical segment from \(y+(u,0)\) to \(y+(u,0)+sw\) joins \(q\) to \(p\), so it meets \(\gamma\). In particular, \(\gamma_1\) takes the values \(y_1\pm\delta/2\). Since \(\gamma_1\) is nondecreasing, there exist \(t_-\lt t_+\) such that</p>
+<span class="math">\[
+\gamma_1(t_-)=y_1-\delta/2\qquad\text{and}\qquad\gamma_1(t_+)=y_1+\delta/2.
+\]</span>
+<p>On \([t_-,t_+]\) the curve \(\gamma\) has finitely many corners, and \(\gamma_1\) increases by \(\delta\). Hence, by the mean value theorem, there exists a smooth point \(t_0\in(t_-,t_+)\) such that</p>
+<span class="math">\[
+\dot\gamma_1(t_0)\gt0.
+\]</span>
+<p>Put \(y'=y+\big(\gamma_1(t_0)-y_1,0\big)\). Since \(\gamma_1\) is nondecreasing, \(|\gamma_1(t_0)-y_1|\le\delta/2\), so</p>
+<span class="math">\[
+y'\in q\qquad\text{and}\qquad y'+sw\in p.
+\]</span>
+<p>Both points lie on the vertical line \(L\) through \(\gamma(t_0)\). Since the points of \(L\) below \(\gamma(t_0)\) lie in \(p\), the point \(y'\in q\) lies above \(\gamma(t_0)\). Hence so does \(y'+sw\), which therefore lies in \(q\), a contradiction.</p>
+<p class="figcap">The vertical segments from \(y+(u,0)\) to \(y+(u,0)+sw\), \(|u|\lt\delta\), fill the shaded strip, and each of them meets \(\gamma\). The segment through \(y\) may run along \(\gamma\), but the segment through \(y'\) meets \(\gamma\) only at \(\gamma(t_0)\).</p>
+<div class="figure" id="fig-pf0"></div>
 </li>
 <li>
-<p>Suppose that no \(w\neq0\) satisfies \(n\cdot w\ge0\) at every smooth point of \(\gamma\), and let \(g(\tau)\), \(0\le\tau\le1\), be an admissible motion which is not constant. We may assume that \(g(\tau)\) is not the identity for arbitrarily small \(\tau\gt0\), for otherwise we start the motion at the last time at which \(g(\tau)\) is the identity. Choose \(\tau_j\searrow0\) such that \(g(\tau_j)\) is not the identity. Every orientation-preserving isometry is a rotation about the origin followed by a translation, so</p>
+<p>Suppose that no \(w\neq0\) satisfies \(n\cdot w\ge0\) at every smooth point of \(\gamma\), and let \(g_\tau\), \(0\le\tau\le1\), be an admissible motion which is not constant. We may assume that \(g_\tau\) is not the identity for arbitrarily small \(\tau\gt0\), for otherwise we start the motion at the last time at which \(g_\tau\) is the identity. Choose \(\tau_j\searrow0\) such that \(g_{\tau_j}\) is not the identity. Every orientation-preserving isometry is a rotation about the origin followed by a translation,<sup class="fn"><a href="#fn-artin" id="fnref-artin">3</a></sup> so</p>
 <span class="math">\[
-g(\tau_j)(y)=(\cos\theta_j)\,y+(\sin\theta_j)\,y^\perp+a_j,\qquad\text{where }\theta_j\in(-\pi,\pi]\text{ and }a_j\in\mathbb{R}^2.
+g_{\tau_j}(y)=(\cos\theta_j)\,y+(\sin\theta_j)\,y^\perp+a_j,\qquad\text{where }\theta_j\in(-\pi,\pi]\text{ and }a_j\in\mathbb{R}^2.
 \]</span>
-<p>Since \(g\) is continuous and \(g(0)\) is the identity, \(\theta_j\to0\) and \(a_j\to0\). Put</p>
+<p>Since \(g\) is continuous and \(g_0\) is the identity, \(\theta_j\to0\) and \(a_j\to0\). Put</p>
 <span class="math">\[
 r_j=\big(|a_j|^2+\theta_j^2\big)^{1/2},
 \]</span>
 <p>and pass to a subsequence such that \(a_j/r_j\to b\) and \(\theta_j/r_j\to\omega\), so that \((b,\omega)\neq(0,0)\). Then</p>
 <span class="math">\[
-g(\tau_j)(y)=y+r_jV(y)+o(r_j),\qquad\text{where }V(y)=b+\omega y^\perp,
+g_{\tau_j}(y)=y+r_jV(y)+o(r_j),\qquad\text{where }V(y)=b+\omega y^\perp,
 \]</span>
 <p>uniformly for \(y\) in compact sets. We claim that there is a smooth point \(x\) of \(\gamma\) such that</p>
-<span class="math">\[
-n\cdot V(x)\lt0.
+<span id="eq-3"></span><span class="math">\[
+n\cdot V(x)\lt0.\tag{3}
 \]</span>
+<p class="figcap">The vector field \(V\): a translation if \(\omega=0\), and a rotation about \(z=b^\perp/\omega\) if \(\omega\neq0\).</p>
+<div class="figure" id="fig-pf-field"></div>
 <p>If \(\omega=0\), then \(V=b\neq0\), and the claim follows from the assumption that no \(w\neq0\) satisfies \(n\cdot w\ge0\) at every smooth point. If \(\omega\neq0\), then \(V(y)=\omega(y-z)^\perp\), where \(z=b^\perp/\omega\), and by <a href="#eq-2">(2)</a>,</p>
 <span class="math">\[
 n\cdot V(\gamma)=\omega\,\dot\gamma\cdot(\gamma-z)=\frac\omega2\,f',\qquad\text{where }f(t)=|\gamma(t)-z|^2.
 \]</span>
-<p>The function \(f\) is continuous, and \(f(t)\to\infty\) as \(t\to\pm\infty\), since \(|\gamma(t)|\to\infty\). If \(\omega f'\ge0\) at every smooth point, then \(f\) is nondecreasing if \(\omega\gt0\), so that \(f(t)\le f(0)\) for all \(t\le0\), and nonincreasing if \(\omega\lt0\), so that \(f(t)\le f(0)\) for all \(t\ge0\). Both contradict \(f(t)\to\infty\), as \(t\to-\infty\) and as \(t\to+\infty\), respectively, which proves the claim.</p>
-<p class="figcap">\(g(\tau_j)\) pushes \(x_j\) into \(p\).</p>
-<div class="figure" id="fig-pf2"></div>
-<p>Choose \(\alpha\gt0\) with \(\alpha+n\cdot V(x)\lt0\), and choose coordinates centered at \(x\), with the second axis in the direction of \(n\). There is a neighborhood \(U\) of \(x\) in which \(\gamma\) is the graph of a function \(h\) with \(h(0)=h'(0)=0\), and \(q\cap U\) and \(p\cap U\) lie above and below this graph, respectively. Hence, for a fixed vector \(e\), a point \(x+re+o(r)\) with small \(r\gt0\) lies at height \(r\,e\cdot n+o(r)\) above the graph: it lies in \(q\) if \(e\cdot n\gt0\), and in \(p\) if \(e\cdot n\lt0\). In particular, \(x_j=x+\alpha r_jn\) lies in \(q\) for large \(j\), and</p>
+<p>The function \(f\) is continuous, and \(f(t)\to\infty\) as \(t\to\pm\infty\), since \(|\gamma(t)|\to\infty\). If \(\omega f'\ge0\) at every smooth point, then \(f\) is nondecreasing if \(\omega\gt0\), so that \(f(t)\le f(0)\) for all \(t\le0\), and nonincreasing if \(\omega\lt0\), so that \(f(t)\le f(0)\) for all \(t\ge0\). Both contradict \(f(t)\to\infty\), as \(t\to-\infty\) and as \(t\to+\infty\), respectively, which proves <a href="#eq-3">(3)</a>.</p>
+<p class="figcap">The vector \(V\) at points of \(\gamma\). Left: \(\omega=0\); the normals of \(\gamma\) are not contained in a half-plane. Right: \(\omega\gt0\).</p>
+<div class="figure" id="fig-pf-claim"></div>
+<p>Choose \(\alpha\gt0\) such that the vector \(e=\alpha n+V(x)\) satisfies</p>
 <span class="math">\[
-g(\tau_j)(x_j)=x+r_j\big(\alpha n+V(x)\big)+o(r_j)\qquad\text{and}\qquad\big(\alpha n+V(x)\big)\cdot n=\alpha+n\cdot V(x)\lt0,
+e\cdot n=\alpha+n\cdot V(x)\lt0,
 \]</span>
-<p>so \(g(\tau_j)(x_j)\in p\). Thus \(g(\tau_j)(q)\) meets \(p\), which contradicts the assumption that \(g\) is admissible.</p>
+<p>and choose \(\theta\in(0,\pi/2)\) with \(e\cdot n\lt-|e|\sin\theta\). For \(\rho\gt0\), consider the sectors</p>
+<span class="math">\[
+S_\pm=\{x+v\colon 0\lt|v|\lt\rho,\ \pm v\cdot n\gt|v|\sin\theta\},
+\]</span>
+<p>which consist of the points near \(x\) seen from \(x\) at an angle greater than \(\theta\) from the tangent line. Write \(x=\gamma(t)\). Since</p>
+<span class="math">\[
+\gamma(t+\sigma)=x+\sigma\dot\gamma(t)+o(\sigma)\qquad\text{and}\qquad\dot\gamma(t)\cdot n=0,
+\]</span>
+<p>there is \(\sigma_0\gt0\) such that \(\gamma(t+\sigma)\) lies in neither sector for \(0\lt|\sigma|\lt\sigma_0\). Since \(\gamma\) is injective and \(|\gamma|\to\infty\) at both ends, the points \(\gamma(t+\sigma)\) with \(|\sigma|\ge\sigma_0\) stay away from \(x\). Hence, for small \(\rho\), neither sector meets \(\gamma\). Each sector is connected, so it lies in \(p\) or in \(q\), and since \(n\) points into \(q\),</p>
+<span class="math">\[
+S_+\subseteq q\qquad\text{and}\qquad S_-\subseteq p.
+\]</span>
+<p>Now put \(x_j=x+\alpha r_jn\). Then \(x_j\in S_+\subseteq q\) for large \(j\), and</p>
+<span class="math">\[
+g_{\tau_j}(x_j)=x+r_je+o(r_j).
+\]</span>
+<p>Since \(e\cdot n\lt-|e|\sin\theta\), it follows that \(g_{\tau_j}(x_j)\in S_-\subseteq p\) for large \(j\). Thus \(g_{\tau_j}(q)\) meets \(p\), which contradicts the assumption that \(g\) is admissible.</p>
+<p class="figcap">The sectors \(S_+\subseteq q\) and \(S_-\subseteq p\) at \(x\). The motion \(g_{\tau_j}\) carries \(x_j\in S_+\) into \(S_-\).</p>
+<div class="figure" id="fig-pf2"></div>
 </li>
 </ol>
 </details>
@@ -363,31 +418,28 @@ g(\tau_j)(x_j)=x+r_j\big(\alpha n+V(x)\big)+o(r_j)\qquad\text{and}\qquad\big(\al
 </details>
 
 <details class="sec" open><summary><h3 id="counterexamples">&hellip; unless the contact is not clean</h3></summary>
-<p>A real puzzle, however, is bounded. This has two effects. First, turns become genuinely available, and must be excluded by the shape of the interface. Second, the interface has endpoints, near which one piece may obstruct the other in ways that the normals of the interface do not detect. To rule this out, we require the pieces to be in <i>clean contact</i>: roughly speaking, near every point of the interface the two pieces lie on opposite sides of it, also near its endpoints.</p>
-<details class="proof"><summary>Precise definition of clean contact</summary>
-<p>The pieces \(p,q\) are in <i>clean contact</i> if every point of \(\gamma\) other than an endpoint has a neighborhood \(U\) with \(U\setminus\gamma\subseteq p\cup q\), and the following holds at each endpoint \(x_0\) of \(\gamma\) (if any). Let \(\hat\gamma\) be the curve obtained by continuing \(\gamma\) beyond \(x_0\) by its tangent ray at \(x_0\). Then in some neighborhood \(U\) of \(x_0\), the curve \(\hat\gamma\) separates \(U\) into two components, one containing \(p\cap U\) and the other containing \(q\cap U\), and no boundary arc of \(p\) or of \(q\) other than \(\gamma\) is tangent to \(\hat\gamma\) at \(x_0\).</p>
-<p class="figcap">Left: the interface meets the edge of the board transversally at its endpoint \(x_0\), and in the disk \(U\) the continued curve \(\hat\gamma\) separates \(p\) from \(q\). Right: the wedged triangle of <a href="#counterexamples">Figure 6</a> near the corner \(x_0=A\). The interface \(\gamma\) is the base of \(q\), and \(\hat\gamma\) continues it to the left; the piece \(p\) lies on both sides of \(\hat\gamma\), so the contact is not clean. The white region between \(q\) and \(p\) belongs to neither piece.</p>
+<p>A real puzzle, however, is bounded. This has two effects. First, turns become genuinely available, and must be excluded by the shape of the interface. Second, the interface has endpoints, near which one piece may obstruct the other in ways that the normals of the interface do not detect. To rule this out, we require the pieces to be in <i>clean contact</i>: roughly speaking, near every point of the interface the two pieces lie on opposite sides of it, and near an endpoint of the interface they lie on opposite sides of its continuation.</p>
 <div class="figure" id="fig-clean"></div>
 <p>For instance, clean contact holds when a board with smooth boundary is cut into two pieces along a curve meeting the boundary transversally.</p>
+<details class="proof"><summary>Precise definition of clean contact</summary>
+<p>The pieces \(p,q\) are in <i>clean contact</i> if the following two conditions hold.</p>
+<ul>
+<li>Every point of \(\gamma\) other than an endpoint has a neighborhood \(U\) with \(U\setminus\gamma\subseteq p\cup q\).</li>
+<li>Let \(x_0\) be an endpoint of \(\gamma\), and let \(\hat\gamma\) be the curve obtained by continuing \(\gamma\) beyond \(x_0\) by its tangent ray at \(x_0\), so that \(\hat\gamma\) is affine away from \(\gamma\). Then in some neighborhood \(U\) of \(x_0\), the curve \(\hat\gamma\) separates \(U\) into two components, one containing \(p\cap U\) and the other containing \(q\cap U\), and no boundary arc of \(p\) or of \(q\) other than \(\gamma\) is tangent to \(\hat\gamma\) at \(x_0\).</li>
+</ul>
+<div class="figure" id="fig-clean-formal"></div>
 </details>
-<div class="callout" id="theorem-2"><div class="callout-title">Theorem 2 (a bounded puzzle)</div>
+<div class="callout" id="theorem-2"><div class="callout-title">Theorem 2 </div>
 <p>Let \(p,q\) be adjacent pieces of a jigsaw puzzle in clean contact. Parametrize their interface \(\gamma\) by arclength, so that \(q\) lies to its left, and let \(n\) be the unit normal of \(\gamma\) pointing into \(q\). For \(z\in\mathbb{R}^2\) and \(\theta\in\mathbb{R}\), let \(\rho_z(\theta)\) be the counterclockwise rotation about \(z\) by the angle \(\theta\).</p>
-<ol>
+<ol class="pz-pieces">
 <li>If a vector \(w\neq0\) satisfies \(n\cdot w\ge0\) at every smooth point of \(\gamma\), then \(q\) can be moved by a slide in the direction \(w\): there is \(s_0\gt0\) with \((q+sw)\cap p=\varnothing\) for every \(s\in[0,s_0]\).</li>
 <li>If a point \(z\in\mathbb{R}^2\) and a sign \(\varepsilon\in\{1,-1\}\) satisfy \(\varepsilon\,\dot\gamma\cdot(\gamma-z)\ge0\) at every smooth point of \(\gamma\), then \(q\) can be moved by a turn about \(z\): there is \(\theta_0\gt0\) with \(\rho_z(\varepsilon\theta)(q)\cap p=\varnothing\) for every \(\theta\in[0,\theta_0]\).</li>
 <li>Otherwise, \(p\) and \(q\) are interlocked.</li>
 </ol></div>
 <p>In particular, if \(q\) can be moved at all, then it can already be moved by a single slide or a single turn. The proof of Theorem 2 is given in the <a href="#appendix">appendix</a>.</p>
-<p><b>Make your own puzzle.</b> In the figure below you can cut the board yourself, decide what Theorem 2 predicts for your cut, and check the prediction by trying to move \(q\).</p>
-<details class="fig" open><summary><b>Figure 5: your own cut</b></summary>
-<p class="figcap">Drag across the board to cut it in two. While you draw, the circle on the right collects the directions of the normals of your cut.</p>
-<div class="figure interactive" id="fig-custom"></div>
-</details>
-<!-- <p><b>On the proofs.</b> The idea is to look at the initial velocity of an admissible motion. To first order, every rigid motion close to the identity is an infinitesimal slide or an infinitesimal turn about some pivot. If an admissible motion starts with a given velocity, then this velocity cannot push \(q\) into \(p\) anywhere along the interface. For a slide this is condition <a href="#eq-1">(1)</a>, and for a turn it means, by <a href="#eq-2">(2)</a>, that the distance to the pivot is monotone along the interface. Thus (a) and (b) block every admissible motion; this direction does not use clean contact. Conversely, if <a href="#eq-1">(1)</a> holds, a barrier argument shows that the slide actually works for a short time, and similarly for turns. Clean contact enters here, near the endpoints of the interface.</p> -->
-<!-- <p>Readers from robotics will recognize the first-order part of Theorem 2. Encode the contact at a point \(x\) of the interface by the vector \((n,\ x\wedge n)\in\mathbb{R}^3\), where \(x\wedge n=x_1n_2-x_2n_1\). Conditions (a) and (b) together say that these vectors are not contained in any closed half-space of \(\mathbb{R}^3\) bounded by a plane through the origin. This is the planar case of <i>form closure</i> in the theory of grasping and fixturing<sup class="fn"><a href="#fn-mnp" id="fnref-mnp">2</a></sup>, which goes back to Reuleaux<sup class="fn"><a href="#fn-reuleaux" id="fnref-reuleaux">3</a></sup>. What Theorem 2 adds is the passage from the first-order test to arbitrary motions. This passage is not automatic: a body which the first-order test declares free may still be immobilized by second-order, curvature effects<sup class="fn"><a href="#fn-rb" id="fnref-rb">4</a></sup>. In our setting, a failure of clean contact can have a similar effect, and it can also allow motions which no single slide or turn achieves, as the next section shows.</p> -->
 <p>Clean contact cannot be dropped from Theorem 2, as the next two examples show.</p>
-<p><b>The wedged triangle.</b> Cut a triangular hole in a board, with base \(AB\) and base angles less than \(60^\circ\), and let \(q\) be a slightly less tall triangle with the same base, resting in the hole. Then \(q\) touches \(p\) only along its base, so the interface is the segment \(AB\), and all its normals point straight up. Thus, without the assumption of clean contact, the first statement of Theorem 2 would predict that \(q\) can be slid upward. In fact \(q\) cannot move at all. </p>
-<details class="fig" open><summary><b>Figure 6: the wedged triangle</b></summary>
+<p><b>The wedged triangle.</b> Cut a triangular hole in a board, with base \(AB\) and base angles less than \(60^\circ\), and let \(q\) be a slightly less tall triangle with the same base, resting in the hole. Then \(q\) touches \(p\) only along its base, so the interface is the segment \(AB\), and all its normals point straight up. Thus, without the assumption of clean contact, statement <span class="pz-piece n1" role="img" aria-label="1"></span> of Theorem 2 would predict that \(q\) can be slid upward. In fact \(q\) cannot move at all. </p>
+<details class="fig" open><summary><b>Figure 5: the wedged triangle</b></summary>
 <p class="figcap">Try to move the triangle. </p>
 <div class="figure interactive" id="fig-sliver"></div>
 </details>
@@ -395,15 +447,15 @@ g(\tau_j)(x_j)=x+r_j\big(\alpha n+V(x)\big)+o(r_j)\qquad\text{and}\qquad\big(\al
 <details class="proof"><summary>Formally</summary>
 <p>Let \(\Gamma\) be an arc of a parabola, from a point \(E\) inside the board to its edge, and let \(r\gt0\) be so small that every point at distance less than \(2r\) from \(\Gamma\) has a unique nearest point on \(\Gamma\). Drill the channel \(\{x\colon\operatorname{dist}(x,\Gamma)\lt r\}\), and let \(q\) be the open disk of radius \(r\) centered at \(E\); the empty part of the channel belongs to neither piece. The interface is the semicircular end cap of the channel, and the walls of the channel, at distance \(r\) from \(\Gamma\), leave its endpoints tangentially. A disk of radius \(r\) fits in the channel only when it is centered on \(\Gamma\): if its center \(c\) is at distance \(d\in(0,r]\) from \(\Gamma\), then the point at distance \(r'\in(r-d,r)\) beyond \(c\), on the ray from the nearest point of \(\Gamma\) through \(c\), is at distance \(d+r'\gt r\) from \(\Gamma\). A slide moves the center along a segment and a turn along a circular arc, and a parabola contains neither; the only exception is the spin about \(E\), which does not displace the disk. On the other hand, translating \(q\) so that its center runs along \(\Gamma\) takes it out of the board without overlap.</p>
 </details>
-<details class="fig" open><summary><b>Figure 7: the drilled channel</b></summary>
-<p class="figcap">Try to slide or turn the disk out, then pull it out along the channel in &ldquo;free&rdquo; mode. (The disk has a hair of play.)</p>
+<details class="fig" open><summary><b>Figure 6: the drilled channel</b></summary>
+<p class="figcap">Try to slide or turn the disk out, then pull it out along the channel in &ldquo;free&rdquo; mode.</p>
 <div class="figure interactive" id="fig-channel"></div>
 </details>
 <details class="proof exercises"><summary>Exercises</summary>
 <ol class="ex">
 <li>Suppose that the normals of the interface lie in no closed half-plane bounded by a line through the origin. Why does this alone not imply that the pieces are interlocked?
 <details class="proof"><summary>Solution</summary>
-<p>This assumption only rules out slides; a piece whose normals point in all directions may still be turned. For instance, a round head without a neck has normals in no closed half-plane, as in the previous exercise, but from the center of the head the interface is at constant distance, so by the second statement of Theorem 2 the head can be turned about its center. This puzzle is discussed in <a href="#taking-out">Moving a piece vs. taking it out</a>.</p>
+<p>This assumption only rules out slides; a piece whose normals point in all directions may still be turned. For instance, a round head without a neck has normals in no closed half-plane, as in the previous exercise, but from the center of the head the interface is at constant distance, so by statement <span class="pz-piece n2" role="img" aria-label="2"></span> of Theorem 2 the head can be turned about its center. This puzzle is discussed in <a href="#taking-out">Moving a piece vs. taking it out</a>.</p>
 </details></li>
 <li>Show that the wedged triangle is not in clean contact: at which points, and why, does the definition fail?
 <details class="proof"><summary>Solution</summary>
@@ -419,7 +471,7 @@ g(\tau_j)(x_j)=x+r_j\big(\alpha n+V(x)\big)+o(r_j)\qquad\text{and}\qquad\big(\al
 
 <details class="sec" open><summary><h3 id="taking-out">Moving a piece vs. taking it out</h3></summary>
 <p>Theorem 2 tells us whether \(q\) can be moved, but a piece that can be moved need not come out. Here is a round head without a neck, in a socket at the edge of the board. In this figure you may make several slides and turns in a row.</p>
-<details class="fig" open><summary><b>Figure 8: a round head without a neck</b></summary>
+<details class="fig" open><summary><b>Figure 7: a round head without a neck</b></summary>
 <p class="figcap">Try to take \(q\) out.</p>
 <div class="figure interactive" id="fig-out"></div>
 </details>
@@ -431,13 +483,13 @@ g(\tau_j)(x_j)=x+r_j\big(\alpha n+V(x)\big)+o(r_j)\qquad\text{and}\qquad\big(\al
 <li>Can anything of this kind happen in the idealized puzzle of Theorem 1?</li>
 </ol>
 <details class="proof"><summary>Some observations</summary>
-<p>The head is not interlocked: from the center of the head the interface is at constant distance, so by the second statement of Theorem 2, \(q\) can be turned about the center. A turn about the center keeps \(q\) inside its disk, so it never takes \(q\) out. No other single slide or turn moves \(q\) at all, since the normals of the interface sweep more than a half-circle, and from every pivot other than the center the interface both recedes and approaches. Nevertheless, \(q\) can be taken out: turn it about its center by about a quarter turn, and then slide it out obliquely.</p>
+<p>The head is not interlocked: from the center of the head the interface is at constant distance, so by statement <span class="pz-piece n2" role="img" aria-label="2"></span> of Theorem 2, \(q\) can be turned about the center. A turn about the center keeps \(q\) inside its disk, so it never takes \(q\) out. No other single slide or turn moves \(q\) at all, since the normals of the interface sweep more than a half-circle, and from every pivot other than the center the interface both recedes and approaches. Nevertheless, \(q\) can be taken out: turn it about its center by about a quarter turn, and then slide it out obliquely.</p>
 <p>Theorem 2 only concerns the beginning of a motion: it compares the velocity of the motion at time zero with the normals of the interface. Whether \(q\) can be taken out depends on the whole motion, and on the shape of the pieces away from their initial position.</p>
-<p>A natural question is whether a piece that can be taken out can always be taken out by finitely many slides and turns. Without clean contact, the answer is no: in the drilled channel of Figure 7, every slide, and every turn other than a spin about the center of the disk, carries its center off the curve along which the channel was drilled, so no finite sequence of slides and turns displaces the disk, although it can be taken out. We do not know the answer for pieces in clean contact.</p>
+<p>A natural question is whether a piece that can be taken out can always be taken out by finitely many slides and turns. Without clean contact, the answer is no: in the drilled channel of Figure 6, every slide, and every turn other than a spin about the center of the disk, carries its center off the curve along which the channel was drilled, so no finite sequence of slides and turns displaces the disk, although it can be taken out. We do not know the answer for pieces in clean contact.</p>
 <p>In the idealized puzzle, moving a piece and taking it out are the same thing: by Theorem 1, if \(q\) can be moved at all, then a single slide carries it away to infinity.</p>
 </details>
 <p><b>A disk in a round hole.</b> Here is an extreme case. Let \(q\) be a disk, fitted into a round hole of \(p\). The disk can be turned about its center, since this keeps it inside the hole, so by our definition the pieces are not interlocked. Yet the disk can never be taken out, or even displaced: it must stay in the hole, and a disk fits in a round hole of the same size in only one position.</p>
-<details class="fig" open><summary><b>Figure 9: a disk in a round hole</b></summary>
+<details class="fig" open><summary><b>Figure 8: a disk in a round hole</b></summary>
 <p class="figcap">Turn the disk about its center: it spins in its hole, but it never moves out of place.</p>
 <div class="figure interactive" id="fig-disk"></div>
 </details>
@@ -453,10 +505,18 @@ g(\tau_j)(x_j)=x+r_j\big(\alpha n+V(x)\big)+o(r_j)\qquad\text{and}\qquad\big(\al
 </details></li>
 <li>By our definition, the disk in a round hole is not interlocked, although it can never leave its place. Can you think of a definition of &ldquo;interlocked&rdquo; which fits our intuition better? How would Theorem 2 change?
 <details class="proof"><summary>One possible answer</summary>
-<p>Call \(p\) and \(q\) interlocked if every admissible motion leaves the set \(q\) in place, i.e. \(g(\tau)(q)=q\) for every \(\tau\). The disk must stay in the hole, and a disk fits in a round hole of the same size only in its original position; so \(g(\tau)(q)=q\) for every admissible motion, and the pieces are interlocked in the new sense.</p>
-<p>Theorem 2 survives with a single exception. In its third case, every admissible motion is constant, so it leaves \(q\) in place. In the first case, a small slide moves the set \(q\), since a bounded set is not mapped onto itself by a translation. In the second case, a small turn about \(z\) moves the set \(q\), unless \(q\) is mapped onto itself by all turns about \(z\), i.e. unless \(q\) is a disk or an annulus centered at \(z\), as in the round hole. In that case, if no slide moves \(q\), then the pieces are interlocked in the new sense: since \(q\) is symmetric about \(z\), the translation taking \(z\) to \(g(\tau)(z)\) maps \(q\) onto the same set as \(g(\tau)\), so these translations form an admissible motion, and if it were not constant, then by the argument in the proof of Theorem 1 some slide would move \(q\). So with the new definition, Theorem 2 changes only in that a disk or an annulus which no slide moves counts as interlocked, although it can be turned about its center.</p>
+<p>Call \(p\) and \(q\) interlocked if every admissible motion leaves the set \(q\) in place, i.e. \(g_\tau(q)=q\) for every \(\tau\). The disk must stay in the hole, and a disk fits in a round hole of the same size only in its original position; so \(g_\tau(q)=q\) for every admissible motion, and the pieces are interlocked in the new sense.</p>
+<p>Theorem 2 survives with a single exception. In statement <span class="pz-piece n3" role="img" aria-label="3"></span>, every admissible motion is constant, so it leaves \(q\) in place. In statement <span class="pz-piece n1" role="img" aria-label="1"></span>, a small slide moves the set \(q\), since a bounded set is not mapped onto itself by a translation. In statement <span class="pz-piece n2" role="img" aria-label="2"></span>, a small turn about \(z\) moves the set \(q\), unless \(q\) is mapped onto itself by all turns about \(z\), i.e. unless \(q\) is a disk or an annulus centered at \(z\), as in the round hole. In that case, if no slide moves \(q\), then the pieces are interlocked in the new sense: since \(q\) is symmetric about \(z\), the translation taking \(z\) to \(g_\tau(z)\) maps \(q\) onto the same set as \(g_\tau\), so these translations form an admissible motion, and if it were not constant, then by the argument in the proof of Theorem 1 some slide would move \(q\). So with the new definition, Theorem 2 changes only in that a disk or an annulus which no slide moves counts as interlocked, although it can be turned about its center.</p>
 </details></li>
 </ol>
+</details>
+</details>
+
+<details class="sec" open><summary><h3 id="own-puzzle">Make your own puzzle</h3></summary>
+<p>In the figure below you can cut the board yourself, decide what Theorem 2 predicts for your cut, and check the prediction by trying to move \(q\).</p>
+<details class="fig" open><summary><b>Figure 9: your own cut</b></summary>
+<p class="figcap">Drag across the board to cut it in two. While you draw, the circle on the right collects the directions of the normals of your cut.</p>
+<div class="figure interactive" id="fig-custom"></div>
 </details>
 </details>
 
@@ -482,7 +542,7 @@ g(\tau_j)(x_j)=x+r_j\big(\alpha n+V(x)\big)+o(r_j)\qquad\text{and}\qquad\big(\al
 <p>Across an infinite cut the two tangents would meet, so we replace them by the two horizontal half-lines which leave the endpoints of \(\Gamma\) to the left. They meet \(\Gamma\) at two corners of exterior angle \(\delta/2\), so the total curvature is \(\pi+2\delta\). The argument above applies without change: the interface approaches the origin along the lower half-line and recedes from it along the upper one.</p>
 <p>Letting \(\delta\to0\) proves the second statement of the Proposition.</p>
 </details>
-<p>The extremal shapes differ from those in Fenchel's theorem<sup class="fn"><a href="#fn-fenchel" id="fnref-fenchel">5</a></sup>, by which the total curvature of a closed curve is at least \(2\pi\), with equality only for plane convex curves. (A related theorem of F&aacute;ry<sup class="fn"><a href="#fn-fary" id="fnref-fary">6</a></sup> and Milnor<sup class="fn"><a href="#fn-milnor" id="fnref-milnor">7</a></sup> says that a knotted curve in space has total curvature greater than \(4\pi\).) Here a circular arc alone does not suffice in a bounded board: the piece can be turned about its center (see <a href="#taking-out">Figure 8</a>). The straight walls of the hook cost no bending, and block that turn.</p>
+<p>The extremal shapes differ from those in Fenchel's theorem<sup class="fn"><a href="#fn-fenchel" id="fnref-fenchel">7</a></sup>, by which the total curvature of a closed curve is at least \(2\pi\), with equality only for plane convex curves. (A related theorem of F&aacute;ry<sup class="fn"><a href="#fn-fary" id="fnref-fary">8</a></sup> and Milnor<sup class="fn"><a href="#fn-milnor" id="fnref-milnor">9</a></sup> says that a knotted curve in space has total curvature greater than \(4\pi\).) Here a circular arc alone does not suffice in a bounded board: the piece can be turned about its center (see <a href="#taking-out">Figure 7</a>). The straight walls of the hook cost no bending, and block that turn.</p>
 <details class="proof exercises"><summary>Exercises</summary>
 <ol class="ex">
 <li>In Figure 10, suppose that the arc is shorter than a half-circle. Show that \(q\) slides out.
@@ -491,84 +551,87 @@ g(\tau_j)(x_j)=x+r_j\big(\alpha n+V(x)\big)+o(r_j)\qquad\text{and}\qquad\big(\al
 </details></li>
 <li>Show that the Proposition fails without clean contact: find interlocked pieces of a bounded puzzle whose interface has total curvature \(0\).
 <details class="proof"><summary>Solution</summary>
-<p>The wedged triangle of Figure 6: its interface is a straight segment, whose tangent does not turn at all, and yet the pieces are interlocked. The corners of the hole, which hold \(q\) in place, are not part of the interface.</p>
+<p>The wedged triangle of Figure 5: its interface is a straight segment, whose tangent does not turn at all, and yet the pieces are interlocked. The corners of the hole, which hold \(q\) in place, are not part of the interface.</p>
 </details></li>
 </ol>
 </details>
 </details>
 
 <details class="sec" open><summary><h3 id="appendix">Appendix: proof of Theorem 2</h3></summary>
+<p>Let us restate <a href="#theorem-2">Theorem 2</a>.</p>
+<div class="callout"><div class="callout-title">Theorem 2</div>
+<p>Let \(p,q\) be adjacent pieces of a jigsaw puzzle in clean contact. Parametrize their interface \(\gamma\) by arclength, so that \(q\) lies to its left, and let \(n\) be the unit normal of \(\gamma\) pointing into \(q\). For \(z\in\mathbb{R}^2\) and \(\theta\in\mathbb{R}\), let \(\rho_z(\theta)\) be the counterclockwise rotation about \(z\) by the angle \(\theta\).</p>
+<ol class="pz-pieces">
+<li>If a vector \(w\neq0\) satisfies \(n\cdot w\ge0\) at every smooth point of \(\gamma\), then \(q\) can be moved by a slide in the direction \(w\): there is \(s_0\gt0\) with \((q+sw)\cap p=\varnothing\) for every \(s\in[0,s_0]\).</li>
+<li>If a point \(z\in\mathbb{R}^2\) and a sign \(\varepsilon\in\{1,-1\}\) satisfy \(\varepsilon\,\dot\gamma\cdot(\gamma-z)\ge0\) at every smooth point of \(\gamma\), then \(q\) can be moved by a turn about \(z\): there is \(\theta_0\gt0\) with \(\rho_z(\varepsilon\theta)(q)\cap p=\varnothing\) for every \(\theta\in[0,\theta_0]\).</li>
+<li>Otherwise, \(p\) and \(q\) are interlocked.</li>
+</ol></div>
 <p>Throughout, \(p\) and \(q\) are adjacent pieces in clean contact. Let \(X\) be one of the vector fields</p>
 <span class="math">\[
 X(x)=w\quad(w\neq0)\qquad\text{or}\qquad X(x)=\varepsilon(x-z)^\perp\quad(z\in\mathbb{R}^2,\ \varepsilon\in\{1,-1\}),
 \]</span>
-<p>and let \(\Phi_s\) be its flow, i.e. the slide \(\Phi_s(x)=x+sw\), respectively the turn \(\Phi_s=\rho_z(\varepsilon s)\). We call a curve \(s\mapsto\Phi_s(y)\), \(s_1\le s\le s_2\), a <i>trajectory</i>. The statements of Theorem 2 about slides and turns follow from Lemma 2 below, whose proof uses Lemma 1.</p>
+<p>and let \(\Phi_s\) be its flow, i.e. the slide \(\Phi_s(x)=x+sw\), respectively the turn \(\Phi_s=\rho_z(\varepsilon s)\). We call a curve \(s\mapsto\Phi_s(y)\), \(s_1\le s\le s_2\), a <i>trajectory</i>. Statements <span class="pz-piece n1" role="img" aria-label="1"></span> and <span class="pz-piece n2" role="img" aria-label="2"></span> of Theorem 2 follow from Lemma 2 below, whose proof uses Lemma 1, and statement <span class="pz-piece n3" role="img" aria-label="3"></span> follows from the argument in the proof of Theorem 1.</p>
 <div class="callout"><div class="callout-title">Lemma 1</div>
 <p>Let \(B\) be a disk, and let \(\Sigma\) be an oriented piecewise-smooth arc crossing \(B\), which divides \(B\) into two sides, \(B^+\) on its left and \(B^-\) on its right. Let \(\nu=\dot\Sigma^\perp\), and suppose that</p>
-<span id="eq-3"></span><span class="math">\[
-\nu\cdot X\ge0\qquad\text{at every smooth point of }\Sigma\text{ in }B.\tag{3}
+<span id="eq-4"></span><span class="math">\[
+\nu\cdot X\ge0\qquad\text{at every smooth point of }\Sigma\text{ in }B.\tag{4}
 \]</span>
 <p>Then no trajectory in \(B\) which starts in \(B^+\) reaches \(\Sigma\).</p>
 </div>
+<p class="figcap">A turn: \(\Sigma\) and some trajectories.</p>
+<div class="figure" id="fig-l1a"></div>
 <details class="proof"><summary>Proof of Lemma 1</summary>
 <p>It suffices to show that no trajectory in \(B\) leads from \(B^+\) to \(B^-\). Indeed, suppose that \(y\in B^+\), that \(\Phi_s(y)\in\Sigma\), and that the trajectory from \(y\) to \(\Phi_s(y)\) lies in \(B\). Every point of \(\Sigma\) is a limit of points of \(B^-\), and \(\Phi_s\) is an isometry. So there are points \(y'\) arbitrarily close to \(y\) with \(\Phi_s(y')\in B^-\), and if \(y'\) is close enough to \(y\), then \(y'\in B^+\) and the trajectory from \(y'\) to \(\Phi_s(y')\) lies in \(B\).</p>
 <p>Put \(\ell(x)=x_1\) if \(X=w\), where we rotate the picture so that \(w=(0,1)\), and \(\ell(x)=\varepsilon|x-z|\) if \(X=\varepsilon(x-z)^\perp\). Then \(\ell\) is constant along trajectories. At a smooth point of \(\Sigma\) other than \(z\), by <a href="#eq-2">(2)</a>,</p>
 <span class="math">\[
 \nu\cdot X=(\ell\circ\Sigma)'\ \text{ for a slide},\qquad \nu\cdot X=|\Sigma-z|\,(\ell\circ\Sigma)'\ \text{ for a turn}.
 \]</span>
-<p>Hence \(\ell\circ\Sigma\) is differentiable, with nonnegative derivative by <a href="#eq-3">(3)</a>, except at the finitely many points where \(\Sigma\) has a corner or passes through \(z\). Being continuous, \(\ell\circ\Sigma\) is nondecreasing along \(\Sigma\cap B\).</p>
+<p>Hence \(\ell\circ\Sigma\) is differentiable, with nonnegative derivative by <a href="#eq-4">(4)</a>, except at the finitely many points where \(\Sigma\) has a corner or passes through \(z\). Being continuous, \(\ell\circ\Sigma\) is nondecreasing along \(\Sigma\cap B\).</p>
 <p>Now suppose that a trajectory in \(B\) leads from \(y\in B^+\) to \(\Phi_s(y)\in B^-\). Then \(y\neq z\), as the trajectory of \(z\) is constant; so \(\nabla\ell(y)\neq0\). Since \(B\), \(B^+\) and \(B^-\) are open, there is a disk \(D\) around \(y\) such that for every \(y'\in D\), the trajectory from \(y'\) to \(\Phi_s(y')\) also lies in \(B\) and leads from \(B^+\) to \(B^-\). Such a trajectory meets \(\Sigma\), at a point where \(\ell\) takes the value \(\ell(y')\). As \(\nabla\ell(y)\neq0\), the set \(\ell(D)\) is an interval of positive length, and \(\ell\circ\Sigma\) takes every value in it. Choose \(t_-\lt t_+\) with \(\ell(\Sigma(t_-))\lt\ell(\Sigma(t_+))\), both in \(\ell(D)\). Since \(\ell\circ\Sigma\) increases on \([t_-,t_+]\), it increases on some subinterval on which \(\Sigma\) is smooth and avoids \(z\), and by the mean value theorem there is \(t_0\) in that subinterval with</p>
 <span class="math">\[
 (\ell\circ\Sigma)'(t_0)\gt0.
 \]</span>
 <p>Thus \(\nu\cdot X\gt0\) at \(\Sigma(t_0)\). Moreover, \(\ell(\Sigma(t_0))\in\ell(D)\), so we may choose \(y'\in D\) with \(\ell(y')=\ell(\Sigma(t_0))\). Since \(\ell\circ\Sigma\) is nondecreasing and \((\ell\circ\Sigma)'(t_0)\gt0\), we have \(\ell(\Sigma(t))\lt\ell(\Sigma(t_0))\) for \(t\lt t_0\) and \(\ell(\Sigma(t))\gt\ell(\Sigma(t_0))\) for \(t\gt t_0\). The trajectory of \(y'\) lies in the level set \(\{\ell=\ell(y')\}\), so it meets \(\Sigma\) only at \(\Sigma(t_0)\). As \(\nu\cdot X\gt0\) there, it crosses \(\Sigma\) from \(B^-\) to \(B^+\). But it starts in \(B^+\) and does not meet \(\Sigma\) before \(\Sigma(t_0)\), so it lies in \(B^+\) until then. This contradiction proves Lemma 1.</p>
+<p class="figcap">The level circle through \(\Sigma(t_0)\).</p>
+<div class="figure" id="fig-l1b"></div>
 </details>
 <div class="callout"><div class="callout-title">Lemma 2</div>
 <p>Suppose that</p>
-<span id="eq-4"></span><span class="math">\[
-n\cdot X\ge0\qquad\text{at every smooth point of }\gamma.\tag{4}
+<span id="eq-5"></span><span class="math">\[
+n\cdot X\ge0\qquad\text{at every smooth point of }\gamma.\tag{5}
 \]</span>
 <p>Then there is \(s_0\gt0\) such that \(\Phi_s(q)\cap p=\varnothing\) for every \(s\in[0,s_0]\).</p>
 </div>
 <details class="proof"><summary>Proof of Lemma 2</summary>
 <p>Suppose that no such \(s_0\) exists. Then there are \(s_j\searrow0\) and \(y_j\in q\) with \(\Phi_{s_j}(y_j)\in p\). Since \(|\Phi_s(y)-y|\le s|w|\), respectively \(\le s|y-z|\), we may pass to a subsequence such that \(y_j\) and \(\Phi_{s_j}(y_j)\) converge to the same point \(x\). Then \(x\in\overline q\cap\overline p=\gamma\), and for every disk \(B\) around \(x\), the trajectory from \(y_j\) to \(\Phi_{s_j}(y_j)\) lies in \(B\) for all large \(j\). We derive a contradiction, distinguishing whether or not \(x\) is an endpoint of \(\gamma\).</p>
-<p>Let first \(x\) be any point of \(\gamma\) other than an endpoint, and let \(B\) be a small disk around \(x\). Then \(\gamma\cap B\) is a single arc, dividing \(B\) into two sides, and \(B\setminus\gamma\subseteq p\cup q\) by clean contact. Each side is connected, hence contained in \(p\) or in \(q\); since \(q\) lies to the left of \(\gamma\) and \(p\) meets \(B\), the left side is \(q\cap B\) and the right side is \(p\cap B\). By <a href="#eq-4">(4)</a>, Lemma 1 applies to \(\Sigma=\gamma\), \(\nu=n\):</p>
-<span id="eq-5"></span><span class="math">\[
-\text{no trajectory in }B\text{ which starts in }q\text{ reaches }\gamma.\tag{5}
-\]</span>
-<p>In particular, if the point \(x\) found above is not an endpoint, then for large \(j\) the trajectory from \(y_j\in q\) to \(\Phi_{s_j}(y_j)\in p\) lies in \(B\), hence meets \(\gamma\), contradicting <a href="#eq-5">(5)</a>.</p>
-<p>Suppose then that \(x=x_0\) is an endpoint of \(\gamma\). Let \(\hat\gamma\) be as in the definition of clean contact, oriented like \(\gamma\), and let \(\nu=\dot{\hat\gamma}^\perp\), which agrees with \(n\) along \(\gamma\). Let \(\psi\) be the polar angle about \(x_0\), measured from the tangent ray, in the sense for which \(\nu(x_0)\) has angle \(\pi/2\); thus \(\gamma\) leaves \(x_0\) in the direction \(\psi=\pi\). By clean contact, there is a small disk \(B\) around \(x_0\) in which \(q\) lies on the side of \(\hat\gamma\) to which \(\nu\) points, and \(p\) on the other side. In \(B\), the boundaries of \(p\) and \(q\) consist of \(\gamma\) and of finitely many arcs leaving \(x_0\), none of them tangent to \(\hat\gamma\). Hence there is \(\beta\in(0,\pi/4)\) such that, after shrinking \(B\),</p>
+<p>Let first \(x\) be any point of \(\gamma\) other than an endpoint, and let \(B\) be a small disk around \(x\). Then \(\gamma\cap B\) is a single arc, dividing \(B\) into two sides, and \(B\setminus\gamma\subseteq p\cup q\) by clean contact. Each side is connected, hence contained in \(p\) or in \(q\); since \(q\) lies to the left of \(\gamma\) and \(p\) meets \(B\), the left side is \(q\cap B\) and the right side is \(p\cap B\). By <a href="#eq-5">(5)</a>, Lemma 1 applies to \(\Sigma=\gamma\), \(\nu=n\):</p>
 <span id="eq-6"></span><span class="math">\[
-\begin{aligned}&\text{the arcs of }\partial q\text{ other than }\gamma\text{ lie in }\{\beta\le\psi\le\pi-\beta\},\\&\text{the arcs of }\partial p\text{ other than }\gamma\text{ lie in }\{-\pi+\beta\le\psi\le-\beta\}.\end{aligned}\tag{6}
+\text{no trajectory in }B\text{ which starts in }q\text{ reaches }\gamma.\tag{6}
 \]</span>
-<p>By <a href="#eq-4">(4)</a> and continuity, \(\nu(x_0)\cdot X(x_0)\ge0\).</p>
-<p>Suppose first that \(X(x_0)\neq0\). We find an arc \(\Sigma\) through \(x_0\), oriented like \(\gamma\), which divides a small disk \(B\) around \(x_0\) into two sides, with \(q\cap B\) on its left and \(p\cap B\) on its right, and which satisfies <a href="#eq-3">(3)</a>. Then, for large \(j\), the trajectory from \(y_j\in q\) to \(\Phi_{s_j}(y_j)\in p\) lies in \(B\), hence meets \(\Sigma\), contradicting Lemma 1.</p>
-<p>If \(\nu(x_0)\cdot X(x_0)\gt0\), let \(\Sigma=\hat\gamma\). Along \(\gamma\), <a href="#eq-3">(3)</a> is <a href="#eq-4">(4)</a>; along the tangent ray, \(\nu\cdot X\gt0\) if \(B\) is small.</p>
-<p>Otherwise, \(X(x_0)\) is parallel to the tangent ray. Let \(O\) be the orbit of \(x_0\), i.e. the line or circle traced by \(x_0\) under the flow; it is tangent to the ray at \(x_0\). Let \(\Sigma\) be the curve obtained by continuing \(\gamma\) beyond \(x_0\) by the half of \(O\) which starts in the direction \(\psi=0\). Along \(O\) we have \(\nu\cdot X=0\), since \(X\) is tangent to its own orbits, so \(\Sigma\) satisfies <a href="#eq-3">(3)</a>.</p>
-<p>It remains to show that \(q\) and \(p\) lie on the two sides of \(\Sigma\). Near \(x_0\), the half of \(O\) and the region between it and the tangent ray lie in the sector \(\{|\psi|\lt\beta\}\). We show that this sector contains no point of \(p\cup q\). By <a href="#eq-6">(6)</a>, and since \(\gamma\) leaves \(x_0\) in the direction \(\psi=\pi\), neither half of the sector meets \(\partial p\) or \(\partial q\). So the half \(\{0\lt\psi\lt\beta\}\) is either contained in \(q\) or disjoint from it. In the first case, the tangent ray would be a boundary arc of \(q\) tangent to \(\hat\gamma\), which is excluded. It is also disjoint from \(p\), which lies on the other side of \(\hat\gamma\). The same argument applies to the half \(\{-\beta\lt\psi\lt0\}\). Hence \(q\) and \(p\) lie on the same sides of \(\Sigma\) as of \(\hat\gamma\).</p>
+<p>In particular, if the point \(x\) found above is not an endpoint, then for large \(j\) the trajectory from \(y_j\in q\) to \(\Phi_{s_j}(y_j)\in p\) lies in \(B\), hence meets \(\gamma\), contradicting <a href="#eq-6">(6)</a>.</p>
+<p>Suppose then that \(x=x_0\) is an endpoint of \(\gamma\). Let \(\hat\gamma\) be as in the definition of clean contact, oriented like \(\gamma\), and let \(\nu=\dot{\hat\gamma}^\perp\), which agrees with \(n\) along \(\gamma\). Let \(\psi\) be the polar angle about \(x_0\), measured from the tangent ray, in the sense for which \(\nu(x_0)\) has angle \(\pi/2\); thus \(\gamma\) leaves \(x_0\) in the direction \(\psi=\pi\). By clean contact, there is a small disk \(B\) around \(x_0\) in which \(q\) lies on the side of \(\hat\gamma\) to which \(\nu\) points, and \(p\) on the other side. In \(B\), the boundaries of \(p\) and \(q\) consist of \(\gamma\) and of finitely many arcs leaving \(x_0\), none of them tangent to \(\hat\gamma\). Hence there is \(\beta\in(0,\pi/4)\) such that, after shrinking \(B\),</p>
+<span id="eq-7"></span><span class="math">\[
+\begin{aligned}&\text{the arcs of }\partial q\text{ other than }\gamma\text{ lie in }\{\beta\le\psi\le\pi-\beta\},\\&\text{the arcs of }\partial p\text{ other than }\gamma\text{ lie in }\{-\pi+\beta\le\psi\le-\beta\}.\end{aligned}\tag{7}
+\]</span>
+<p>By <a href="#eq-5">(5)</a> and continuity, \(\nu(x_0)\cdot X(x_0)\ge0\).</p>
+<p>Suppose first that \(X(x_0)\neq0\). We find an arc \(\Sigma\) through \(x_0\), oriented like \(\gamma\), which divides a small disk \(B\) around \(x_0\) into two sides, with \(q\cap B\) on its left and \(p\cap B\) on its right, and which satisfies <a href="#eq-4">(4)</a>. Then, for large \(j\), the trajectory from \(y_j\in q\) to \(\Phi_{s_j}(y_j)\in p\) lies in \(B\), hence meets \(\Sigma\), contradicting Lemma 1.</p>
+<p>If \(\nu(x_0)\cdot X(x_0)\gt0\), let \(\Sigma=\hat\gamma\). Along \(\gamma\), <a href="#eq-4">(4)</a> is <a href="#eq-5">(5)</a>; along the tangent ray, \(\nu\cdot X\gt0\) if \(B\) is small.</p>
+<p>Otherwise, \(X(x_0)\) is parallel to the tangent ray. Let \(O\) be the orbit of \(x_0\), i.e. the line or circle traced by \(x_0\) under the flow; it is tangent to the ray at \(x_0\). Let \(\Sigma\) be the curve obtained by continuing \(\gamma\) beyond \(x_0\) by the half of \(O\) which starts in the direction \(\psi=0\). Along \(O\) we have \(\nu\cdot X=0\), since \(X\) is tangent to its own orbits, so \(\Sigma\) satisfies <a href="#eq-4">(4)</a>.</p>
+<p>It remains to show that \(q\) and \(p\) lie on the two sides of \(\Sigma\). Near \(x_0\), the half of \(O\) and the region between it and the tangent ray lie in the sector \(\{|\psi|\lt\beta\}\). We show that this sector contains no point of \(p\cup q\). By <a href="#eq-7">(7)</a>, and since \(\gamma\) leaves \(x_0\) in the direction \(\psi=\pi\), neither half of the sector meets \(\partial p\) or \(\partial q\). So the half \(\{0\lt\psi\lt\beta\}\) is either contained in \(q\) or disjoint from it. In the first case, the tangent ray would be a boundary arc of \(q\) tangent to \(\hat\gamma\), which is excluded. It is also disjoint from \(p\), which lies on the other side of \(\hat\gamma\). The same argument applies to the half \(\{-\beta\lt\psi\lt0\}\). Hence \(q\) and \(p\) lie on the same sides of \(\Sigma\) as of \(\hat\gamma\).</p>
 <p>Suppose now that \(X(x_0)=0\). Then \(z=x_0\), and \(\Phi_s=\rho_{x_0}(\varepsilon s)\) turns points about \(x_0\) by the angle \(\varepsilon s\), keeping their distance to \(x_0\). Since \(q\) lies on the side of \(\hat\gamma\) to which \(\nu\) points, and \(\hat\gamma\) is tangent at \(x_0\) to the line \(\{\psi\in\{0,\pi\}\}\), we have, if \(B\) is small,</p>
 <span class="math">\[
 -\beta/2\lt\psi\lt\pi+\beta/2\pmod{2\pi}\qquad\text{on }q\cap B.
 \]</span>
-<p>Let \(j\) be so large that \(s_j\le\beta/2\) and the trajectory from \(y_j\) lies in \(B\). It stays in \(\{-\beta\lt\psi\lt\pi+\beta\}\), so by <a href="#eq-6">(6)</a> it does not meet \(\partial p\setminus\gamma\); and it does not meet \(x_0\). Let \(x^*\) be its first point in \(\overline p\). Since \(p\) is open and \(y_j\notin\overline p\), the point \(x^*\) lies in \(\partial p\); so it is a point of \(\gamma\) other than \(x_0\), which is smooth if \(B\) is small. Just before \(x^*\), the trajectory lies in a small disk around \(x^*\), as in <a href="#eq-5">(5)</a>, and outside \(\overline p\), hence in \(q\). This contradicts <a href="#eq-5">(5)</a>.</p>
+<p>Let \(j\) be so large that \(s_j\le\beta/2\) and the trajectory from \(y_j\) lies in \(B\). It stays in \(\{-\beta\lt\psi\lt\pi+\beta\}\), so by <a href="#eq-7">(7)</a> it does not meet \(\partial p\setminus\gamma\); and it does not meet \(x_0\). Let \(x^*\) be its first point in \(\overline p\). Since \(p\) is open and \(y_j\notin\overline p\), the point \(x^*\) lies in \(\partial p\); so it is a point of \(\gamma\) other than \(x_0\), which is smooth if \(B\) is small. Just before \(x^*\), the trajectory lies in a small disk around \(x^*\), as in <a href="#eq-6">(6)</a>, and outside \(\overline p\), hence in \(q\). This contradicts <a href="#eq-6">(6)</a>.</p>
 <p>In all cases we have reached a contradiction, which proves Lemma 2.</p>
 </details>
-<div class="callout">
-<p>If a vector \(w\neq0\) satisfies \(n\cdot w\ge0\) at every smooth point of \(\gamma\), then there is \(s_0\gt0\) with \((q+sw)\cap p=\varnothing\) for every \(s\in[0,s_0]\).</p>
-</div>
-<p>Apply Lemma 2 to \(X(x)=w\). Then <a href="#eq-4">(4)</a> is the assumption \(n\cdot w\ge0\), and since \(\Phi_s(x)=x+sw\), the conclusion of Lemma 2 is \((q+sw)\cap p=\varnothing\) for every \(s\in[0,s_0]\).</p>
-<div class="callout">
-<p>If a point \(z\in\mathbb{R}^2\) and a sign \(\varepsilon\in\{1,-1\}\) satisfy \(\varepsilon\,\dot\gamma\cdot(\gamma-z)\ge0\) at every smooth point of \(\gamma\), then there is \(\theta_0\gt0\) with \(\rho_z(\varepsilon\theta)(q)\cap p=\varnothing\) for every \(\theta\in[0,\theta_0]\).</p>
-</div>
-<p>Apply Lemma 2 to \(X(x)=\varepsilon(x-z)^\perp\). By <a href="#eq-2">(2)</a>, \(n\cdot X=\varepsilon\,\dot\gamma\cdot(\gamma-z)\) at every smooth point of \(\gamma\), so <a href="#eq-4">(4)</a> is the assumption \(\varepsilon\,\dot\gamma\cdot(\gamma-z)\ge0\). Since \(\Phi_s=\rho_z(\varepsilon s)\), the conclusion of Lemma 2 is \(\rho_z(\varepsilon s)(q)\cap p=\varnothing\) for every \(s\in[0,s_0]\), i.e. the statement with \(\theta_0=s_0\).</p>
-<div class="callout">
-<p>Suppose that there is no \(w\neq0\) with \(n\cdot w\ge0\) at every smooth point of \(\gamma\), and no \(z\in\mathbb{R}^2\) and \(\varepsilon\in\{1,-1\}\) with \(\varepsilon\,\dot\gamma\cdot(\gamma-z)\ge0\) at every smooth point of \(\gamma\). Then \(p\) and \(q\) are interlocked.</p>
-</div>
-<p>Let \(g\) be an admissible motion which is not constant, and let \(V(y)=b+\omega y^\perp\), with \((b,\omega)\neq(0,0)\), be its initial velocity; the same argument as in the proof of Theorem 1 shows that</p>
+<p><i>Proof of <span class="pz-piece n1" role="img" aria-label="the first statement"></span>.</i> Apply Lemma 2 to \(X(x)=w\). Then <a href="#eq-5">(5)</a> is the assumption \(n\cdot w\ge0\), and since \(\Phi_s(x)=x+sw\), Lemma 2 implies that \((q+sw)\cap p=\varnothing\) for every \(s\in[0,s_0]\).</p>
+<p><i>Proof of <span class="pz-piece n2" role="img" aria-label="the second statement"></span>.</i> Apply Lemma 2 to \(X(x)=\varepsilon(x-z)^\perp\). By <a href="#eq-2">(2)</a>, \(n\cdot X=\varepsilon\,\dot\gamma\cdot(\gamma-z)\) at every smooth point of \(\gamma\), so <a href="#eq-5">(5)</a> is the assumption \(\varepsilon\,\dot\gamma\cdot(\gamma-z)\ge0\). Since \(\Phi_s=\rho_z(\varepsilon s)\), Lemma 2 implies that \(\rho_z(\varepsilon s)(q)\cap p=\varnothing\) for every \(s\in[0,s_0]\), i.e. the statement with \(\theta_0=s_0\).</p>
+<p><i>Proof of <span class="pz-piece n3" role="img" aria-label="the third statement"></span>.</i> Suppose that the hypotheses of <span class="pz-piece n1" role="img" aria-label="the first statement"></span> and <span class="pz-piece n2" role="img" aria-label="the second statement"></span> fail for every \(w\), \(z\) and \(\varepsilon\). Let \(g\) be an admissible motion which is not constant, and let \(V(y)=b+\omega y^\perp\), with \((b,\omega)\neq(0,0)\), be its initial velocity; the same argument as in the proof of Theorem 1 shows that</p>
 <span class="math">\[
 n\cdot V\ge0\qquad\text{at every smooth point of }\gamma,
 \]</span>
-<p>for otherwise \(g(\tau_j)(q)\) meets \(p\) for large \(j\). If \(\omega=0\), then \(w=b\neq0\) satisfies \(n\cdot w\ge0\) at every smooth point of \(\gamma\). If \(\omega\neq0\), then \(V(y)=\omega(y-z)^\perp\), where \(z=b^\perp/\omega\), and by <a href="#eq-2">(2)</a>, \(\varepsilon\,\dot\gamma\cdot(\gamma-z)\ge0\) at every smooth point of \(\gamma\), where \(\varepsilon\) is the sign of \(\omega\). Both contradict the assumption. Hence every admissible motion is constant, i.e. \(p\) and \(q\) are interlocked.</p>
+<p>for otherwise \(g_{\tau_j}(q)\) meets \(p\) for large \(j\). If \(\omega=0\), then \(w=b\neq0\) satisfies \(n\cdot w\ge0\) at every smooth point of \(\gamma\). If \(\omega\neq0\), then \(V(y)=\omega(y-z)^\perp\), where \(z=b^\perp/\omega\), and by <a href="#eq-2">(2)</a>, \(\varepsilon\,\dot\gamma\cdot(\gamma-z)\ge0\) at every smooth point of \(\gamma\), where \(\varepsilon\) is the sign of \(\omega\). Both contradict the assumption. Hence every admissible motion is constant, i.e. \(p\) and \(q\) are interlocked.</p>
 </details>
 
 <h4>Acknowledgements</h4>
@@ -576,7 +639,9 @@ n\cdot V\ge0\qquad\text{at every smooth point of }\gamma,
 
 <h4>Notes and references</h4>
 <ol class="footnotes">
+<li id="fn-clean">This requires an extra condition, which we call <i>clean contact</i>. We describe it in the section <a href="#counterexamples">&hellip; unless the contact is not clean</a>, where we also show that it cannot be dropped. <a href="#fnref-clean" class="fnback">&#8617;</a></li>
 <li id="fn-draft">This is the <i>draft-angle</i> rule familiar from casting: a part can be drawn out of its mold in the direction \(w\) if no surface normal makes an obtuse angle with \(w\). For polyhedra, see M. de Berg, O. Cheong, M. van Kreveld and M. Overmars, <i>Computational Geometry: Algorithms and Applications</i>, 3rd ed., Springer, 2008, Section 4.1, Lemma 4.1. <a href="#fnref-draft" class="fnback">&#8617;</a></li>
+<li id="fn-artin">M. Artin, <i>Algebra</i>, 2nd ed., Pearson, 2011, Theorem 6.3.2 and the remark following it. <a href="#fnref-artin" class="fnback">&#8617;</a></li>
 <li id="fn-mnp">X. Markenscoff, L. Ni and C. H. Papadimitriou, <i>The geometry of grasping</i>, Internat. J. Robotics Res. <b>9</b> (1990), no. 1, 61&ndash;74. <a href="#fnref-mnp" class="fnback">&#8617;</a></li>
 <li id="fn-reuleaux">F. Reuleaux, <i>Theoretische Kinematik: Grundz&uuml;ge einer Theorie des Maschinenwesens</i>, Vieweg, Braunschweig, 1875. <a href="#fnref-reuleaux" class="fnback">&#8617;</a></li>
 <li id="fn-rb">E. Rimon and J. W. Burdick, <i>Mobility of bodies in contact. I. A second-order mobility index for multiple-finger grasps</i>, IEEE Trans. Robotics and Automation <b>14</b> (1998), no. 5, 696&ndash;708. <a href="#fnref-rb" class="fnback">&#8617;</a></li>
@@ -825,6 +890,18 @@ function verdict(iface, B){
     : 'Theorem 2 predicts that <b>a turn moves <i>q</i></b>: there is a pivot from which the interface only recedes, or only approaches.';
 }
 
+// a small picture of the two pieces of a puzzle, for its button
+function thumb(k){
+  const sh = SHAPES[k], g = sh.build(sh.param), B = sh.infinite ? sh.view : sh.board;
+  let q = g.q, obs = g.obstacles;
+  if (!q){ const pts = g.iface.flat().map((s) => s.P), S0 = pts[0], E0 = pts[pts.length - 1];
+    q = pts.concat(PZ.walk(sh.board, E0, S0, true)); obs = [{poly: pts.concat(PZ.walk(sh.board, E0, S0, false))}]; }
+  const d = (pts) => pts.map((p, i) => (i ? 'L' : 'M') + p[0].toFixed(3) + ' ' + (-p[1]).toFixed(3)).join('') + 'Z';
+  const path = (pts, fill) => `<path d="${d(pts)}" fill="${fill}" stroke="#2b3330" stroke-width="1" stroke-linejoin="round" vector-effect="non-scaling-stroke"/>`;
+  return `<svg class="pz-thumb" viewBox="${B[0]} ${-B[3]} ${B[1] - B[0]} ${B[3] - B[2]}" preserveAspectRatio="xMidYMid meet" aria-hidden="true">`
+    + obs.map((ob) => path(ob.poly, '#d6dcc3')).join('') + path(q, '#c9d8e0') + '</svg>';
+}
+
 function playground(root, o){
   const {el, place, shift, turn} = PZ, uid = root.id, PI = Math.PI;
   let key = o.shapes[0], mode = o.modes[0], hints = !!o.hints, param = SHAPES[key].param;
@@ -835,7 +912,8 @@ function playground(root, o){
       b.addEventListener('click', () => { bs.forEach((x) => x.setAttribute('aria-pressed', x === b)); on(k); }); ctl.appendChild(b); return b; });
     bs.forEach((b, i) => b.setAttribute('aria-pressed', items[i][0] === cur)); }
   if (o.shapes.length > 1){ const s = document.createElement('span'); s.textContent = 'Puzzle'; ctl.appendChild(s);
-    buttons(o.shapes.map((k) => [k, SHAPES[k].name]), key, (k) => { key = k; param = SHAPES[k].param; build(); }); }
+    buttons(o.shapes.map((k) => [k, thumb(k) + SHAPES[k].name]), key, (k) => { key = k; param = SHAPES[k].param; build(); });
+    ctl.querySelectorAll('button').forEach((b) => b.classList.add('pz-shape')); }
   if (o.compact && o.titles !== false){ const t = document.createElement('div'); t.className = 'pz-title'; t.textContent = SHAPES[key].name; box.insertBefore(t, ctl); }
   if (o.modes.length > 1){
     if (!o.compact){ const br = document.createElement('span'); br.style.flexBasis = '100%'; ctl.appendChild(br);
@@ -1185,18 +1263,27 @@ playground(document.getElementById('fig-out'), {shapes: ['cap'], modes: ['slide'
   // a frame: svg with model coordinates [x0,x1]x[y0,y1] mapped to a W-pixel-wide picture
   function frame(root, B, W, label){
     const S = W/(B[1] - B[0]), H = Math.round(S*(B[3] - B[2]));
-    const svg = el('svg', {viewBox: `0 0 ${W} ${H}`, role: 'img', 'aria-label': label}, root); svg.style.maxWidth = W + 'px'; svg.style.margin = '0 auto';
+    const box = document.createElement('div'); box.className = 'pz-frame'; box.style.maxWidth = W + 'px'; root.appendChild(box);
+    const svg = el('svg', {viewBox: `0 0 ${W} ${H}`, role: 'img', 'aria-label': label}, box);
     const X = (x) => S*(x - B[0]), Y = (y) => S*(B[3] - y);
     const d = (pts, close) => pts.map((p, i) => (i ? 'L' : 'M') + X(p[0]).toFixed(2) + ' ' + Y(p[1]).toFixed(2)).join('') + (close ? 'Z' : '');
-    return {svg, S, X, Y, d};
+    return {svg, box, W, H, S, X, Y, d};
   }
-  const txt = (f, x, y, s, cls, anchor) => { const t = el('text', {x: f.X(x), y: f.Y(y), 'class': 'lbl ' + (cls || ''), 'text-anchor': anchor || 'middle'}, f.svg); t.textContent = s; return t; };
+  // labels: math is typeset by MathJax in a layer over the picture, with its baseline at (x, y); words stay in the svg
+  const TEX = [['γ̇', '\\dot\\gamma'], ['γ', '\\gamma'], ['Σ', '\\Sigma'], ['ν', '\\nu'], ['τ', '\\tau'], ['′', "'"], ['⁺', '^+'], ['⁻', '^-'], ['−', '-'], [' ', '']];
+  const toTex = (s) => TEX.reduce((a, [u, t]) => a.split(u).join(t), s);
+  function tex(f, x, y, s, cls, anchor){ const t = document.createElement('span'); t.className = 'pz-tex ' + (cls || '');
+    t.style.left = (100*f.X(x)/f.W).toFixed(2) + '%'; t.style.top = (100*f.Y(y)/f.H).toFixed(2) + '%';
+    t.style.transform = `translate(${anchor === 'start' ? 0 : anchor === 'end' ? -100 : -50}%, -78%)`;
+    t.textContent = '\\(' + s + '\\)'; f.box.appendChild(t); return t; }
+  const svgTxt = (f, x, y, s, cls, anchor) => { const t = el('text', {x: f.X(x), y: f.Y(y), 'class': 'lbl ' + (cls || ''), 'text-anchor': anchor || 'middle'}, f.svg); t.textContent = s; return t; };
+  const txt = (f, x, y, s, cls, anchor) => /[A-Za-z]{3,}|⋯/.test(s) ? svgTxt(f, x, y, s, cls, anchor) : tex(f, x, y, toTex(s), cls, anchor);
   function arrow(f, a, b, col, wd){ const ax = f.X(a[0]), ay = f.Y(a[1]), bx = f.X(b[0]), by = f.Y(b[1]), an = Math.atan2(by - ay, bx - ax), h = 9;
     el('line', {x1: ax, y1: ay, x2: bx - 0.7*h*Math.cos(an), y2: by - 0.7*h*Math.sin(an), stroke: col, 'stroke-width': wd || 2.2}, f.svg);
     el('path', {d: `M${bx} ${by} L${bx - h*Math.cos(an - .4)} ${by - h*Math.sin(an - .4)} L${bx - h*Math.cos(an + .4)} ${by - h*Math.sin(an + .4)}Z`, fill: col}, f.svg); }
   function wrap(id){ const root = document.getElementById(id), box = document.createElement('div'); box.className = 'pz-static'; root.appendChild(box); return box; }
   function panel(box, title){ const d = document.createElement('div'); d.className = 'pz-panel'; box.appendChild(d);
-    if (title){ const t = document.createElement('div'); t.className = 'pz-title'; t.innerHTML = title; d.appendChild(t); } return d; }
+    if (title){ const t = document.createElement('div'); t.className = 'pz-title'; t.innerHTML = title.replace(/<i>([^<]*)<\/i>/g, (m, x) => '\\(' + toTex(x) + '\\)'); d.appendChild(t); } return d; }
 
   // the edge of a jigsaw piece from A to B, with a knob on the side s (+1: left of A->B, -1: right, 0: flat)
   function edge(A, B, s){
@@ -1259,11 +1346,13 @@ playground(document.getElementById('fig-out'), {shapes: ['cap'], modes: ['slide'
     el('path', {d: f.d(wave.q, true), fill: 'none', stroke: C.ink, 'stroke-width': 1, 'stroke-dasharray': '4 3', 'stroke-opacity': .55}, f.svg);
     txt(f, -1.7, -.95, 'p');
   }
-  function moved(f, uid, tf, q){ el('path', {d: f.d(wave.q, true), transform: tf, fill: C.q, 'fill-opacity': .92, stroke: C.ink, 'stroke-width': 1.4, 'stroke-linejoin': 'round'}, f.svg);
-    const g = el('g', {'clip-path': `url(#${uid})`}, f.svg); el('path', {d: f.d(wave.q, true), transform: tf, fill: C.bad, 'fill-opacity': .75}, g);
-    const t = txt(f, -1.7, .95, 'q'); t.setAttribute('transform', tf); }
-  const shiftTf = (f, dx, dy) => `translate(${f.S*dx} ${-f.S*dy})`;
-  const turnTf = (f, deg, z) => `rotate(${-deg} ${f.X(z[0])} ${f.Y(z[1])})`;
+  function moved(f, uid, tf, q){ el('path', {d: f.d(wave.q, true), transform: tf.tf, fill: C.q, 'fill-opacity': .92, stroke: C.ink, 'stroke-width': 1.4, 'stroke-linejoin': 'round'}, f.svg);
+    const g = el('g', {'clip-path': `url(#${uid})`}, f.svg); el('path', {d: f.d(wave.q, true), transform: tf.tf, fill: C.bad, 'fill-opacity': .75}, g);
+    const P = tf.map([-1.7, .95]); txt(f, P[0], P[1], 'q'); }
+  // a motion of q: the svg transform, and the map of points
+  const shiftTf = (f, dx, dy) => ({tf: `translate(${f.S*dx} ${-f.S*dy})`, map: (P) => [P[0] + dx, P[1] + dy]});
+  const turnTf = (f, deg, z) => { const a = deg*PI/180, c = Math.cos(a), sn = Math.sin(a);
+    return {tf: `rotate(${-deg} ${f.X(z[0])} ${f.Y(z[1])})`, map: (P) => [z[0] + c*(P[0] - z[0]) - sn*(P[1] - z[1]), z[1] + sn*(P[0] - z[0]) + c*(P[1] - z[1])]}; };
 
   // 3. an admissible motion, and one that is not
   (function(){
@@ -1287,6 +1376,39 @@ playground(document.getElementById('fig-out'), {shapes: ['cap'], modes: ['slide'
     el('path', {d: `M${hx + 4*sx} ${hy + 4*sy} L${hx - 7*sx - 5*sy} ${hy - 7*sy + 5*sx} L${hx - 7*sx + 5*sy} ${hy - 7*sy - 5*sx}Z`, fill: C.w}, f.svg);
   })();
 
+  // 4b. the velocities of a counterclockwise turn about z along the interface: into q where the interface recedes from z,
+  // into p where it approaches z
+  (function(){
+    const box = wrap('fig-recede');
+    const pivot = (f, z) => { el('circle', {cx: f.X(z[0]), cy: f.Y(z[1]), r: 4, fill: C.w, stroke: '#fff', 'stroke-width': 1.5}, f.svg);
+      const R = .2, a0 = -0.6, a1 = 2.2, s1 = [z[0] + R*Math.cos(a1), z[1] + R*Math.sin(a1)];
+      el('path', {d: `M${f.X(z[0] + R*Math.cos(a0))} ${f.Y(z[1] + R*Math.sin(a0))} A${f.S*R} ${f.S*R} 0 0 0 ${f.X(s1[0])} ${f.Y(s1[1])}`, fill: 'none', stroke: C.w, 'stroke-width': 1.8}, f.svg);
+      const an = a1 + PI/2, hx = f.X(s1[0]), hy = f.Y(s1[1]), sx = Math.cos(an), sy = -Math.sin(an);
+      el('path', {d: `M${hx + 4*sx} ${hy + 4*sy} L${hx - 6*sx - 4*sy} ${hy - 6*sy + 4*sx} L${hx - 6*sx + 4*sy} ${hy - 6*sy - 4*sx}Z`, fill: C.w}, f.svg); };
+    // at the k-th point of the cut, the velocity (x - z)^perp of the turn, normalized; it enters q where the distance to z increases
+    const velocities = (f, cut, z, ks) => { for (const k of ks){ const P = cut[k], T = [cut[k + 1][0] - cut[k - 1][0], cut[k + 1][1] - cut[k - 1][1]];
+      const r = [P[0] - z[0], P[1] - z[1]], L = Math.hypot(...r), v = [-r[1]/L, r[0]/L], col = T[0]*r[0] + T[1]*r[1] > 0 ? C.w : C.bad;
+      arrow(f, P, [P[0] + .42*v[0], P[1] + .42*v[1]], col, 2); el('circle', {cx: f.X(P[0]), cy: f.Y(P[1]), r: 2.6, fill: C.ink}, f.svg); } };
+    // the interface in the colors of Figure 3: where it recedes from z, and where it approaches z
+    const draw = (f, cut, qPoly, pPoly, z) => { el('path', {d: f.d(pPoly, true), fill: C.p}, f.svg); el('path', {d: f.d(qPoly, true), fill: C.q}, f.svg);
+      const rec = (i) => (cut[i + 1][0] - cut[i][0])*((cut[i][0] + cut[i + 1][0])/2 - z[0]) + (cut[i + 1][1] - cut[i][1])*((cut[i][1] + cut[i + 1][1])/2 - z[1]) > 0;
+      for (let i = 0; i + 1 < cut.length;){ let j = i + 1; while (j + 1 < cut.length && rec(j) === rec(i)) j++;
+        el('path', {d: f.d(cut.slice(i, j + 1)), fill: 'none', stroke: rec(i) ? CCW_COL : CW_COL, 'stroke-width': 3.2, 'stroke-linejoin': 'round'}, f.svg); i = j; } };
+    // a logarithmic spiral about z = 0, which meets the circles about z at a fixed angle, from the bottom edge of the board to its top edge
+    const Bs = [-1.6, 2.4, -0.8*Math.exp(-0.35*PI), 0.8*Math.exp(0.35*PI)], sp = [];
+    for (let k = 0; k <= 120; k++){ const t = -PI/2 + PI*k/120, r = 0.8*Math.exp(0.7*t); sp.push([r*Math.cos(t), r*Math.sin(t)]); }
+    let f = frame(panel(box, 'the interface recedes from <i>z</i>'), [Bs[0] - .1, Bs[1] + .1, Bs[2] - .1, Bs[3] + .1], 300, 'A spiral interface around z: along it, a counterclockwise turn about z moves every point into q.');
+    draw(f, sp, sp.concat([[Bs[0], Bs[3]], [Bs[0], Bs[2]]]), sp.concat([[Bs[1], Bs[3]], [Bs[1], Bs[2]]]), [0, 0]);
+    velocities(f, sp, [0, 0], [18, 45, 72, 100]); pivot(f, [0, 0]);
+    txt(f, -.28, -.15, 'z', 'small'); txt(f, -1.1, 1.8, 'q'); txt(f, 1.9, 1.2, 'p'); txt(f, 1.12, .05, 'γ', 'small', 'start');
+    // the wave, with z in p below it
+    const z = [0, -0.95];
+    f = frame(panel(box, 'the interface approaches <i>z</i>, then recedes'), [-2.5, 2.5, -1.45, 1.45], 300, 'A wavy interface: a counterclockwise turn about z moves the points where the interface approaches z into p.');
+    draw(f, wave.q.slice(0, 161), wave.q, wave.p, z);
+    velocities(f, wave.q, z, [22, 52, 108, 138]); pivot(f, z);
+    txt(f, z[0] + .2, z[1] - .3, 'z', 'small'); txt(f, -1.7, .95, 'q'); txt(f, -1.7, -.95, 'p'); txt(f, 2.05, .3, 'γ', 'small');
+  })();
+
   // 5. for an exercise: a round head on an infinite straight line, with the normals along the head
   (function(){
     const box = wrap('fig-ex-head'), B = [-2.6, 2.6, -1.95, 0.85], f = frame(panel(box), B, 300, 'A straight line, carrying a round head whose arc is longer than a half-circle; the normals along the head point to its center.');
@@ -1304,9 +1426,10 @@ playground(document.getElementById('fig-out'), {shapes: ['cap'], modes: ['slide'
   })();
 
   // labels with subscripts: parts = [[text, sub?], ...]
-  function rich(f, x, y, parts, cls, anchor){ const t = el('text', {x: f.X(x), y: f.Y(y), 'class': 'lbl ' + (cls || ''), 'text-anchor': anchor || 'middle'}, f.svg);
-    let down = false; for (const [str, sub] of parts){ const ts = el('tspan', sub ? {dy: down ? 0 : 4, 'font-size': '72%'} : {dy: down ? -4 : 0}, t); ts.textContent = str; down = !!sub; }
-    return t; }
+  // sub = 0, 1 or 2: baseline, subscript, subscript of a subscript
+  function rich(f, x, y, parts, cls, anchor){ let s = '', lvl = 0;
+    for (const [str, sub = 0] of parts){ for (; lvl < sub; lvl++) s += '_{'; for (; lvl > sub; lvl--) s += '}'; s += toTex(str); }
+    return tex(f, x, y, s + '}'.repeat(lvl), cls, anchor); }
 
   // 7. for the proof of Theorem 1: a cut whose first coordinate is nondecreasing, and a vertical line crossing it once
   (function(){
@@ -1320,7 +1443,7 @@ playground(document.getElementById('fig-out'), {shapes: ['cap'], modes: ['slide'
     // a vertical line along the vertical piece, and the line through gamma(t0)
     el('path', {d: f.d([[x0, B[2]], [x0, B[3]]]), fill: 'none', stroke: C.muted, 'stroke-width': 1, 'stroke-dasharray': '3 4'}, f.svg);
     const c = 1.35, P = [c, fr(c)];
-    el('path', {d: f.d([[c, B[2] + .15], [c, B[3] - .15]]), fill: 'none', stroke: C.w, 'stroke-width': 1.8, 'stroke-dasharray': '6 4'}, f.svg);
+    el('path', {d: f.d([[c, B[2] + .15], [c, B[3] - .15]]), fill: 'none', stroke: C.w, 'stroke-width': 1.8, 'stroke-dasharray': '6 4'}, f.svg); txt(f, c + .1, B[3] - .4, 'L', 'small', 'start');
     el('path', {d: f.d(cut), fill: 'none', stroke: C.ink, 'stroke-width': 2.4, 'stroke-linejoin': 'round'}, f.svg);
     // normals: on the vertical piece horizontal, elsewhere weakly upward
     const nrm = (x, fn) => { const h = 1e-4, t = [h, fn(x + h) - fn(x)], L = Math.hypot(...t); return [-t[1]/L, t[0]/L]; };
@@ -1334,38 +1457,166 @@ playground(document.getElementById('fig-out'), {shapes: ['cap'], modes: ['slide'
     txt(f, -1.4, 0.75, 'q'); txt(f, 1.9, -0.95, 'p'); txt(f, -1.75, -0.95, 'γ', 'small');
   })();
 
-  // 8. for the proof of Theorem 1: an initial velocity pushing q into p at x
+  // 7b. for the proof of Theorem 1: the strip of vertical segments from y + (u, 0) to y + (u, 0) + sw, |u| < delta, which all meet
+  // the interface; the segment through y runs along a vertical piece of it, the one through y' meets it only at gamma(t0)
   (function(){
-    const B = [-1.5, 1.9, -1.0, 1.0], f = frame(panel(wrap('fig-pf2')), B, 300, 'Near a smooth point x of the interface: the point x_j above x is carried below the interface, into p.');
+    const B = [-2, 2, -1.3, 1.3], f = frame(panel(wrap('fig-pf0')), B, 520, 'A strip of vertical segments crossing an interface whose first coordinate is nondecreasing; the segment through y runs along a vertical piece of the interface, and the segment through y prime meets it at a single point.');
+    const fl = (x) => -0.35 + 0.12*Math.sin(2*x), fr = (x) => 0.3 + 0.25*Math.sin(1.3*x), d = 1.2, y = [0, -1], h = 2;
+    const cut = []; for (let k = 0; k <= 60; k++){ const x = (B[0] - .2)*(1 - k/60); cut.push([x, fl(x)]); }
+    for (let k = 0; k <= 60; k++){ const x = (B[1] + .2)*k/60; cut.push([x, fr(x)]); }
+    el('rect', {x: f.X(-d), y: f.Y(y[1] + h + .25), width: f.S*2*d, height: f.S*(h + .5), fill: C.w, 'fill-opacity': .1}, f.svg);
+    el('path', {d: f.d([y, [0, y[1] + h]]), fill: 'none', stroke: C.muted, 'stroke-width': 1.6, 'stroke-dasharray': '4 4'}, f.svg);
+    const x0 = 0.3, P = [x0, fr(x0)];
+    el('path', {d: f.d([[x0, y[1]], [x0, y[1] + h]]), fill: 'none', stroke: C.w, 'stroke-width': 1.8, 'stroke-dasharray': '6 4'}, f.svg);
+    el('path', {d: f.d(cut), fill: 'none', stroke: C.ink, 'stroke-width': 2.4, 'stroke-linejoin': 'round'}, f.svg);
+    const pts = [y, [0, y[1] + h], [x0, y[1]], [x0, y[1] + h], [-d/2, fl(-d/2)], [d/2, fr(d/2)], P];
+    for (const Q of pts) el('circle', {cx: f.X(Q[0]), cy: f.Y(Q[1]), r: 3, fill: C.ink}, f.svg);
+    txt(f, -.12, y[1] - .08, 'y', 'small', 'end'); txt(f, -.12, y[1] + h - .08, 'y + sw', 'small', 'end');
+    txt(f, x0 + .12, y[1] - .08, 'y′', 'small', 'start'); txt(f, x0 + .12, y[1] + h - .08, 'y′ + sw', 'small', 'start');
+    rich(f, -d/2 - .08, fl(-d/2) - .38, [['γ(t'], ['−', 1], [')']], 'small', 'end');
+    rich(f, d/2 + .1, fr(d/2) + .17, [['γ(t'], ['+', 1], [')']], 'small', 'start');
+    rich(f, x0 + .1, P[1] - .3, [['γ(t'], ['0', 1], [')']], 'small', 'start');
+    txt(f, 1.6, fr(1.6) - .35, 'γ', 'small');
+  })();
+
+  // 8. for the proof of Theorem 1: the sectors S+ in q and S- in p at x, and the point x_j carried from S+ into S-
+  (function(){
+    const B = [-1.5, 1.9, -1.0, 1.0], f = frame(panel(wrap('fig-pf2')), B, 480, 'Near a smooth point x of the interface: two sectors, above and below the tangent line, lie in q and in p; the point x_j in the upper sector is carried into the lower one.');
     const h = (u) => 0.22*u*u, cut = []; for (let k = 0; k <= 60; k++){ const u = B[0] - .2 + (B[1] - B[0] + .4)*k/60; cut.push([u, h(u)]); }
     el('path', {d: f.d(cut.concat([[B[1] + .2, B[2] - .2], [B[0] - .2, B[2] - .2]]), true), fill: C.p}, f.svg);
     el('path', {d: f.d(cut.concat([[B[1] + .2, B[3] + .2], [B[0] - .2, B[3] + .2]]), true), fill: C.q}, f.svg);
     el('path', {d: f.d([[B[0], 0], [B[1], 0]]), fill: 'none', stroke: C.muted, 'stroke-width': 1, 'stroke-dasharray': '3 4'}, f.svg);
+    // the sectors, of radius rho, at angle more than theta from the tangent line
+    const th = 20*PI/180, rho = 0.85, sector = (a0, a1) => { const pts = [[0, 0]]; for (let k = 0; k <= 40; k++){ const a = a0 + (a1 - a0)*k/40; pts.push([rho*Math.cos(a), rho*Math.sin(a)]); } return pts; };
+    for (const [a0, a1] of [[th, PI - th], [PI + th, 2*PI - th]]) el('path', {d: f.d(sector(a0, a1), true), fill: C.w, 'fill-opacity': .14, stroke: C.w, 'stroke-width': 1.2, 'stroke-dasharray': '5 3'}, f.svg);
+    const arc = []; for (let k = 0; k <= 12; k++){ const a = PI + th*k/12; arc.push([.34*Math.cos(a), .34*Math.sin(a)]); }
+    el('path', {d: f.d(arc), fill: 'none', stroke: C.w, 'stroke-width': 1.2}, f.svg);
     el('path', {d: f.d(cut), fill: 'none', stroke: C.ink, 'stroke-width': 2.4}, f.svg);
-    const V = [1.05, -0.62], al = 0.35, xj = [0, al], im = [al*0 + V[0], al + V[1]];
+    const V = [0.45, -0.75], al = 0.3, xj = [0, al], im = [V[0], al + V[1]];
     arrow(f, [0, 0], [0, .62], C.n); arrow(f, [0, 0], V, C.bad);
     el('path', {d: f.d([xj, im]), fill: 'none', stroke: C.ink, 'stroke-width': 1.3, 'stroke-dasharray': '4 3'}, f.svg);
     for (const P of [[0, 0], xj, im]) el('circle', {cx: f.X(P[0]), cy: f.Y(P[1]), r: 3.2, fill: C.ink}, f.svg);
-    txt(f, -.12, -.25, 'x', 'small'); rich(f, -.22, al - .05, [['x'], ['j', 1]], 'small', 'end');
-    txt(f, .1, .72, 'n', 'small', 'start'); rich(f, .68, -.62, [['V(x)']], 'small', 'end');
-    rich(f, im[0] + .1, im[1] - .3, [['g(τ'], ['j', 1], [')(x'], ['j', 1], [')']], 'small', 'start');
-    txt(f, -1.1, .55, 'q'); txt(f, -1.1, -.6, 'p'); txt(f, 1.65, h(1.65) + .15, 'γ', 'small');
+    txt(f, -.02, -.28, 'x', 'small'); rich(f, -.1, al - .06, [['x'], ['j', 1]], 'small', 'end');
+    txt(f, .08, .55, 'n', 'small', 'start'); rich(f, V[0] + .06, V[1] - .1, [['V(x)']], 'small', 'start');
+    rich(f, im[0] + .09, im[1] - .06, [['g'], ['τ', 1], ['j', 2], ['(x'], ['j', 1], [')']], 'small', 'start');
+    rich(f, -.36, .42, [['S'], ['+', 1]], 'small'); rich(f, -.36, -.52, [['S'], ['−', 1]], 'small'); tex(f, -.55, -.14, '\\theta', 'small');
+    txt(f, -1.15, .7, 'q'); txt(f, -1.15, -.75, 'p'); txt(f, 1.65, h(1.65) + .15, 'γ', 'small');
+  })();
+
+  // 8b. for the proof of Theorem 1: the initial velocity V, a translation if omega = 0 and a rotation about z otherwise
+  (function(){
+    const box = wrap('fig-pf-field'), B = [-2.4, 2.4, -1.3, 1.3], pts = [];
+    for (let i = 0; i < 7; i++) for (let j = 0; j < 5; j++) pts.push([-1.95 + 0.6*i, -0.9 + 0.45*j]);
+    const bg = (f) => el('rect', {x: 0, y: 0, width: f.X(B[1]), height: f.Y(B[2]), fill: C.other, rx: 4}, f.svg);
+    let f = frame(panel(box, '\\(\\omega=0\\)'), B, 280, 'A constant vector field b.'); bg(f);
+    const b = [0.9, 0.42]; for (const P of pts) arrow(f, P, [P[0] + .42*b[0], P[1] + .42*b[1]], C.w, 1.6);
+    const z = [0.35, -0.04];
+    f = frame(panel(box, '\\(\\omega\\neq0\\)'), B, 280, 'A rotation field about the point z.'); bg(f);
+    for (const P of pts){ const v = [-.17*(P[1] - z[1]), .17*(P[0] - z[0])]; if (Math.hypot(...v) > .1) arrow(f, P, [P[0] + v[0], P[1] + v[1]], C.w, 1.6); }
+    el('circle', {cx: f.X(z[0]), cy: f.Y(z[1]), r: 4, fill: C.w, stroke: '#fff', 'stroke-width': 1.5}, f.svg); txt(f, z[0] + .05, z[1] - .3, 'z', 'small');
+  })();
+
+  // 8c. for the proof of Theorem 1: a point x of the interface with n . V(x) < 0, in each case
+  (function(){
+    const box = wrap('fig-pf-claim');
+    const lin = (a, b, m) => Array.from({length: m}, (_, k) => [a[0] + (b[0] - a[0])*k/m, a[1] + (b[1] - a[1])*k/m]);
+    // pieces on both sides of a cut running from left to right beyond the picture, q above it
+    const pieces2 = (f, cut, top, bot) => { el('path', {d: f.d(cut.concat([[9, bot], [-9, bot]]), true), fill: C.p}, f.svg); el('path', {d: f.d(cut.concat([[9, top], [-9, top]]), true), fill: C.q}, f.svg); };
+    // V at the k-th points of the cut, normalized, in red where it enters p
+    const vel = (f, cut, V, ks) => { for (const k of ks){ const P = cut[k], T = [cut[k + 1][0] - cut[k - 1][0], cut[k + 1][1] - cut[k - 1][1]], v = V(P), L = Math.hypot(...v);
+      arrow(f, P, [P[0] + .45*v[0]/L, P[1] + .45*v[1]/L], -T[1]*v[0] + T[0]*v[1] < -1e-9 ? C.bad : C.w, 2);
+      el('circle', {cx: f.X(P[0]), cy: f.Y(P[1]), r: 2.6, fill: C.ink}, f.svg); } };
+    const dots = (f, B, yl, yr) => { txt(f, B[0] + .1, yl + .12, '⋯', 'small muted', 'start'); txt(f, B[1] - .3, yr + .12, '⋯', 'small muted', 'start'); };
+    // omega = 0: the round head on a line of the exercise below, and a constant b
+    let B = [-2.6, 2.6, -1.95, 0.85], c = [0, -0.7], a0 = Math.atan2(0.7, -0.714), a1 = Math.atan2(0.7, 0.714) + 2*PI;
+    let cut = lin([-9, 0], [-0.714, 0], 24);
+    for (let k = 0; k <= 80; k++){ const a = a0 + (a1 - a0)*k/80; cut.push([c[0] + Math.cos(a), c[1] + Math.sin(a)]); }
+    cut = cut.concat(lin([0.714, 0], [9, 0], 24), [[9, 0]]);
+    let f = frame(panel(box, '\\(\\omega=0\\)'), B, 280, 'A straight line carrying a round head, and a constant vector b at its points: on part of the head, b points into p.');
+    pieces2(f, cut, B[3] + 1, B[2] - 1); el('path', {d: f.d(cut), fill: 'none', stroke: C.ink, 'stroke-width': 2.4, 'stroke-linejoin': 'round'}, f.svg);
+    const b = [0.9, 0.42]; vel(f, cut, () => b, [21, 34, 50, 66, 84, 107]); dots(f, B, 0, 0);
+    txt(f, -1.9, .4, 'q'); txt(f, -1.9, -1.3, 'p'); txt(f, 1.9, -.4, 'γ', 'small');
+    // omega > 0: a cut going to infinity at both ends, and a rotation about z
+    B = [-2.6, 2.6, -1.6, 1.2]; const z = [0.3, -0.85]; cut = [];
+    for (let k = 0; k <= 160; k++){ const x = -2.8 + 5.6*k/160; cut.push([x, 0.35*Math.sin(1.6*x)]); }
+    cut = [[-9, cut[0][1]]].concat(cut, [[9, cut[160][1]]]);
+    f = frame(panel(box, '\\(\\omega\\gt0\\)'), B, 280, 'A wavy cut going to infinity, and the rotation about z at its points: where the cut approaches z, the rotation points into p.');
+    pieces2(f, cut, B[3] + 1, B[2] - 1);
+    const rec = (i) => (cut[i + 1][0] - cut[i][0])*(cut[i][0] - z[0]) + (cut[i + 1][1] - cut[i][1])*(cut[i][1] - z[1]) > 0;
+    for (let i = 0; i + 1 < cut.length;){ let j = i + 1; while (j + 1 < cut.length && rec(j) === rec(i)) j++;
+      el('path', {d: f.d(cut.slice(i, j + 1)), fill: 'none', stroke: rec(i) ? CCW_COL : CW_COL, 'stroke-width': 3.2, 'stroke-linejoin': 'round'}, f.svg); i = j; }
+    vel(f, cut, (P) => [-(P[1] - z[1]), P[0] - z[0]], [24, 52, 110, 138]); dots(f, B, 0.35*Math.sin(-4), 0.35*Math.sin(3.68) + .1);
+    el('circle', {cx: f.X(z[0]), cy: f.Y(z[1]), r: 4, fill: C.w, stroke: '#fff', 'stroke-width': 1.5}, f.svg);
+    txt(f, z[0] + .05, z[1] - .32, 'z', 'small'); txt(f, -1.9, .75, 'q'); txt(f, -1.9, -1.05, 'p'); txt(f, 1.75, -.55, 'γ', 'small');
+  })();
+
+  // 9-10. Lemma 1 of the appendix, for a counterclockwise turn about a point z below the picture:
+  // Sigma, along which the distance to z is nondecreasing, and the trajectories, arcs of circles about z
+  (function(){
+    const deg = PI/180, pol = (r, a) => [r*Math.cos(a*deg), r*Math.sin(a*deg)];
+    // Sigma in polar coordinates about z = 0: r increases, except along an arc of the circle r = 2
+    const sig = [];
+    for (let k = 0; k <= 30; k++){ const r = 0.7 + (2 - 0.7)*k/30; sig.push(pol(r, 76 + 7*k/30)); }
+    for (let k = 1; k <= 20; k++) sig.push(pol(2, 83 + 17*k/20));
+    for (let k = 1; k <= 30; k++){ const r = 2 + (3.4 - 2)*k/30; sig.push(pol(r, 100 - 8*k/30)); }
+    const c = [0, 2], R0 = 1, Bv = [-1.25, 1.25, 0.88, 3.12];
+    function base(id, label){
+      const f = frame(panel(wrap(id)), Bv, 270, label), uid = id + '-clip';
+      el('circle', {cx: f.X(c[0]), cy: f.Y(c[1]), r: f.S*R0}, el('clipPath', {id: uid}, el('defs', {}, f.svg)));
+      const g = el('g', {'clip-path': `url(#${uid})`}, f.svg);
+      el('path', {d: f.d(sig.concat([[3, 3.6], [3, 0.5]]), true), fill: C.p}, g);
+      el('path', {d: f.d(sig.concat([[-3, 3.6], [-3, 0.5]]), true), fill: C.q}, g);
+      return {f, g};
+    }
+    const arcPath = (f, r, a0, a1) => { const pts = []; for (let k = 0; k <= 40; k++) pts.push(pol(r, a0 + (a1 - a0)*k/40)); return f.d(pts); };
+    // trajectories: arcs of circles about z, counterclockwise
+    function trajectories(f, g, radii){
+      for (const r of radii){ el('path', {d: arcPath(f, r, 50, 130), fill: 'none', stroke: C.w, 'stroke-width': 1.3, 'stroke-dasharray': '5 4'}, g);
+        const P = pol(r, 108), Q = pol(r, 112); arrow(f, P, Q, C.w, 1.3); } }
+    function sigma(f, g){
+      el('path', {d: f.d(sig), fill: 'none', stroke: C.ink, 'stroke-width': 2.4, 'stroke-linejoin': 'round'}, g);
+      el('circle', {cx: f.X(c[0]), cy: f.Y(c[1]), r: f.S*R0, fill: 'none', stroke: C.muted, 'stroke-width': 1.2}, f.svg); }
+
+    // the setting
+    let {f, g} = base('fig-l1a', 'A disk B divided by an arc Sigma into B+ and B-, with arcs of circles about a point below the picture as trajectories.');
+    trajectories(f, g, [1.35, 1.7, 2.35, 2.7]);
+    sigma(f, g);
+    // normals of Sigma (to the left of the direction of travel), on the three parts
+    for (const k of [12, 40, 66]){ const a = sig[k - 1], b = sig[k + 1], L = Math.hypot(b[0] - a[0], b[1] - a[1]), nu = [-(b[1] - a[1])/L, (b[0] - a[0])/L];
+      arrow(f, sig[k], [sig[k][0] + .38*nu[0], sig[k][1] + .38*nu[1]], C.n); }
+    txt(f, -.62, 2.2, 'B⁺'); txt(f, .62, 1.75, 'B⁻'); txt(f, .1, 2.82, 'Σ', 'small', 'start');
+    txt(f, -.2, 1.35, 'ν', 'small'); txt(f, -.95, 2.95, 'B', 'small');
+
+    // the proof: the level circle through Sigma(t0) meets Sigma only there, and X crosses it from B- to B+
+    ({f, g} = base('fig-l1b', 'The circle about z through Sigma(t0) meets Sigma only at Sigma(t0), where the turn crosses Sigma from B- to B+.'));
+    const r0 = 2.45, a0 = 100 - 8*(r0 - 2)/1.4, P0 = pol(r0, a0);
+    el('path', {d: arcPath(f, 2, 83, 100), fill: 'none', stroke: C.muted, 'stroke-width': 7, 'stroke-opacity': .45, 'stroke-linecap': 'round'}, g);
+    el('path', {d: arcPath(f, r0, 50, 130), fill: 'none', stroke: C.w, 'stroke-width': 1.8}, g);
+    sigma(f, g);
+    const y = pol(2.6, 103), ty = [-Math.sin(a0*deg), Math.cos(a0*deg)];
+    el('circle', {cx: f.X(y[0]), cy: f.Y(y[1]), r: f.S*.2, fill: '#fff', 'fill-opacity': .35, stroke: C.ink, 'stroke-width': 1, 'stroke-dasharray': '3 3'}, f.svg);
+    el('circle', {cx: f.X(y[0]), cy: f.Y(y[1]), r: 2.6, fill: C.ink}, f.svg);
+    arrow(f, P0, [P0[0] + .3*ty[0], P0[1] + .3*ty[1]], C.w, 2.2);
+    el('circle', {cx: f.X(P0[0]), cy: f.Y(P0[1]), r: 3.2, fill: C.ink}, f.svg);
+    rich(f, P0[0] + .12, P0[1] - .22, [['Σ(t'], ['0', 1], [')']], 'small', 'start');
+    txt(f, y[0] - .32, y[1] + .22, 'D', 'small'); txt(f, .75, 1.45, 'B⁻'); txt(f, -.75, 1.75, 'B⁺');
+    txt(f, P0[0] - .2, P0[1] - .24, 'X', 'small');
   })();
 
   // 6. clean contact near an endpoint x0 of the interface, and its failure in the wedged triangle
-  (function(){
-    const box = wrap('fig-clean'), B = [-1.6, 1.6, -1.1, 1.25], r = .85;
+  // the copy with id fig-clean shows only p and q; the copy in the formal definition, fig-clean-formal, shows all labels
+  for (const [id, full] of [['fig-clean', false], ['fig-clean-formal', true]]) (function(){
+    const box = wrap(id), B = [-1.6, 1.6, -1.1, 1.25], r = .85;
     const common = (f, gam, dir, lbl) => {
       const far = [dir[0]*3, dir[1]*3];
-      el('circle', {cx: f.X(0), cy: f.Y(0), r: f.S*r, fill: 'none', stroke: C.ink, 'stroke-width': 1.2, 'stroke-dasharray': '5 4'}, f.svg);
+      if (!full) lbl = lbl.filter(([s]) => s === 'p' || s === 'q');
+      if (full) el('circle', {cx: f.X(0), cy: f.Y(0), r: f.S*r, fill: 'none', stroke: C.ink, 'stroke-width': 1.2, 'stroke-dasharray': '5 4'}, f.svg);
       el('path', {d: f.d([[0, 0], far]), fill: 'none', stroke: C.w, 'stroke-width': 2, 'stroke-dasharray': '6 4'}, f.svg);
       el('path', {d: f.d(gam), fill: 'none', stroke: C.ink, 'stroke-width': 3, 'stroke-linejoin': 'round'}, f.svg);
       el('circle', {cx: f.X(0), cy: f.Y(0), r: 3.5, fill: C.ink}, f.svg);
-      for (const [s, x, y, cls] of lbl){ const hat = s === 'γ^', sub = s === 'x0', t = txt(f, x, y, hat ? 'γ' : sub ? 'x' : s, cls || '', 'middle');
-        if (sub){ const ts = el('tspan', {dy: 4, 'font-size': '70%', style: 'font-variant-numeric: lining-nums'}, t); ts.textContent = '0'; }
-        if (hat) el('path', {d: `M${f.X(x) - 4} ${f.Y(y) - 12} L${f.X(x)} ${f.Y(y) - 16} L${f.X(x) + 4} ${f.Y(y) - 12}`, fill: 'none', stroke: C.ink, 'stroke-width': 1.1}, f.svg); } };
+      for (const [s, x, y, cls] of lbl) tex(f, x, y, s === 'γ^' ? '\\hat\\gamma' : s === 'x0' ? 'x_0' : toTex(s), cls || '', 'middle'); };
     // left: the cut meets the edge of the board transversally
-    let f = frame(panel(box, 'the contact is clean'), B, 280, 'Near an endpoint of the interface, the continued curve separates p from q.');
+    let f = frame(panel(box, 'this contact is clean'), B, 280, 'Near an endpoint of the interface, the continued curve separates p from q.');
     const gam = []; for (let k = 0; k <= 60; k++){ const s = -1.7 + 1.7*k/60; gam.push([s, .35*s + .25*s*s]); }
     el('path', {d: f.d(gam.concat([[0, -2], [-2, -2]]), true), fill: C.p}, f.svg);
     el('path', {d: f.d(gam.concat([[0, 2], [-2, 2]]), true), fill: C.q}, f.svg);
@@ -1373,7 +1624,7 @@ playground(document.getElementById('fig-out'), {shapes: ['cap'], modes: ['slide'
     txt(f, .8, 1.0, 'off the board', 'small muted');
     common(f, gam, [1/Math.hypot(1, .35), .35/Math.hypot(1, .35)], [['p', -1.1, -.75], ['q', -1.1, .55], ['γ', -1.3, .08, 'small'], ['γ^', 1.1, .58, 'small'], ['x0', -.22, .16, 'small'], ['U', .5, -.88, 'small']]);
     // right: the corner of the wedged triangle; p lies on both sides of the continued curve
-    f = frame(panel(box, 'the contact is not clean'), B, 280, 'At a corner of the wedged triangle, the piece p lies on both sides of the continued curve.');
+    f = frame(panel(box, 'this contact is not clean'), B, 280, 'At a corner of the wedged triangle, the piece p lies on both sides of the continued curve.');
     const t1 = Math.tan(35*PI/180), t2 = Math.tan(49*PI/180);
     el('rect', {x: 0, y: 0, width: f.X(B[1]), height: f.Y(B[2]), fill: C.p}, f.svg);
     el('path', {d: f.d([[0, 0], [3, 0], [3, 3*t2]], true), fill: '#fff'}, f.svg);
