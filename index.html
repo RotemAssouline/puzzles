@@ -336,7 +336,7 @@ n\cdot w=\dot\gamma_1\ge0\qquad\text{at every smooth point of }\gamma,
 y+(u,0)\in q\qquad\text{and}\qquad y+(u,0)+sw\in p\qquad\text{for every }u\in(-\delta,\delta).
 \]</span>
 <p>Each vertical segment from \(y+(u,0)\) to \(y+(u,0)+sw\) joins \(q\) to \(p\), so it meets \(\gamma\). Hence \(\gamma_1\) takes the values \(y_1-\delta/2\) and \(y_1+\delta/2\), at times \(t_-\lt t_+\), say. Since \(\gamma_1\) is piecewise smooth and not constant on \([t_-,t_+]\), there is a smooth point \(t_0\in(t_-,t_+)\) with \(\dot\gamma_1(t_0)\neq0\), i.e. \(\dot\gamma_1(t_0)\gt0\). Since \(\gamma_1\) is nondecreasing, \(|\gamma_1(t_0)-y_1|\le\delta/2\), so the point \(y'=y+\big(\gamma_1(t_0)-y_1,0\big)\) satisfies \(y'\in q\) and \(y'+sw\in p\). Both points lie on the vertical line \(L\) through \(\gamma(t_0)\).</p>
-<p class="figcap">The vertical segments from \(y+(u,0)\) to \(y+(u,0)+sw\), \(|u|\lt\delta\), fill the shaded strip, and each of them meets \(\gamma\). The segment through \(y\) may run along \(\gamma\), but the segment through \(y'\) meets \(\gamma\) only at \(\gamma(t_0)\).</p>
+<p class="figcap">The vertical segments from \(y+(u,0)\) to \(y+(u,0)+sw\), \(|u|\lt\delta\), all meet \(\gamma\). The segment through \(y\) may run along \(\gamma\), but the segment through \(y'\) meets \(\gamma\) only at \(\gamma(t_0)\).</p>
 <div class="figure" id="fig-pf0"></div>
 <p>Since \(\gamma_1\) is nondecreasing and \(\dot\gamma_1(t_0)\gt0\),</p>
 <span class="math">\[
@@ -1502,16 +1502,15 @@ playground(document.getElementById('fig-out'), {shapes: ['cap'], modes: ['slide'
     for (const [str, sub = 0] of parts){ for (; lvl < sub; lvl++) s += '_{'; for (; lvl > sub; lvl--) s += '}'; s += toTex(str); }
     return tex(f, x, y, s + '}'.repeat(lvl), cls, anchor); }
 
-  // 7. for the proof of Theorem 1: the strip of vertical segments from y + (u, 0) to y + (u, 0) + sw, |u| < delta, which all meet
+  // 7. for the proof of Theorem 1: the vertical segments from y + (u, 0) to y + (u, 0) + sw, |u| < delta, which all meet
   // the interface; the segment through y runs along a vertical piece of it, the one through y' meets it only at gamma(t0)
   (function(){
-    const B = [-2, 2, -1.3, 1.3], f = frame(panel(wrap('fig-pf0')), B, 520, 'A strip of vertical segments crossing an interface whose first coordinate is nondecreasing, with q above and p below; the segment through y runs along a vertical piece of the interface, and the segment through y prime, on the line L, meets it at a single point, where the normal points into q.');
+    const B = [-2, 2, -1.3, 1.3], f = frame(panel(wrap('fig-pf0')), B, 520, 'Vertical segments crossing an interface whose first coordinate is nondecreasing, with q above and p below; the segment through y runs along a vertical piece of the interface, and the segment through y prime, on the line L, meets it at a single point, where the normal points into q.');
     const fl = (x) => -0.35 + 0.12*Math.sin(2*x), fr = (x) => 0.3 + 0.25*Math.sin(1.3*x), d = 1.2, y = [0, -1], h = 2;
     const cut = []; for (let k = 0; k <= 60; k++){ const x = (B[0] - .2)*(1 - k/60); cut.push([x, fl(x)]); }
     for (let k = 0; k <= 60; k++){ const x = (B[1] + .2)*k/60; cut.push([x, fr(x)]); }
     el('path', {d: f.d(cut.concat([[B[1] + .2, B[2] - .2], [B[0] - .2, B[2] - .2]]), true), fill: C.p}, f.svg);
     el('path', {d: f.d(cut.concat([[B[1] + .2, B[3] + .2], [B[0] - .2, B[3] + .2]]), true), fill: C.q}, f.svg);
-    el('rect', {x: f.X(-d), y: f.Y(y[1] + h + .25), width: f.S*2*d, height: f.S*(h + .5), fill: C.w, 'fill-opacity': .1}, f.svg);
     el('path', {d: f.d([y, [0, y[1] + h]]), fill: 'none', stroke: C.muted, 'stroke-width': 1.6, 'stroke-dasharray': '4 4'}, f.svg);
     const x0 = 0.3, P = [x0, fr(x0)];
     el('path', {d: f.d([[x0, y[1]], [x0, y[1] + h]]), fill: 'none', stroke: C.w, 'stroke-width': 1.8, 'stroke-dasharray': '6 4'}, f.svg);
