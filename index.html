@@ -832,7 +832,7 @@ const SHAPES = {
   // touches p only along the base of the slot; elsewhere a narrow gap separates the pieces. q is shrunk by a tiny gap only,
   // since any gap lets it wiggle
   wedge: { name: 'wedged tooth', gap: 1e-4, board: [-0.7, 2.7, -0.55, 1.65], lp: [-0.3, -0.25], lq: [-0.3, 1.15], pin: [1, 1.1], build(){
-    const t = Math.tan(49*Math.PI/180), Y = 0.5, Yq = 0.56;
+    const t = Math.tan(52*Math.PI/180), Y = 0.5, Yq = 0.6;
     return {q: [[0, 0], [2, 0], [2 - Yq, Yq], [2.7, Yq], [2.7, 1.65], [-0.7, 1.65], [-0.7, Yq], [Yq, Yq]], iface: [PZ.seg([0, 0], [2, 0], 40)],
       obstacles: [{poly: [[-0.7, -0.55], [2.7, -0.55], [2.7, Y], [2 - Y/t, Y], [2, 0], [0, 0], [Y/t, Y], [-0.7, Y]]}]}; } },
   // a cut drawn by the reader (see makeCut); until then, a gentle S
