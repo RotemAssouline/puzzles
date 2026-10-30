@@ -546,10 +546,10 @@ n\cdot w=\cos\left(\theta-a-\tfrac\pi2\right)\ge0,
 \]</span>
 <p>since \(|\theta-a-\pi/2|\le\pi/2\). By Theorem 1 or by statement <span class="pz-piece n1" role="img" aria-label="1"></span> of Theorem 2, a slide in the direction \(w\) moves \(q\), so \(p\) and \(q\) are not interlocked.</p>
 <p>For the second statement, fix \(\delta\gt0\), and let \(\Gamma\) be the arc of the unit circle of angular width \(\pi+\delta\), symmetric about the first axis and open on the left. Its tangents at its endpoints meet at the point \((-1/\sin\frac\delta2,0)\).</p>
-<p class="figcap">The pieces of the proof, for \(\delta=30^\circ\), as at the start of Figure 10. Along \(\Gamma\), the normals point at the origin. Left: in a rectangular board, \(\Gamma\) is continued along its tangents, which meet outside the board. Right: across an infinite cut, \(\Gamma\) is continued by horizontal half-lines, at corners of exterior angle \(\delta/2\).</p>
+<p class="figcap">The pieces of the proof, for \(\delta=30^\circ\), as at the start of Figure 10. Along \(\Gamma\), the normals point at the origin. Left: in a rectangular board, \(\Gamma\) is continued along its tangents, which meet outside the board. Right: across an infinite cut, the walls turn at the edge of that board (dashed) into horizontal half-lines, at corners of exterior angle \(\delta/2\).</p>
 <div class="figure" id="fig-pf-prop"></div>
 <p>In a rectangular board which contains the closed unit disk but not this point, let the interface be \(\Gamma\), continued along these tangents to the edge of the board. This is the tongue of Figure 10, whose slider shows the width \(180^\circ+\delta\) of the arc. It has no corners, so its total curvature is \(\pi+\delta\). Along \(\Gamma\) the normals point at the origin, so they sweep an arc of directions of length \(\pi+\delta\), which lies in no closed half-plane bounded by a line through the origin: no slide moves \(q\). For turns, let \(z\) be a pivot. Along \(\Gamma\) we have \(\dot\gamma\cdot(\gamma-z)=-\dot\gamma\cdot z\), since \(\dot\gamma\) is perpendicular to \(\gamma\), and \(\dot\gamma\) sweeps an arc of directions of length \(\pi+\delta\). Thus if \(z\neq0\), the interface both approaches \(z\) and recedes from it along \(\Gamma\). If \(z=0\), it approaches \(z\) along the lower wall and recedes from it along the upper wall. So no turn moves \(q\) either, and by Theorem 2 the pieces are interlocked.</p>
-<p>Across an infinite cut the two tangents would meet, so we replace them by the two horizontal half-lines which leave the endpoints of \(\Gamma\) to the left. They meet \(\Gamma\) at two corners of exterior angle \(\delta/2\), so the total curvature is \(\pi+2\delta\). The argument above applies without change: the interface approaches the origin along the lower half-line and recedes from it along the upper one.</p>
+<p>Across an infinite cut the two tangents would meet, so we follow them only to a vertical line between the unit disk and their meeting point, such as the left edge of the board of Figure 10, and continue them from there by two horizontal half-lines to the left. These meet the tangents at two corners of exterior angle \(\delta/2\), so the total curvature is \(\pi+2\delta\). The argument above applies without change.</p>
 <p>Letting \(\delta\to0\) proves the second statement of the Proposition.</p>
 </details>
 <p>The extremal shapes differ from those in Fenchel's theorem<sup class="fn"><a href="#fn-fenchel" id="fnref-fenchel">7</a></sup>, by which the total curvature of a closed curve is at least \(2\pi\), with equality only for plane convex curves. (A related theorem of F&aacute;ry<sup class="fn"><a href="#fn-fary" id="fnref-fary">8</a></sup> and Milnor<sup class="fn"><a href="#fn-milnor" id="fnref-milnor">9</a></sup> says that a knotted curve in space has total curvature greater than \(4\pi\).) Here a circular arc alone does not suffice in a bounded board: the piece can be turned about its center (see <a href="#taking-out">Figure 7</a>). The straight walls of the tongue cost no bending, and block that turn.</p>
@@ -1744,15 +1744,17 @@ playground(document.getElementById('fig-out'), {shapes: ['cap'], modes: ['slide'
     mark(f, [0, 0], PI/2, a, .6, [-.42, .78]);
     txt(f, H.lq[0], H.lq[1], 'q'); txt(f, H.lp[0], H.lp[1], 'p'); tex(f, .82, -.95, '\\Gamma', 'small', 'start');
 
-    // across an infinite cut: horizontal half-lines leave the endpoints of Gamma to the left, at corners of exterior angle delta/2
-    f = frame(panel(box, 'across an infinite cut'), V, 330, 'The whole plane, cut along the same arc continued by two horizontal half-lines to the left; at each end of the arc there is a corner.');
+    // across an infinite cut: the tongue of Figure 10, continued from the edge of its board by horizontal half-lines to the left,
+    // at corners of exterior angle delta/2
+    f = frame(panel(box, 'across an infinite cut'), V, 330, 'The whole plane, cut along the same tongue, whose walls turn at the edge of the board into two horizontal half-lines to the left; at each turn there is a corner.');
     el('rect', {x: 0, y: 0, width: f.W, height: f.H, fill: C.p}, f.svg);
-    const cut = [[-9, -c]].concat(arc, [[-9, c]]);
+    const cut = [[-9, W0[1]]].concat(iface, [[-9, W1[1]]]);
     el('path', {d: f.d(cut, true), fill: C.q}, f.svg);
-    for (const [E, d] of [[E0, [-c, s]], [E1, [-c, -s]]]) dash(f, E, [E[0] + .9*d[0], E[1] + .9*d[1]]);
+    dash(f, [Bd[0], Bd[2]], [Bd[0], Bd[3]]);
+    for (const [W, d] of [[W0, [-c, s]], [W1, [-c, -s]]]) dash(f, W, [W[0] + .8*d[0], W[1] + .8*d[1]]);
     line(f, cut); normals(f); orient(f, cut, [.12, .5, .88]);
-    mark(f, E1, PI, PI + dl/2, .6, [E1[0] - .8, E1[1] - .48]); mark(f, E0, PI - dl/2, PI, .6, [E0[0] - .8, E0[1] + .3]);
-    txt(f, V[0] + .1, c + .12, '⋯', 'small muted', 'start'); txt(f, V[0] + .1, -c + .12, '⋯', 'small muted', 'start');
+    mark(f, W1, PI, PI + dl/2, .9, [W1[0] - .75, W1[1] + .14]); mark(f, W0, PI - dl/2, PI, .9, [W0[0] - .75, W0[1] - .42]);
+    txt(f, V[0] + .1, -.05, '⋯', 'small muted', 'start');
     txt(f, H.lq[0], H.lq[1], 'q'); txt(f, H.lp[0], H.lp[1], 'p'); tex(f, .82, -.95, '\\Gamma', 'small', 'start');
   })();
 
