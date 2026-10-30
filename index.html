@@ -331,20 +331,20 @@ n\cdot(\gamma-z)^\perp=\dot\gamma^\perp\cdot(\gamma-z)^\perp=\dot\gamma\cdot(\ga
 n\cdot w=\dot\gamma_1\ge0\qquad\text{at every smooth point of }\gamma,
 \]</span>
 <p>Since \(\gamma_1\) is continuous and piecewise smooth, this means that \(\gamma_1\) is nondecreasing.</p>
-<p>Let \(t_0\) be a smooth point of \(\gamma\) with \(\dot\gamma_1(t_0)\gt0\), and let \(L\) be the vertical line through \(\gamma(t_0)\). Since \(\gamma_1\) is nondecreasing and \(\dot\gamma_1(t_0)\gt0\),</p>
-<span class="math">\[
-\gamma_1(t)\lt\gamma_1(t_0)\quad\text{for }t\lt t_0\qquad\text{and}\qquad\gamma_1(t)\gt\gamma_1(t_0)\quad\text{for }t\gt t_0,
-\]</span>
-<p>so \(L\) meets \(\gamma\) only at \(\gamma(t_0)\). Hence each of the two open half-lines into which \(\gamma(t_0)\) divides \(L\) is a connected subset of \(p\cup q\), and therefore lies in \(p\) or in \(q\). Since \(n\cdot w=\dot\gamma_1(t_0)\gt0\), the points \(\gamma(t_0)+\varepsilon w\) lie in \(q\), and the points \(\gamma(t_0)-\varepsilon w\) lie in \(p\), for small \(\varepsilon\gt0\). Thus the points of \(L\) above \(\gamma(t_0)\) lie in \(q\), and the points of \(L\) below \(\gamma(t_0)\) lie in \(p\).</p>
-<p class="figcap">The vertical line through \(\gamma(t_0)\).</p>
-<div class="figure" id="fig-pf1"></div>
-<p>Now assume by contradiction that there exist \(y\in q\) and \(s\gt0\) such that \(y+sw\in p\). We cannot apply the above to the vertical line through \(y\) directly, since it may contain a segment of \(\gamma\), along which \(\dot\gamma_1=0\). We therefore move \(y\) sideways to a vertical line through a point \(\gamma(t_0)\) with \(\dot\gamma_1(t_0)\gt0\) (see <a href="#fig-pf0">the figure below</a>). Since \(p\) and \(q\) are open, there is \(\delta\gt0\) such that</p>
+<p>Assume by contradiction that there exist \(y\in q\) and \(s\gt0\) such that \(y+sw\in p\). The vertical line through \(y\) may contain a segment of \(\gamma\), along which \(\dot\gamma_1=0\). We therefore first move \(y\) sideways to a vertical line through a point \(\gamma(t_0)\) with \(\dot\gamma_1(t_0)\gt0\) (see <a href="#fig-pf0">the figure below</a>). Since \(p\) and \(q\) are open, there is \(\delta\gt0\) such that</p>
 <span class="math">\[
 y+(u,0)\in q\qquad\text{and}\qquad y+(u,0)+sw\in p\qquad\text{for every }u\in(-\delta,\delta).
 \]</span>
-<p>Each vertical segment from \(y+(u,0)\) to \(y+(u,0)+sw\) joins \(q\) to \(p\), so it meets \(\gamma\). Hence \(\gamma_1\) takes the values \(y_1-\delta/2\) and \(y_1+\delta/2\), at times \(t_-\lt t_+\), say. On \([t_-,t_+]\) the curve \(\gamma\) has finitely many corners and \(\gamma_1\) increases, so by the mean value theorem there is a smooth point \(t_0\in(t_-,t_+)\) with \(\dot\gamma_1(t_0)\gt0\). Since \(\gamma_1\) is nondecreasing, \(|\gamma_1(t_0)-y_1|\le\delta/2\), so the point \(y'=y+\big(\gamma_1(t_0)-y_1,0\big)\) satisfies \(y'\in q\) and \(y'+sw\in p\). Both points lie on the vertical line \(L\) through \(\gamma(t_0)\). By the above, \(y'\in q\) lies above \(\gamma(t_0)\). Hence so does \(y'+sw\), which therefore lies in \(q\), a contradiction.</p>
+<p>Each vertical segment from \(y+(u,0)\) to \(y+(u,0)+sw\) joins \(q\) to \(p\), so it meets \(\gamma\). Hence \(\gamma_1\) takes the values \(y_1-\delta/2\) and \(y_1+\delta/2\), at times \(t_-\lt t_+\), say. On \([t_-,t_+]\) the curve \(\gamma\) has finitely many corners and \(\gamma_1\) increases, so by the mean value theorem there is a smooth point \(t_0\in(t_-,t_+)\) with \(\dot\gamma_1(t_0)\gt0\). Since \(\gamma_1\) is nondecreasing, \(|\gamma_1(t_0)-y_1|\le\delta/2\), so the point \(y'=y+\big(\gamma_1(t_0)-y_1,0\big)\) satisfies \(y'\in q\) and \(y'+sw\in p\). Both points lie on the vertical line \(L\) through \(\gamma(t_0)\).</p>
 <p class="figcap">The vertical segments from \(y+(u,0)\) to \(y+(u,0)+sw\), \(|u|\lt\delta\), fill the shaded strip, and each of them meets \(\gamma\). The segment through \(y\) may run along \(\gamma\), but the segment through \(y'\) meets \(\gamma\) only at \(\gamma(t_0)\).</p>
 <div class="figure" id="fig-pf0"></div>
+<p>Since \(\gamma_1\) is nondecreasing and \(\dot\gamma_1(t_0)\gt0\),</p>
+<span class="math">\[
+\gamma_1(t)\lt\gamma_1(t_0)\quad\text{for }t\lt t_0\qquad\text{and}\qquad\gamma_1(t)\gt\gamma_1(t_0)\quad\text{for }t\gt t_0,
+\]</span>
+<p>so \(L\) meets \(\gamma\) only at \(\gamma(t_0)\). Hence each of the two open half-lines into which \(\gamma(t_0)\) divides \(L\) is a connected subset of \(p\cup q\), and therefore lies in \(p\) or in \(q\). Since \(n\cdot w=\dot\gamma_1(t_0)\gt0\), the points \(\gamma(t_0)+\varepsilon w\) lie in \(q\), and the points \(\gamma(t_0)-\varepsilon w\) lie in \(p\), for small \(\varepsilon\gt0\). Thus the points of \(L\) above \(\gamma(t_0)\) lie in \(q\), and the points of \(L\) below \(\gamma(t_0)\) lie in \(p\). In particular, \(y'\in q\) lies above \(\gamma(t_0)\). Hence so does \(y'+sw\), which therefore lies in \(q\), a contradiction.</p>
+<p class="figcap">The vertical line through \(\gamma(t_0)\).</p>
+<div class="figure" id="fig-pf1"></div>
 </li>
 <li>
 <p>Suppose that no \(w\neq0\) satisfies \(n\cdot w\ge0\) at every smooth point of \(\gamma\), and let \(g_\tau\), \(0\le\tau\le1\), be an admissible motion which is not constant. We may assume that \(g_\tau\) is not the identity for arbitrarily small \(\tau\gt0\), for otherwise we start the motion at the last time at which \(g_\tau\) is the identity. Choose \(\tau_j\searrow0\) such that \(g_{\tau_j}\) is not the identity. Every orientation-preserving isometry is a rotation about the origin followed by a translation,<sup class="fn"><a href="#fn-artin" id="fnref-artin">3</a></sup> so</p>
