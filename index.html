@@ -1567,8 +1567,8 @@ playground(document.getElementById('fig-out'), {shapes: ['cap'], modes: ['slide'
     arrow(f, [0, 0], [0, .62], C.n); arrow(f, [0, 0], V, C.bad); arrow(f, [0, 0], im, C.w);
     el('path', {d: f.d([xj, im]), fill: 'none', stroke: C.ink, 'stroke-width': 1.3, 'stroke-dasharray': '4 3'}, f.svg);
     for (const P of [[0, 0], xj, im]) el('circle', {cx: f.X(P[0]), cy: f.Y(P[1]), r: 3.2, fill: C.ink}, f.svg);
-    txt(f, -.02, -.28, 'x', 'small'); rich(f, -.1, al - .06, [['x'], ['j', 1]], 'small', 'end');
-    txt(f, .08, .55, 'n', 'small', 'start'); txt(f, .3, -.13, 'e', 'small', 'start'); rich(f, V[0] + .06, V[1] - .1, [['V(x)']], 'small', 'start');
+    txt(f, -.08, -.2, 'x', 'small', 'end'); rich(f, -.1, al - .06, [['x'], ['j', 1]], 'small', 'end');
+    txt(f, .08, .55, 'n', 'small', 'start'); txt(f, .36, -.54, 'e', 'small'); rich(f, V[0] + .06, V[1] - .1, [['V(x)']], 'small', 'start');
     rich(f, im[0] + .09, im[1] - .06, [['g'], ['τ', 1], ['j', 2], ['(x'], ['j', 1], [')']], 'small', 'start');
     rich(f, -.36, .42, [['S'], ['+', 1]], 'small'); rich(f, -.36, -.52, [['S'], ['−', 1]], 'small'); tex(f, -.55, -.14, '\\theta', 'small');
     txt(f, -1.15, .7, 'q'); txt(f, -1.15, -.75, 'p'); txt(f, 1.65, h(1.65) + .15, 'γ', 'small');
@@ -1586,7 +1586,7 @@ playground(document.getElementById('fig-out'), {shapes: ['cap'], modes: ['slide'
     el('path', {d: f.d(gam), fill: 'none', stroke: C.ink, 'stroke-width': 2.6, 'stroke-linejoin': 'round'}, f.svg);
     el('circle', {cx: f.X(X0[0]), cy: f.Y(X0[1]), r: f.S*.12, fill: C.w, 'fill-opacity': .14, stroke: C.w, 'stroke-width': 1.2, 'stroke-dasharray': '5 3'}, f.svg);
     el('circle', {cx: f.X(X0[0]), cy: f.Y(X0[1]), r: 3.2, fill: C.ink}, f.svg);
-    txt(f, X0[0] + .02, X0[1] - .36, 'x', 'small'); txt(f, X0[0] + .1, X0[1] + .2, 'B', 'small');
+    txt(f, X0[0], X0[1] - .24, 'x', 'small'); txt(f, X0[0] + .1, X0[1] + .2, 'B', 'small');
     txt(f, .5, 1.9, 'q'); txt(f, 2.5, 1.9, 'p'); txt(f, 1.62, .35, 'γ', 'small', 'start');
     sectors(big(panel(box, 'the sectors in <i>B</i>')));
   })();
