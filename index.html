@@ -120,7 +120,7 @@ details.sec:not([open]) > summary > h3::before { transform: none; }
 .figure .pz-again { display: none; position: absolute; left: 50%; bottom: 14px; transform: translateX(-50%); font: .95rem system-ui, sans-serif;
   color: #fff; background: #3f6e68; border: none; border-radius: 999px; padding: .5rem 1.2rem; cursor: pointer; box-shadow: 0 2px 10px rgba(40,40,90,.25); }
 .figure .pz-again:hover { background: #345c57; }
-.figure .pz-stage.done .pz-again { display: block; }
+.figure .pz-stage.done .pz-again, .figure .pz-stage.moved .pz-again { display: block; }
 .figure .pz-stage.won svg { opacity: .85; box-shadow: 0 0 0 3px rgba(27,175,122,.55); border-radius: 4px; }
 .figure .pz-stage.won .pz-again { background: #1a9e6f; }
 .figure .pz-stage.won .pz-again:hover { background: #158a60; }
@@ -983,7 +983,7 @@ function playground(root, o){
     buttons(o.modes.map((m) => [m, o.compact ? (m === 'wiggle' ? 'free' : m) : MODES[m]]), mode, (m) => { mode = m; grab = null; if (o.steps){ ghost = null; status = ''; render(); } else putBack(); }); }
   const stage = document.createElement('div'); stage.className = 'pz-stage'; box.appendChild(stage);
   const svg = el('svg', {role: 'img', 'aria-label': 'Two jigsaw pieces p and q; q can be dragged.'}, stage);
-  // a single slide or turn is one motion: afterwards the figure fades and offers to put q back
+  // a single slide or turn is one motion: afterwards the figure fades and offers to put q back; after a wiggle, it offers the same
   const again = document.createElement('button'); again.type = 'button'; again.className = 'pz-again';  stage.appendChild(again);
   const legend = document.createElement('div'); legend.className = 'pz-legend'; box.appendChild(legend);
   const ctl2 = document.createElement('div'); ctl2.className = 'pz-ctl'; box.appendChild(ctl2);
@@ -1117,7 +1117,9 @@ function playground(root, o){
     svg.setAttribute('viewBox', `0 0 ${W + (o.inset && (drawing || hints && mode !== 'turn') ? 190 : 0)} ${H}`);
     layer.q.setAttribute('transform', tf(pose));
     stage.classList.toggle('done', done); stage.classList.toggle('won', done && won);
-    again.innerHTML = o.plain ? '&#8634;' : won ? '<b>Separated!</b> &nbsp;Put <i>q</i> back' : 'Put <i>q</i> back'; if (o.plain){ again.title = 'put the piece back'; rd.style.display = 'none'; } reset.style.display = mode === 'wiggle' || o.steps ? '' : 'none';
+    // when wiggling, q may stay where it was left; once it is let go away from its slot, offer to put it back
+    stage.classList.toggle('moved', !done && !grab && mode === 'wiggle' && !atRest(pose));
+    again.innerHTML = o.plain ? '&#8634;' : won ? '<b>Separated!</b> &nbsp;Put <i>q</i> back' : 'Put <i>q</i> back'; if (o.plain){ again.title = 'put the piece back'; rd.style.display = 'none'; } reset.style.display = o.steps ? '' : 'none';
     const home = o.pin || SHAPES[key].pin; pinBack.style.display = mode === 'turn' && !o.pinFixed && !drawing && Math.hypot(pin[0] - home[0], pin[1] - home[1]) > 1e-9 ? '' : 'none';
     layer.qOut.setAttribute('stroke', grab && grab.kind === 'q' ? '#3f6e68' : '#26211d');
     layer.qOut.setAttribute('stroke-width', grab && grab.kind === 'q' ? 3 : 2.2);
