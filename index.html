@@ -546,9 +546,9 @@ n\cdot w=\cos\left(\theta-a-\tfrac\pi2\right)\ge0,
 \]</span>
 <p>since \(|\theta-a-\pi/2|\le\pi/2\). By Theorem 1 or by statement <span class="pz-piece n1" role="img" aria-label="1"></span> of Theorem 2, a slide in the direction \(w\) moves \(q\), so \(p\) and \(q\) are not interlocked.</p>
 <p>For the second statement, fix \(\delta\gt0\), and let \(\Gamma\) be the arc of the unit circle of angular width \(\pi+\delta\), symmetric about the first axis and open on the left. Its tangents at its endpoints meet at the point \((-1/\sin\frac\delta2,0)\).</p>
-<p class="figcap">The pieces of the proof, for \(\delta=40^\circ\). Along \(\Gamma\), the normals point at the origin. Left: in a rectangular board, \(\Gamma\) is continued along its tangents, which meet outside the board. Right: across an infinite cut, \(\Gamma\) is continued by horizontal half-lines, at corners of exterior angle \(\delta/2\).</p>
+<p class="figcap">The pieces of the proof, for \(\delta=30^\circ\), as at the start of Figure 10. Along \(\Gamma\), the normals point at the origin. Left: in a rectangular board, \(\Gamma\) is continued along its tangents, which meet outside the board. Right: across an infinite cut, \(\Gamma\) is continued by horizontal half-lines, at corners of exterior angle \(\delta/2\).</p>
 <div class="figure" id="fig-pf-prop"></div>
-<p>In a rectangular board which contains the closed unit disk but not this point, let the interface be \(\Gamma\), continued along these tangents to the edge of the board. It has no corners, so its total curvature is \(\pi+\delta\). Along \(\Gamma\) the normals point at the origin, so they sweep an arc of directions of length \(\pi+\delta\), which lies in no closed half-plane bounded by a line through the origin: no slide moves \(q\). For turns, let \(z\) be a pivot. Along \(\Gamma\) we have \(\dot\gamma\cdot(\gamma-z)=-\dot\gamma\cdot z\), since \(\dot\gamma\) is perpendicular to \(\gamma\), and \(\dot\gamma\) sweeps an arc of directions of length \(\pi+\delta\). Thus if \(z\neq0\), the interface both approaches \(z\) and recedes from it along \(\Gamma\). If \(z=0\), it approaches \(z\) along the lower wall and recedes from it along the upper wall. So no turn moves \(q\) either, and by Theorem 2 the pieces are interlocked.</p>
+<p>In a rectangular board which contains the closed unit disk but not this point, let the interface be \(\Gamma\), continued along these tangents to the edge of the board. This is the tongue of Figure 10, whose slider shows the width \(180^\circ+\delta\) of the arc. It has no corners, so its total curvature is \(\pi+\delta\). Along \(\Gamma\) the normals point at the origin, so they sweep an arc of directions of length \(\pi+\delta\), which lies in no closed half-plane bounded by a line through the origin: no slide moves \(q\). For turns, let \(z\) be a pivot. Along \(\Gamma\) we have \(\dot\gamma\cdot(\gamma-z)=-\dot\gamma\cdot z\), since \(\dot\gamma\) is perpendicular to \(\gamma\), and \(\dot\gamma\) sweeps an arc of directions of length \(\pi+\delta\). Thus if \(z\neq0\), the interface both approaches \(z\) and recedes from it along \(\Gamma\). If \(z=0\), it approaches \(z\) along the lower wall and recedes from it along the upper wall. So no turn moves \(q\) either, and by Theorem 2 the pieces are interlocked.</p>
 <p>Across an infinite cut the two tangents would meet, so we replace them by the two horizontal half-lines which leave the endpoints of \(\Gamma\) to the left. They meet \(\Gamma\) at two corners of exterior angle \(\delta/2\), so the total curvature is \(\pi+2\delta\). The argument above applies without change: the interface approaches the origin along the lower half-line and recedes from it along the upper one.</p>
 <p>Letting \(\delta\to0\) proves the second statement of the Proposition.</p>
 </details>
@@ -1721,7 +1721,8 @@ playground(document.getElementById('fig-out'), {shapes: ['cap'], modes: ['slide'
   // 11. for the proof of the Proposition: the arc Gamma of width pi + delta, continued along its tangents in a board,
   // and by horizontal half-lines across an infinite cut
   (function(){
-    const box = wrap('fig-pf-prop'), dl = 40*PI/180, a = (PI + dl)/2, s = Math.sin(dl/2), c = Math.cos(dl/2), V = [-3.2, 1.8, -1.8, 1.8];
+    // the tongue of Figure 10, at the initial position of its slider
+    const H = SHAPES.hook, box = wrap('fig-pf-prop'), dl = H.param*PI/180, a = (PI + dl)/2, s = Math.sin(dl/2), c = Math.cos(dl/2), V = [-4.05, 1.8, -1.8, 1.8];
     const E0 = [-s, -c], E1 = [-s, c], arc = []; for (let k = 0; k <= 80; k++){ const t = -a + 2*a*k/80; arc.push([Math.cos(t), Math.sin(t)]); }
     // the normals along Gamma, the origin, and an angle of size delta/2 at P from the direction b0 to b1 (in radians), labeled
     const normals = (f) => { for (const d of [-70, -35, 0, 35, 70]){ const t = d*PI/180, P = [Math.cos(t), Math.sin(t)]; arrow(f, P, [.55*P[0], .55*P[1]], C.n, 2); }
@@ -1733,20 +1734,18 @@ playground(document.getElementById('fig-out'), {shapes: ['cap'], modes: ['slide'
     const line = (f, pts) => el('path', {d: f.d(pts), fill: 'none', stroke: C.ink, 'stroke-width': 2.6, 'stroke-linejoin': 'round'}, f.svg);
 
     // in a board: the walls run along the tangents to the left edge, and the tangents meet beyond it
-    const Bd = [-2.6, 1.6, -1.6, 1.6], M = [-1/s, 0];
-    const W0 = [Bd[0], -c - (Bd[0] + s)*s/c], W1 = [Bd[0], c + (Bd[0] + s)*s/c];
-    let f = frame(panel(box, 'in a board'), V, 300, 'A rectangular board; the interface is a circular arc slightly longer than a half-circle, continued along its tangents to the left edge of the board. The normals along the arc point at its center.');
+    const Bd = H.board, M = [-1/s, 0], iface = [].concat(...H.build(H.param).iface).map((x) => x.P), W0 = iface[0], W1 = iface[iface.length - 1];
+    let f = frame(panel(box, 'in a board'), V, 330, 'A rectangular board; the interface is a circular arc slightly longer than a half-circle, continued along its tangents to the left edge of the board. The normals along the arc point at its center.');
     el('rect', {x: f.X(Bd[0]), y: f.Y(Bd[3]), width: f.S*(Bd[1] - Bd[0]), height: f.S*(Bd[3] - Bd[2]), fill: C.p, stroke: C.ink, 'stroke-width': 1.4}, f.svg);
-    const iface = [W0].concat(arc, [W1]);
     el('path', {d: f.d(iface, true), fill: C.q, stroke: C.ink, 'stroke-width': 1.4}, f.svg);
     dash(f, W0, M); dash(f, W1, M); el('circle', {cx: f.X(M[0]), cy: f.Y(M[1]), r: 3, fill: C.muted}, f.svg);
     dash(f, [0, 0], [0, 1.35]); dash(f, [0, 0], [1.3*E1[0], 1.3*E1[1]]);
     line(f, iface); normals(f); orient(f, iface, [.08, .5, .92]);
-    mark(f, [0, 0], PI/2, a, .5, [-.12, .72]);
-    txt(f, -1.6, -.08, 'q'); txt(f, 1.2, -1.25, 'p'); tex(f, .82, -.95, '\\Gamma', 'small', 'start');
+    mark(f, [0, 0], PI/2, a, .6, [-.42, .78]);
+    txt(f, H.lq[0], H.lq[1], 'q'); txt(f, H.lp[0], H.lp[1], 'p'); tex(f, .82, -.95, '\\Gamma', 'small', 'start');
 
     // across an infinite cut: horizontal half-lines leave the endpoints of Gamma to the left, at corners of exterior angle delta/2
-    f = frame(panel(box, 'across an infinite cut'), V, 300, 'The whole plane, cut along the same arc continued by two horizontal half-lines to the left; at each end of the arc there is a corner.');
+    f = frame(panel(box, 'across an infinite cut'), V, 330, 'The whole plane, cut along the same arc continued by two horizontal half-lines to the left; at each end of the arc there is a corner.');
     el('rect', {x: 0, y: 0, width: f.W, height: f.H, fill: C.p}, f.svg);
     const cut = [[-9, -c]].concat(arc, [[-9, c]]);
     el('path', {d: f.d(cut, true), fill: C.q}, f.svg);
@@ -1754,7 +1753,7 @@ playground(document.getElementById('fig-out'), {shapes: ['cap'], modes: ['slide'
     line(f, cut); normals(f); orient(f, cut, [.12, .5, .88]);
     mark(f, E1, PI, PI + dl/2, .6, [E1[0] - .8, E1[1] - .48]); mark(f, E0, PI - dl/2, PI, .6, [E0[0] - .8, E0[1] + .3]);
     txt(f, V[0] + .1, c + .12, '⋯', 'small muted', 'start'); txt(f, V[0] + .1, -c + .12, '⋯', 'small muted', 'start');
-    txt(f, -1.6, -.08, 'q'); txt(f, 1.2, -1.25, 'p'); tex(f, .82, -.95, '\\Gamma', 'small', 'start');
+    txt(f, H.lq[0], H.lq[1], 'q'); txt(f, H.lp[0], H.lp[1], 'p'); tex(f, .82, -.95, '\\Gamma', 'small', 'start');
   })();
 
   // 6. clean contact near an endpoint x0 of the interface, and its failure in the wedged triangle
