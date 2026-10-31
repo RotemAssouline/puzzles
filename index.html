@@ -318,9 +318,7 @@ n\cdot(\gamma-z)^\perp=\dot\gamma^\perp\cdot(\gamma-z)^\perp=\dot\gamma\cdot(\ga
 
 <details class="sec" open><summary><h3 id="wiggling">Wiggling does not help</h3></summary>
 <p>The cleanest setting is an idealized puzzle: the whole plane, cut into two pieces along a single curve which goes off to infinity at both ends. Here turns are blocked automatically: whatever the pivot, the interface comes in from infinity and goes back out to infinity, so it somewhere approaches the pivot and somewhere recedes from it. Slides are then the only way to separate the pieces.</p>
-<details class="proof"><summary>Formally</summary>
-<p>Parametrize \(\gamma\) by arclength, \(\gamma\colon\mathbb{R}\to\mathbb{R}^2\). That both ends go to infinity means that \(|\gamma(t)|\to\infty\) as \(t\to\pm\infty\). Fix \(z\in\mathbb{R}^2\) and put \(f(t)=|\gamma(t)-z|^2\). The function \(f\) is piecewise smooth, with \(f'=2\,\dot\gamma\cdot(\gamma-z)\) away from the corners, and \(f(t)\to\infty\) as \(t\to\pm\infty\). If \(\dot\gamma\cdot(\gamma-z)\ge0\) at every smooth point, then \(f\) is nondecreasing, so \(f(t)\le f(0)\) for all \(t\le0\), contradicting \(f(t)\to\infty\) as \(t\to-\infty\). Hence \(\dot\gamma\cdot(\gamma-z)\lt0\) at some smooth point, and likewise, using \(t\to+\infty\), \(\dot\gamma\cdot(\gamma-z)\gt0\) at another. By <a href="#eq-2">(2)</a>, a counterclockwise turn about \(z\) pushes \(q\) into \(p\) at the first point, and a clockwise turn at the second.</p>
-</details>
+<p>Theorem 1 below shows that in this setting, testing slides is enough: if the normals of the cut fit in a closed half-circle, \(q\) can be slid all the way to infinity; if not, \(q\) cannot be moved at all, not even by a motion that mixes sliding and turning.</p>
 <details class="fig" open><summary><b>Figure 4: the whole plane, cut in two</b></summary>
 <p class="figcap">A window onto an idealized puzzle: the cut continues to infinity in both directions.</p>
 <div class="figure interactive" id="fig-plane"></div>
@@ -416,7 +414,7 @@ g_{\tau_j}(x_j)=x+r_je+o(r_j).
 </details>
 
 <details class="sec" open><summary><h3 id="counterexamples">&hellip; unless the contact is not clean</h3></summary>
-<p>A real puzzle, however, is bounded. This has two effects. First, turns become genuinely available, and must be excluded by the shape of the interface. Second, the interface has endpoints, near which one piece may obstruct the other in ways that the normals of the interface do not detect. To rule this out, we require the pieces to be in <i>clean contact</i>: roughly speaking, near every point of the interface the two pieces lie on opposite sides of it, and near an endpoint of the interface they lie on opposite sides of its continuation.</p>
+<p>A real puzzle, however, is <i>bounded</i>: unlike the idealized puzzle above, it does not go off to infinity, but fits inside some large enough disk. This has two effects. First, turns become genuinely available, and must be excluded by the shape of the interface. Second, the interface has endpoints, near which one piece may obstruct the other in ways that the normals of the interface do not detect. To rule this out, we require the pieces to be in <i>clean contact</i>: roughly speaking, near every point of the interface the two pieces lie on opposite sides of it, and near an endpoint of the interface they lie on opposite sides of its continuation.</p>
 <div class="figure" id="fig-clean"></div>
 <p>For instance, clean contact holds when a board with smooth boundary is cut into two pieces along a curve meeting the boundary transversally.</p>
 <details class="proof"><summary>Precise definition of clean contact</summary>
