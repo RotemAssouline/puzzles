@@ -535,14 +535,19 @@ g_{\tau_j}(x_j)=x+r_je+o(r_j).
 <p>For an infinite cut, the integral and the sum are taken over all of \(\mathbb{R}\), and the total curvature may be infinite.</p>
 </details>
 <div class="callout" id="proposition"><div class="callout-title">Proposition</div>
-<p>Let \(p\) and \(q\) be adjacent pieces of a jigsaw puzzle in clean contact. If \(p\) and \(q\) are interlocked, then the total curvature of their interface is greater than \(\pi\). Moreover, for every \(\varepsilon\gt0\), there are interlocked pieces whose interface has total curvature less than \(\pi+\varepsilon\).</p></div>
+<ol class="pz-pieces">
+<li>Let \(p\) and \(q\) be adjacent pieces of a jigsaw puzzle in clean contact. If \(p\) and \(q\) are interlocked, then the total curvature of their interface is greater than \(\pi\).</li>
+<li>For every \(\varepsilon\gt0\), there are interlocked pieces of a jigsaw puzzle in clean contact whose interface has total curvature less than \(\pi+\varepsilon\).</li>
+</ol></div>
 <p>The reason is simple: if the interface turns by at most half a turn, then its normals cover at most half a circle of directions, so a slide moves \(q\).</p>
-<p>The bound \(\pi\) is approached by the <i>tongue</i> of Figure 10: a round head which is only slightly more than a semicircle, continued along its tangents to the edge of the board. The head blocks every slide and every turn except the one about its center, and the two straight walls block that turn, at no cost in bending.</p>
+<p>Statement <span class="pz-piece n2" role="img" aria-label="2"></span> says that the bound \(\pi\) cannot be improved, as the <i>tongue</i> of Figure 10 shows.</p>
 <details class="fig" open><summary><b>Figure 10: the tongue</b></summary>
 <p class="figcap">The slider changes the angular width of the arc, which equals the total curvature of the interface.</p>
 <div class="figure interactive" id="fig-hook"></div>
 </details>
 <details class="proof"><summary>Proof of the Proposition</summary>
+<ol class="pz-pieces">
+<li>
 <p>Suppose that the total curvature of \(\gamma\) is at most \(\pi\). Choose the angle \(\theta\) of \(\dot\gamma\) so that at each corner it jumps by the exterior angle. Since \(\dot\theta=\kappa\) along the smooth pieces, for smooth points \(t\lt t'\),</p>
 <span class="math">\[
 |\theta(t')-\theta(t)|\le\int_t^{t'}|\kappa|\,du+\sum_{t\lt t_i\lt t'}|\alpha_i|\le\pi.
@@ -552,11 +557,15 @@ g_{\tau_j}(x_j)=x+r_je+o(r_j).
 n\cdot w=\cos\left(\theta-a-\tfrac\pi2\right)\ge0,
 \]</span>
 <p>since \(|\theta-a-\pi/2|\le\pi/2\). By statement <span class="pz-piece n1" role="img" aria-label="1"></span> of Theorem 2, a slide in the direction \(w\) moves \(q\), so \(p\) and \(q\) are not interlocked.</p>
-<p>For the second statement, fix \(\delta\gt0\), and let \(\Gamma\) be the arc of the unit circle of angular width \(\pi+\delta\), symmetric about the first axis and open on the left. Its tangents at its endpoints meet at the point \((-1/\sin\frac\delta2,0)\).</p>
+</li>
+<li>
+<p>Fix \(\delta\gt0\), and let \(\Gamma\) be the arc of the unit circle of angular width \(\pi+\delta\), symmetric about the first axis and open on the left. Its tangents at its endpoints meet at the point \((-1/\sin\frac\delta2,0)\).</p>
 <p class="figcap">The pieces of the proof, for \(\delta=30^\circ\), as at the start of Figure 10. The arc \(\Gamma\) is continued along its tangents, which meet outside the board. Along \(\Gamma\), the normals point at the origin.</p>
 <div class="figure" id="fig-pf-prop"></div>
 <p>In a rectangular board which contains the closed unit disk but not this point, let the interface be \(\Gamma\), continued along these tangents to the edge of the board. This is the tongue of Figure 10, whose slider shows the width \(180^\circ+\delta\) of the arc. It has no corners, so its total curvature is \(\pi+\delta\). Along \(\Gamma\) the normals point at the origin, so they sweep an arc of directions of length \(\pi+\delta\), which lies in no closed half-plane bounded by a line through the origin: no slide moves \(q\). For turns, let \(z\) be a pivot. Along \(\Gamma\) we have \(\dot\gamma\cdot(\gamma-z)=-\dot\gamma\cdot z\), since \(\dot\gamma\) is perpendicular to \(\gamma\), and \(\dot\gamma\) sweeps an arc of directions of length \(\pi+\delta\). Thus if \(z\neq0\), the interface both approaches \(z\) and recedes from it along \(\Gamma\). If \(z=0\), it approaches \(z\) along the lower wall and recedes from it along the upper wall. So no turn moves \(q\) either, and by Theorem 2 the pieces are interlocked.</p>
-<p>Letting \(\delta\to0\) proves the second statement of the Proposition.</p>
+<p>Taking \(\delta\lt\varepsilon\) proves statement <span class="pz-piece n2" role="img" aria-label="2"></span>.</p>
+</li>
+</ol>
 </details>
 <p>The extremal shapes differ from those in Fenchel's theorem<sup class="fn"><a href="#fn-fenchel" id="fnref-fenchel">7</a></sup>, by which the total curvature of a closed curve is at least \(2\pi\), with equality only for plane convex curves. (A related theorem of F&aacute;ry<sup class="fn"><a href="#fn-fary" id="fnref-fary">8</a></sup> and Milnor<sup class="fn"><a href="#fn-milnor" id="fnref-milnor">9</a></sup> says that a knotted curve in space has total curvature greater than \(4\pi\).) Here a circular arc alone does not suffice in a bounded board: the piece can be turned about its center (see <a href="#taking-out">Figure 7</a>). The straight walls of the tongue cost no bending, and block that turn.</p>
 <details class="proof exercises"><summary>Exercises</summary>
@@ -565,14 +574,14 @@ n\cdot w=\cos\left(\theta-a-\tfrac\pi2\right)\ge0,
 <details class="proof"><summary>Solution</summary>
 <p>Let \(\alpha\lt\pi\) be the angular width of the arc. The normals along the arc are \(-(\cos\varphi,\sin\varphi)\), where \(|\varphi|\le\alpha/2\lt\pi/2\), so their first coordinates are negative, and the normals of the walls equal the normals at the ends of the arc. Thus \(w=(-1,0)\) satisfies \(n\cdot w\ge0\) everywhere, and \(q\) slides out to the left.</p>
 </details></li>
-<li>Show that the Proposition fails without clean contact: find interlocked pieces of a bounded puzzle whose interface has total curvature \(0\).
+<li>Show that statement <span class="pz-piece n1" role="img" aria-label="1"></span> of the Proposition fails without clean contact: find interlocked pieces of a bounded puzzle whose interface has total curvature \(0\).
 <details class="proof"><summary>Solution</summary>
 <p>The wedged tooth of Figure 5: its interface is a straight segment, whose tangent does not turn at all, and yet the pieces are interlocked. The corners of the slot, which hold \(q\) in place, are not part of the interface.</p>
 </details></li>
 <li>Show that the Proposition also holds for the two pieces of an infinite cut as in Theorem 1: if they are interlocked, then the total curvature of their interface is greater than \(\pi\), and for every \(\varepsilon\gt0\) there are interlocked pieces whose interface has total curvature less than \(\pi+\varepsilon\). Why can the tongue not be used as it is?
 <details class="proof"><summary>Solution</summary>
-<p>The proof of the first statement applies without change, with Theorem 1 in place of statement <span class="pz-piece n1" role="img" aria-label="1"></span> of Theorem 2.</p>
-<p>For the second statement, let \(\Gamma\) be as in the proof. Its tangents at its endpoints meet at \((-1/\sin\frac\delta2,0)\), so continued to infinity they would cross. Instead, follow them only to a vertical line between the unit disk and their meeting point, such as the left edge of the board of Figure 10, and continue them from there by two horizontal half-lines to the left. These meet the tangents at two corners of exterior angle \(\delta/2\), so the total curvature is \(\pi+2\delta\). Along \(\Gamma\) the normals point at the origin, so they cover an arc of directions of length \(\pi+\delta\), which lies in no closed half-plane bounded by a line through the origin. By Theorem 1, the pieces are interlocked. Letting \(\delta\to0\) proves the second statement.</p>
+<p>The proof of statement <span class="pz-piece n1" role="img" aria-label="1"></span> applies without change, with Theorem 1 in place of statement <span class="pz-piece n1" role="img" aria-label="1"></span> of Theorem 2.</p>
+<p>For statement <span class="pz-piece n2" role="img" aria-label="2"></span>, let \(\Gamma\) be as in the proof. Its tangents at its endpoints meet at \((-1/\sin\frac\delta2,0)\), so continued to infinity they would cross. Instead, follow them only to a vertical line between the unit disk and their meeting point, such as the left edge of the board of Figure 10, and continue them from there by two horizontal half-lines to the left. These meet the tangents at two corners of exterior angle \(\delta/2\), so the total curvature is \(\pi+2\delta\). Along \(\Gamma\) the normals point at the origin, so they cover an arc of directions of length \(\pi+\delta\), which lies in no closed half-plane bounded by a line through the origin. By Theorem 1, the pieces are interlocked. Taking \(\delta\lt\varepsilon/2\) proves statement <span class="pz-piece n2" role="img" aria-label="2"></span>.</p>
 <p class="figcap">The cut of the solution, for \(\delta=30^\circ\). The walls of the tongue turn at the edge of the board of Figure 10 (dashed) into horizontal half-lines, at corners of exterior angle \(\delta/2\).</p>
 <div class="figure" id="fig-ex-cut"></div>
 </details></li>
