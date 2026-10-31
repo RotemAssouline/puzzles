@@ -1116,7 +1116,7 @@ function playground(root, o){
     svg.setAttribute('viewBox', `0 0 ${W + (o.inset && (drawing || hints && mode !== 'turn') ? 190 : 0)} ${H}`);
     layer.q.setAttribute('transform', tf(pose));
     stage.classList.toggle('done', done); stage.classList.toggle('won', done && won);
-    again.innerHTML = o.plain ? '&#8634;' : won ? '<b>Separated!</b> &nbsp;Put <i>q</i> back' : 'Put <i>q</i> back'; if (o.plain){ again.title = 'put the piece back'; rd.style.display = 'none'; } reset.style.display = mode === 'wiggle' || o.steps ? '' : 'none';
+    again.innerHTML = o.plain ? '&#8634;' : won ? '<b>Separated!</b> &nbsp;Put <i>q</i> back' : 'Put <i>q</i> back'; if (o.plain){ again.title = 'put the piece back'; rd.style.display = 'none'; } reset.style.display = !o.plain && (mode === 'wiggle' || o.steps) ? '' : 'none';
     const home = o.pin || SHAPES[key].pin; pinBack.style.display = mode === 'turn' && !o.pinFixed && !drawing && Math.hypot(pin[0] - home[0], pin[1] - home[1]) > 1e-9 ? '' : 'none';
     layer.qOut.setAttribute('stroke', grab && grab.kind === 'q' ? '#3f6e68' : '#26211d');
     layer.qOut.setAttribute('stroke-width', grab && grab.kind === 'q' ? 3 : 2.2);
