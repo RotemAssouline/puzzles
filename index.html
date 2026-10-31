@@ -56,11 +56,12 @@ details.sec > summary > h3 { position: relative; }
 details.sec > summary > h3::before { content: ""; position: absolute; left: -1.35rem; top: .28em; width: .8em; height: .8em;
   background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0.6 -1 20 20'%3E%3Cpath d='M3 3H7.7A1.5 1.5 0 1 0 10.3 3H15V7.2A2.1 2.1 0 1 1 15 10.8V15H10.3A1.5 1.5 0 1 0 7.7 15H3V10.3A1.5 1.5 0 1 0 3 7.7Z' fill='%233f6e68'/%3E%3C/svg%3E") center / contain no-repeat; transform: rotate(90deg); transition: transform .2s; }
 details.sec:not([open]) > summary > h3::before { transform: none; }
-/* a quiet hint next to each collapsible title */
+/* a quiet hint next to each title that starts collapsed */
 @media screen {
-  details.proof > summary::after, details.fig > summary::after, details.sec > summary > h3::after {
+  details.hint > summary::after, details.sec.hint > summary > h3::after {
     content: "(click to expand)"; display: inline-block; margin-left: .55em; font: normal normal .72rem system-ui, sans-serif; color: #a3a8b0; vertical-align: .1em; }
-  details.proof[open] > summary::after, details.fig[open] > summary::after, details.sec[open] > summary > h3::after { content: "(click to collapse)"; }
+  details.hint[open] > summary::after, details.sec.hint[open] > summary > h3::after { content: "(click to collapse)"; }
+  details.sec.hint > summary::after { content: none; }
 }
 .print-btn { font: .85rem system-ui, sans-serif; padding: .2rem .7rem; cursor: pointer; }
 .drawing { display: block; max-width: 420px; width: 100%; margin: 1.2rem auto; }
@@ -177,6 +178,8 @@ document.addEventListener('click', (e) => {
 });
 window.addEventListener('hashchange', revealHash);
 document.addEventListener('DOMContentLoaded', revealHash);
+// only what starts collapsed gets the (click to expand) hint
+document.addEventListener('DOMContentLoaded', () => document.querySelectorAll('details:not([open])').forEach((d) => d.classList.add('hint')));
 let closedBeforePrint = [];
 window.addEventListener('beforeprint', () => { closedBeforePrint = [...document.querySelectorAll('details:not([open])')]; closedBeforePrint.forEach((d) => d.open = true); });
 window.addEventListener('afterprint', () => { closedBeforePrint.forEach((d) => d.open = false); });
