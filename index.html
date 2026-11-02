@@ -334,7 +334,7 @@ n\cdot(\gamma-z)^\perp=\dot\gamma^\perp\cdot(\gamma-z)^\perp=\dot\gamma\cdot(\ga
 <li>
 <p>Rotating the picture, we may assume that \(w=(0,1)\). For a point \(x \in \mathbb{R}^2\), write \(x=(x_1,x_2)\), and similarly \(\gamma=(\gamma_1,\gamma_2)\). Since \(n=\dot\gamma^\perp\) and \(v^\perp=(-v_2,v_1)\) for every \(v\in\mathbb{R}^2\), we have \(n=(-\dot\gamma_2,\dot\gamma_1)\). Thus the assumption \(n\cdot w\ge0\) reads</p>
 <span class="math">\[
-n\cdot w=\dot\gamma_1\ge0\qquad\text{at every smooth point of }\gamma,
+n\cdot w=\dot\gamma_1\ge0\qquad\text{at every smooth point of }\gamma.
 \]</span>
 <p>Since \(\gamma_1\) is continuous and piecewise smooth, this means that \(\gamma_1\) is nondecreasing.</p>
 <p>Assume by contradiction that there exist \(y\in q\) and \(s\gt0\) such that \(y+sw\in p\). The vertical line through \(y\) may contain a segment of \(\gamma\), along which \(\dot\gamma_1=0\). We therefore first move \(y\) sideways to a vertical line through a point \(\gamma(t_0)\) with \(\dot\gamma_1(t_0)\gt0\) (see <a href="#fig-pf0">the figure below</a>). Since \(p\) and \(q\) are open, there is \(\delta\gt0\) such that</p>
@@ -1133,8 +1133,8 @@ function playground(root, o){
     svg.setAttribute('viewBox', `0 0 ${W + (o.inset && (drawing || hints && mode !== 'turn') ? 190 : 0)} ${H}`);
     layer.q.setAttribute('transform', tf(pose));
     stage.classList.toggle('done', done); stage.classList.toggle('won', done && won);
-    again.innerHTML = o.plain ? '&#8634;' : won ? '<b>Separated!</b> &nbsp;Put <i>q</i> back' : 'Put <i>q</i> back'; if (o.plain){ again.title = 'put the piece back'; rd.style.display = 'none'; } reset.style.display = !o.plain && (mode === 'wiggle' || o.steps) ? '' : 'none';
-    const home = o.pin || SHAPES[key].pin; pinBack.style.display = mode === 'turn' && !o.pinFixed && !drawing && Math.hypot(pin[0] - home[0], pin[1] - home[1]) > 1e-9 ? '' : 'none';
+    again.innerHTML = o.plain ? '&#8634;' : won ? '<b>Separated!</b> &nbsp;Put <i>q</i> back' : 'Put <i>q</i> back'; if (o.plain){ again.title = 'put the piece back'; rd.style.display = 'none'; } reset.style.display = !o.plain && !done && (mode === 'wiggle' || o.steps) ? '' : 'none';
+    const home = o.pin || SHAPES[key].pin; pinBack.style.display = !done && mode === 'turn' && !o.pinFixed && !drawing && Math.hypot(pin[0] - home[0], pin[1] - home[1]) > 1e-9 ? '' : 'none';
     layer.qOut.setAttribute('stroke', grab && grab.kind === 'q' ? '#3f6e68' : '#26211d');
     layer.qOut.setAttribute('stroke-width', grab && grab.kind === 'q' ? 3 : 2.2);
     layer.ghost.innerHTML = ''; layer.rail.innerHTML = '';
