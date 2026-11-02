@@ -389,9 +389,9 @@ n\cdot V(x)\lt0.\tag{6}
 <div class="figure" id="fig-pf-field"></div>
 <ul>
 <li>If \(\omega=0\), then \(V\) is the constant vector \(b\), and \(b\neq0\). By our assumption, \(w=b\) does not satisfy \(n\cdot w\ge0\) at every smooth point of \(\gamma\). So there is a smooth point \(x\) of \(\gamma\) with \(n\cdot V(x)=n\cdot b\lt0\), as claimed.</li>
-<li>If \(\omega\neq0\), then \(V(y)=\omega(y-z)^\perp\), where \(z=b^\perp/\omega\), and by <a href="#eq-2">(2)</a>,
+<li>If \(\omega\neq0\), then \(V(y)=\omega(y-z)^\perp\), where \(z=b^\perp/\omega\). Since \(n=\dot\gamma^\perp\), and rotating two vectors by \(90^\circ\) does not change their inner product,
 <span class="math">\[
-n\cdot V(\gamma)=\omega\,\dot\gamma\cdot(\gamma-z)=\frac\omega2\,f',\qquad\text{where }f(t)=|\gamma(t)-z|^2.
+n\cdot V(\gamma)=\omega\,\dot\gamma^\perp\cdot(\gamma-z)^\perp=\omega\,\dot\gamma\cdot(\gamma-z)=\frac\omega2\,f',\qquad\text{where }f(t)=|\gamma(t)-z|^2.
 \]</span>
 The function \(f\) is continuous, and \(f(t)\to\infty\) as \(t\to\pm\infty\), since \(|\gamma(t)|\to\infty\). If \(\omega f'\ge0\) at every smooth point, then \(f\) is nondecreasing if \(\omega\gt0\), so that \(f(t)\le f(0)\) for all \(t\le0\), and nonincreasing if \(\omega\lt0\), so that \(f(t)\le f(0)\) for all \(t\ge0\). Both contradict \(f(t)\to\infty\), as \(t\to-\infty\) and as \(t\to+\infty\), respectively, which proves <a href="#eq-6">(6)</a>.</li>
 </ul>
