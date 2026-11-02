@@ -189,7 +189,7 @@ window.addEventListener('afterprint', () => { closedBeforePrint.forEach((d) => d
 <body>
 <h1>Why jigsaw pieces cannot slide apart</h1>
 <h4>Rotem Assouline, Itai Benjamini and Claude</h4>
-<p><i>Last updated: October 31, 2026</i></p>
+<p><i>Last updated: November 2, 2026</i></p>
 <p><button type="button" class="print-btn" onclick="window.print()">Print</button> <button type="button" class="print-btn" id="toggle-sections">Collapse all</button></p>
 <script>
 (function(){
@@ -228,7 +228,7 @@ window.addEventListener('afterprint', () => { closedBeforePrint.forEach((d) => d
 <details class="sec" open><summary><h3 id="setup">The question</h3></summary>
 <p>A jigsaw puzzle is a <i>board</i> cut into <i>pieces</i>. Two pieces \(p\) and \(q\) are <i>adjacent</i> if they touch, and the curve along which they touch is their <i>interface</i>, which we denote by \(\gamma\).</p>
 <details class="proof"><summary>Formally</summary>
-<p>The board is a compact subset of \(\mathbb{R}^2\) containing finitely many pieces. The pieces are pairwise disjoint connected open sets, each bounded by finitely many piecewise-smooth simple closed curves. Two pieces \(p\) and \(q\) are adjacent if \(\overline p\cap\overline q\neq\varnothing\). We assume that their interface \(\gamma:=\overline p\cap\overline q\) is a piecewise-smooth simple curve, either an arc or a closed curve. This definition does not cover the unbounded puzzle of <a href="#theorem-1">Theorem 1</a>, whose two pieces are described in its statement.</p>
+<p>The board is a compact subset of \(\mathbb{R}^2\) containing finitely many pieces. The pieces are pairwise disjoint connected open sets, each bounded by finitely many piecewise-smooth simple closed curves. Two pieces \(p\) and \(q\) are adjacent if \(\overline p\cap\overline q\neq\varnothing\). We assume that their interface \(\gamma:=\overline p\cap\overline q\) is a piecewise-smooth simple curve, either an arc or a closed curve.<sup class="fn"><a href="#fn-unbounded" id="fnref-unbounded">1</a></sup></p>
 </details>
 <p class="figcap">A board cut into six pieces. The pieces \(p\) and \(q\) are adjacent, and their interface \(\gamma\) is drawn thick.</p>
 <div class="figure" id="fig-def"></div>
@@ -261,7 +261,7 @@ window.addEventListener('afterprint', () => { closedBeforePrint.forEach((d) => d
 </details>
 
 <details class="sec" open><summary><h3 id="sliding">Sliding</h3></summary>
-<p>Suppose we slide the piece \(q\) in some direction. Wherever a normal of the interface makes an obtuse angle with the direction of the slide, the slide pushes \(q\) into \(p\) at once. If, on the other hand, no normal makes an obtuse angle with it, then the slide does not push \(q\) into \(p\) anywhere, and \(q\) can be slid a little in that direction.<sup class="fn"><a href="#fn-clean" id="fnref-clean">1</a>,<a href="#fn-draft" id="fnref-draft">2</a></sup> Hence, in order for it to be impossible to separate the pieces by a slide, the normals must point in sufficiently many directions: if we place all normals on a single circle, they should not all fit in a closed half-circle.</p>
+<p>Suppose we slide the piece \(q\) in some direction. Wherever a normal of the interface makes an obtuse angle with the direction of the slide, the slide pushes \(q\) into \(p\) at once. If, on the other hand, no normal makes an obtuse angle with it, then the slide does not push \(q\) into \(p\) anywhere, and \(q\) can be slid a little in that direction.<sup class="fn"><a href="#fn-clean" id="fnref-clean">2</a>,<a href="#fn-draft" id="fnref-draft">3</a></sup> Hence, in order for it to be impossible to separate the pieces by a slide, the normals must point in sufficiently many directions: if we place all normals on a single circle, they should not all fit in a half-circle.</p>
 <details class="proof"><summary>Formally</summary>
 <p>Let \(w\neq0\) be the direction of the slide. At a smooth point of \(\gamma\) where \(n\cdot w\lt 0\), the slide immediately pushes \(q\) into \(p\). If, on the other hand,</p>
 <span id="eq-1"></span><span class="math">\[
@@ -318,7 +318,7 @@ n\cdot(\gamma-z)^\perp=\dot\gamma^\perp\cdot(\gamma-z)^\perp=\dot\gamma\cdot(\ga
 
 <details class="sec" open><summary><h3 id="wiggling">Wiggling does not help</h3></summary>
 <p>The cleanest setting is an idealized puzzle: the whole plane, cut into two pieces along a single curve which goes off to infinity at both ends. Here turns are blocked automatically: whatever the pivot, the interface comes in from infinity and goes back out to infinity, so it somewhere approaches the pivot and somewhere recedes from it. Slides are then the only way to separate the pieces.</p>
-<p>Theorem 1 below shows that in this setting, testing slides is enough: if the normals of the cut fit in a closed half-circle, \(q\) can be slid all the way to infinity; if not, \(q\) cannot be moved at all, not even by a motion that mixes sliding and turning.</p>
+<p>Theorem 1 below shows that in this setting, testing slides is enough: if the normals of the cut fit in a half-circle, \(q\) can be slid all the way to infinity; if not, \(q\) cannot be moved at all, not even by a motion that mixes sliding and turning.</p>
 <details class="fig" open><summary><b>Figure 4: the whole plane, cut in two</b></summary>
 <p class="figcap">A window onto an idealized puzzle: the cut continues to infinity in both directions.</p>
 <div class="figure interactive" id="fig-plane"></div>
@@ -334,7 +334,7 @@ n\cdot(\gamma-z)^\perp=\dot\gamma^\perp\cdot(\gamma-z)^\perp=\dot\gamma\cdot(\ga
 <li>
 <p>Rotating the picture, we may assume that \(w=(0,1)\). For a point \(x \in \mathbb{R}^2\), write \(x=(x_1,x_2)\), and similarly \(\gamma=(\gamma_1,\gamma_2)\). Since \(n=\dot\gamma^\perp\) and \(v^\perp=(-v_2,v_1)\) for every \(v\in\mathbb{R}^2\), we have \(n=(-\dot\gamma_2,\dot\gamma_1)\). Thus the assumption \(n\cdot w\ge0\) reads</p>
 <span class="math">\[
-n\cdot w=\dot\gamma_1\ge0\qquad\text{at every smooth point of }\gamma,
+n\cdot w=\dot\gamma_1\ge0\qquad\text{at every smooth point of }\gamma.
 \]</span>
 <p>Since \(\gamma_1\) is continuous and piecewise smooth, this means that \(\gamma_1\) is nondecreasing.</p>
 <p>Assume by contradiction that there exist \(y\in q\) and \(s\gt0\) such that \(y+sw\in p\). The vertical line through \(y\) may contain a segment of \(\gamma\), along which \(\dot\gamma_1=0\). We therefore first move \(y\) sideways to a vertical line through a point \(\gamma(t_0)\) with \(\dot\gamma_1(t_0)\gt0\) (see <a href="#fig-pf0">the figure below</a>). Since \(p\) and \(q\) are open, there is \(\delta\gt0\) such that</p>
@@ -351,7 +351,7 @@ y+(u,0)\in q\qquad\text{and}\qquad y+(u,0)+sw\in p\qquad\text{for every }u\in(-\
 <p>so \(L\) meets \(\gamma\) only at \(\gamma(t_0)\). Hence each of the two open half-lines into which \(\gamma(t_0)\) divides \(L\) is a connected subset of \(p\cup q\), and therefore lies in \(p\) or in \(q\). Since \(n\cdot w=\dot\gamma_1(t_0)\gt0\), the points \(\gamma(t_0)+\varepsilon w\) lie in \(q\), and the points \(\gamma(t_0)-\varepsilon w\) lie in \(p\), for small \(\varepsilon\gt0\). Thus the points of \(L\) above \(\gamma(t_0)\) lie in \(q\), and the points of \(L\) below \(\gamma(t_0)\) lie in \(p\). In particular, \(y'\in q\) lies above \(\gamma(t_0)\). Hence so does \(y'+sw\), which therefore lies in \(q\), a contradiction.</p>
 </li>
 <li>
-<p>Suppose that no \(w\neq0\) satisfies \(n\cdot w\ge0\) at every smooth point of \(\gamma\), and let \(g_\tau\), \(0\le\tau\le1\), be an admissible motion which is not constant. We may assume that \(g_\tau\) is not the identity for arbitrarily small \(\tau\gt0\), for otherwise we start the motion at the last time at which \(g_\tau\) is the identity. Choose \(\tau_j\searrow0\) such that \(g_{\tau_j}\) is not the identity. Every orientation-preserving isometry is a rotation about the origin followed by a translation,<sup class="fn"><a href="#fn-artin" id="fnref-artin">3</a></sup> so</p>
+<p>Suppose that no \(w\neq0\) satisfies \(n\cdot w\ge0\) at every smooth point of \(\gamma\), and let \(g_\tau\), \(0\le\tau\le1\), be an admissible motion which is not constant. We may assume that \(g_\tau\) is not the identity for arbitrarily small \(\tau\gt0\), for otherwise we start the motion at the last time at which \(g_\tau\) is the identity. Choose \(\tau_j\searrow0\) such that \(g_{\tau_j}\) is not the identity. Every orientation-preserving isometry is a rotation about the origin followed by a translation,<sup class="fn"><a href="#fn-artin" id="fnref-artin">4</a></sup> so</p>
 <span class="math">\[
 g_{\tau_j}(y)=(\cos\theta_j)\,y+(\sin\theta_j)\,y^\perp+a_j,\qquad\text{where }\theta_j\in(-\pi,\pi]\text{ and }a_j\in\mathbb{R}^2.
 \]</span>
@@ -567,7 +567,7 @@ n\cdot w=\cos\left(\theta-a-\tfrac\pi2\right)\ge0,
 </li>
 </ol>
 </details>
-<p>The extremal shapes differ from those in Fenchel's theorem<sup class="fn"><a href="#fn-fenchel" id="fnref-fenchel">7</a></sup>, by which the total curvature of a closed curve is at least \(2\pi\), with equality only for plane convex curves. (A related theorem of F&aacute;ry<sup class="fn"><a href="#fn-fary" id="fnref-fary">8</a></sup> and Milnor<sup class="fn"><a href="#fn-milnor" id="fnref-milnor">9</a></sup> says that a knotted curve in space has total curvature greater than \(4\pi\).) Here a circular arc alone does not suffice in a bounded board: the piece can be turned about its center (see <a href="#taking-out">Figure 7</a>). The straight walls of the tongue cost no bending, and block that turn.</p>
+<p>The extremal shapes differ from those in Fenchel's theorem<sup class="fn"><a href="#fn-fenchel" id="fnref-fenchel">8</a></sup>, by which the total curvature of a closed curve is at least \(2\pi\), with equality only for plane convex curves. (A related theorem of F&aacute;ry<sup class="fn"><a href="#fn-fary" id="fnref-fary">9</a></sup> and Milnor<sup class="fn"><a href="#fn-milnor" id="fnref-milnor">10</a></sup> says that a knotted curve in space has total curvature greater than \(4\pi\).) Here a circular arc alone does not suffice in a bounded board: the piece can be turned about its center (see <a href="#taking-out">Figure 7</a>). The straight walls of the tongue cost no bending, and block that turn.</p>
 <details class="proof exercises"><summary>Exercises</summary>
 <ol class="ex">
 <li>In Figure 10, suppose that the arc is shorter than a half-circle. Show that \(q\) slides out.
@@ -713,6 +713,7 @@ g_{\tau_j}(x_j)=x+r_je+o(r_j).
 
 <h4>Notes and references</h4>
 <ol class="footnotes">
+<li id="fn-unbounded">This definition does not cover the unbounded puzzle of <a href="#theorem-1">Theorem 1</a>, whose two pieces are described in its statement. <a href="#fnref-unbounded" class="fnback">&#8617;</a></li>
 <li id="fn-clean">This requires an extra condition, which we call <i>clean contact</i>. We describe it in the section <a href="#counterexamples">&hellip; unless the contact is not clean</a>, where we also show that it cannot be dropped. <a href="#fnref-clean" class="fnback">&#8617;</a></li>
 <li id="fn-draft">This is the <i>draft-angle</i> rule familiar from casting: a part can be drawn out of its mold in the direction \(w\) if no surface normal makes an obtuse angle with \(w\). For polyhedra, see M. de Berg, O. Cheong, M. van Kreveld and M. Overmars, <i>Computational Geometry: Algorithms and Applications</i>, 3rd ed., Springer, 2008, Section 4.1, Lemma 4.1. <a href="#fnref-draft" class="fnback">&#8617;</a></li>
 <li id="fn-artin">M. Artin, <i>Algebra</i>, 2nd ed., Pearson, 2011, Theorem 6.3.2 and the remark following it. <a href="#fnref-artin" class="fnback">&#8617;</a></li>
@@ -1132,8 +1133,8 @@ function playground(root, o){
     svg.setAttribute('viewBox', `0 0 ${W + (o.inset && (drawing || hints && mode !== 'turn') ? 190 : 0)} ${H}`);
     layer.q.setAttribute('transform', tf(pose));
     stage.classList.toggle('done', done); stage.classList.toggle('won', done && won);
-    again.innerHTML = o.plain ? '&#8634;' : won ? '<b>Separated!</b> &nbsp;Put <i>q</i> back' : 'Put <i>q</i> back'; if (o.plain){ again.title = 'put the piece back'; rd.style.display = 'none'; } reset.style.display = !o.plain && (mode === 'wiggle' || o.steps) ? '' : 'none';
-    const home = o.pin || SHAPES[key].pin; pinBack.style.display = mode === 'turn' && !o.pinFixed && !drawing && Math.hypot(pin[0] - home[0], pin[1] - home[1]) > 1e-9 ? '' : 'none';
+    again.innerHTML = o.plain ? '&#8634;' : won ? '<b>Separated!</b> &nbsp;Put <i>q</i> back' : 'Put <i>q</i> back'; if (o.plain){ again.title = 'put the piece back'; rd.style.display = 'none'; } reset.style.display = !o.plain && !done && (mode === 'wiggle' || o.steps) ? '' : 'none';
+    const home = o.pin || SHAPES[key].pin; pinBack.style.display = !done && mode === 'turn' && !o.pinFixed && !drawing && Math.hypot(pin[0] - home[0], pin[1] - home[1]) > 1e-9 ? '' : 'none';
     layer.qOut.setAttribute('stroke', grab && grab.kind === 'q' ? '#3f6e68' : '#26211d');
     layer.qOut.setAttribute('stroke-width', grab && grab.kind === 'q' ? 3 : 2.2);
     layer.ghost.innerHTML = ''; layer.rail.innerHTML = '';
@@ -1416,7 +1417,7 @@ playground(document.getElementById('fig-out'), {shapes: ['cap'], modes: ['slide'
     el('path', {d: f.d(pPoly, true), fill: C.p}, f.svg); el('path', {d: f.d(qPoly, true), fill: C.q}, f.svg);
     el('path', {d: f.d(curve), fill: 'none', stroke: C.ink, 'stroke-width': 2.4, 'stroke-linejoin': 'round'}, f.svg);
     // arrowheads along the curve, showing its orientation
-    for (const k of [6, 40, curve.length - 6]){ const a = curve[k - 1], b = curve[k + 1], an = Math.atan2(f.Y(b[1]) - f.Y(a[1]), f.X(b[0]) - f.X(a[0])), x = f.X(curve[k][0]), y = f.Y(curve[k][1]);
+    for (const k of [6, 22, curve.length - 6]){ const a = curve[k - 1], b = curve[k + 1], an = Math.atan2(f.Y(b[1]) - f.Y(a[1]), f.X(b[0]) - f.X(a[0])), x = f.X(curve[k][0]), y = f.Y(curve[k][1]);
       el('path', {d: `M${x + 7*Math.cos(an)} ${y + 7*Math.sin(an)} L${x - 6*Math.cos(an - .55)} ${y - 6*Math.sin(an - .55)} L${x - 6*Math.cos(an + .55)} ${y - 6*Math.sin(an + .55)}Z`, fill: C.ink}, f.svg); }
     // tangent and normal at a point of the knob
     const k = 31, P = curve[k], Q = curve[k + 1], R = curve[k - 1], L = Math.hypot(Q[0] - R[0], Q[1] - R[1]), T = [(Q[0] - R[0])/L, (Q[1] - R[1])/L], N = [-T[1], T[0]];
