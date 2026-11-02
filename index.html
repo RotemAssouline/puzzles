@@ -363,7 +363,9 @@ so the vertical line through \(\gamma(t_0)\) meets \(\gamma\) only at \(\gamma(t
 <p>Since \(q\) is open, there is \(\delta_0\gt0\) such that \(y+(u,0)\in q\) for \(|u|\le\delta_0\). For every \(\delta\in(0,\delta_0]\) there is thus a good line \(\{x_1=y_1+u\}\) with \(|u|\le\delta\), and since it contains \(y+(u,0)\in q\), <a href="#eq-5">(5)</a> gives \(y+(u,0)+sw\in q\). Letting \(\delta\to0\), we see that \(y+sw\) lies in the closure of \(q\). Since \(p\) is open and disjoint from \(q\), it does not meet the closure of \(q\), so \(y+sw\notin p\).</p>
 </li>
 <li>
-<p>Suppose that no \(w\neq0\) satisfies \(n\cdot w\ge0\) at every smooth point of \(\gamma\), and let \(g_\tau\), \(0\le\tau\le1\), be an admissible motion which is not constant. We may assume that \(g_\tau\) is not the identity for arbitrarily small \(\tau\gt0\), for otherwise we start the motion at the last time at which \(g_\tau\) is the identity. Choose \(\tau_j\searrow0\) such that \(g_{\tau_j}\) is not the identity. Every orientation-preserving isometry is a rotation about the origin followed by a translation,<sup class="fn"><a href="#fn-artin" id="fnref-artin">4</a></sup> so</p>
+<p>Suppose that no \(w\neq0\) satisfies \(n\cdot w\ge0\) at every smooth point of \(\gamma\), and let \(g_\tau\), \(0\le\tau\le1\), be an admissible motion which is not constant. We show that this is impossible.</p>
+<p>We may assume that \(g_\tau\) is not the identity for arbitrarily small \(\tau\gt0\), for otherwise we start the motion at the last time at which \(g_\tau\) is the identity. Choose \(\tau_j\searrow0\) such that \(g_{\tau_j}\) is not the identity.</p>
+<p>Every orientation-preserving isometry is a rotation about the origin followed by a translation,<sup class="fn"><a href="#fn-artin" id="fnref-artin">4</a></sup> so</p>
 <span class="math">\[
 g_{\tau_j}(y)=(\cos\theta_j)\,y+(\sin\theta_j)\,y^\perp+a_j,\qquad\text{where }\theta_j\in(-\pi,\pi]\text{ and }a_j\in\mathbb{R}^2.
 \]</span>
@@ -371,7 +373,11 @@ g_{\tau_j}(y)=(\cos\theta_j)\,y+(\sin\theta_j)\,y^\perp+a_j,\qquad\text{where }\
 <span class="math">\[
 r_j=\big(|a_j|^2+\theta_j^2\big)^{1/2},
 \]</span>
-<p>which is positive since \(g_{\tau_j}\) is not the identity, and pass to a subsequence such that \((a_j/r_j,\theta_j/r_j)\to(b,\omega)\neq(0,0)\). This is possible since the vectors \((a_j/r_j,\theta_j/r_j)\) lie on the unit sphere of \(\mathbb{R}^3\), which is compact, so the limit lies on it too. Then</p>
+<p>which is positive since \(g_{\tau_j}\) is not the identity. The vectors \((a_j/r_j,\theta_j/r_j)\) lie on the unit sphere of \(\mathbb{R}^3\), which is compact, so we may pass to a subsequence such that</p>
+<span class="math">\[
+\Big(\frac{a_j}{r_j},\frac{\theta_j}{r_j}\Big)\to(b,\omega)\neq(0,0),
+\]</span>
+<p>where the limit is nonzero since it also lies on the unit sphere. Then</p>
 <span class="math">\[
 g_{\tau_j}(y)=y+r_jV(y)+o(r_j),\qquad\text{where }V(y)=b+\omega y^\perp,
 \]</span>
@@ -381,12 +387,14 @@ n\cdot V(x)\lt0.\tag{6}
 \]</span>
 <p class="figcap">The vector field \(V\): a translation if \(\omega=0\), and a rotation about \(z=b^\perp/\omega\) if \(\omega\neq0\).</p>
 <div class="figure" id="fig-pf-field"></div>
-<p>If \(\omega=0\), then \(V\) is the constant vector \(b\), and \(b\neq0\). By our assumption, \(w=b\) does not satisfy \(n\cdot w\ge0\) at every smooth point of \(\gamma\). So there is a smooth point \(x\) of \(\gamma\) with \(n\cdot V(x)=n\cdot b\lt0\), as claimed.</p>
-<p>If \(\omega\neq0\), then \(V(y)=\omega(y-z)^\perp\), where \(z=b^\perp/\omega\), and by <a href="#eq-2">(2)</a>,</p>
+<ul>
+<li>If \(\omega=0\), then \(V\) is the constant vector \(b\), and \(b\neq0\). By our assumption, \(w=b\) does not satisfy \(n\cdot w\ge0\) at every smooth point of \(\gamma\). So there is a smooth point \(x\) of \(\gamma\) with \(n\cdot V(x)=n\cdot b\lt0\), as claimed.</li>
+<li>If \(\omega\neq0\), then \(V(y)=\omega(y-z)^\perp\), where \(z=b^\perp/\omega\), and by <a href="#eq-2">(2)</a>,
 <span class="math">\[
 n\cdot V(\gamma)=\omega\,\dot\gamma\cdot(\gamma-z)=\frac\omega2\,f',\qquad\text{where }f(t)=|\gamma(t)-z|^2.
 \]</span>
-<p>The function \(f\) is continuous, and \(f(t)\to\infty\) as \(t\to\pm\infty\), since \(|\gamma(t)|\to\infty\). If \(\omega f'\ge0\) at every smooth point, then \(f\) is nondecreasing if \(\omega\gt0\), so that \(f(t)\le f(0)\) for all \(t\le0\), and nonincreasing if \(\omega\lt0\), so that \(f(t)\le f(0)\) for all \(t\ge0\). Both contradict \(f(t)\to\infty\), as \(t\to-\infty\) and as \(t\to+\infty\), respectively, which proves <a href="#eq-6">(6)</a>.</p>
+The function \(f\) is continuous, and \(f(t)\to\infty\) as \(t\to\pm\infty\), since \(|\gamma(t)|\to\infty\). If \(\omega f'\ge0\) at every smooth point, then \(f\) is nondecreasing if \(\omega\gt0\), so that \(f(t)\le f(0)\) for all \(t\le0\), and nonincreasing if \(\omega\lt0\), so that \(f(t)\le f(0)\) for all \(t\ge0\). Both contradict \(f(t)\to\infty\), as \(t\to-\infty\) and as \(t\to+\infty\), respectively, which proves <a href="#eq-6">(6)</a>.</li>
+</ul>
 <p class="figcap">The vector \(V\) at points of \(\gamma\).</p>
 <div class="figure" id="fig-pf-claim"></div>
 <p>Choose \(\alpha\gt0\) such that the vector \(e=\alpha n+V(x)\) satisfies</p>
@@ -397,19 +405,25 @@ e\cdot n=\alpha+n\cdot V(x)\lt0,
 <span class="math">\[
 S_\pm=\{x+v\colon 0\lt|v|\lt\rho,\ \pm v\cdot n\gt|v|\sin\theta\},
 \]</span>
-<p>which consist of the points near \(x\) seen from \(x\) at an angle greater than \(\theta\) from the tangent line. Write \(x=\gamma(t)\). Since</p>
+<p>which consist of the points near \(x\) seen from \(x\) at an angle greater than \(\theta\) from the tangent line. For small \(\rho\), these sectors lie on the two sides of \(\gamma\):</p>
+<ul>
+<li>Write \(x=\gamma(t)\). Since
 <span class="math">\[
 \gamma(t+\sigma)=x+\sigma\dot\gamma(t)+o(\sigma)\qquad\text{and}\qquad\dot\gamma(t)\cdot n=0,
 \]</span>
-<p>there is \(\sigma_0\gt0\) such that \(\gamma(t+\sigma)\) lies in neither sector for \(0\lt|\sigma|\lt\sigma_0\). Since \(\gamma\) is injective and \(|\gamma|\to\infty\) at both ends, the points \(\gamma(t+\sigma)\) with \(|\sigma|\ge\sigma_0\) stay away from \(x\). Hence, for small \(\rho\), neither sector meets \(\gamma\). Each sector is connected, so it lies in \(p\) or in \(q\), and since \(n\) points into \(q\),</p>
+there is \(\sigma_0\gt0\) such that \(\gamma(t+\sigma)\) lies in neither sector for \(0\lt|\sigma|\lt\sigma_0\).</li>
+<li>Since \(\gamma\) is injective and \(|\gamma|\to\infty\) at both ends, the points \(\gamma(t+\sigma)\) with \(|\sigma|\ge\sigma_0\) stay away from \(x\). Hence, for small \(\rho\), neither sector meets \(\gamma\).</li>
+<li>Each sector is connected, so it lies in \(p\) or in \(q\), and since \(n\) points into \(q\),
 <span class="math">\[
 S_+\subseteq q\qquad\text{and}\qquad S_-\subseteq p.
-\]</span>
+\]</span></li>
+</ul>
 <p>Now put \(x_j=x+\alpha r_jn\). Then \(x_j\in S_+\subseteq q\) for large \(j\), and</p>
 <span class="math">\[
 g_{\tau_j}(x_j)=x+r_je+o(r_j).
 \]</span>
-<p>Since \(e\cdot n\lt-|e|\sin\theta\), it follows that \(g_{\tau_j}(x_j)\in S_-\subseteq p\) for large \(j\). Thus \(g_{\tau_j}(q)\) meets \(p\), which contradicts the assumption that \(g\) is admissible.</p>
+<p>Since \(e\cdot n\lt-|e|\sin\theta\), it follows that \(g_{\tau_j}(x_j)\in S_-\subseteq p\) for large \(j\).</p>
+<p>Thus \(g_{\tau_j}(q)\) meets \(p\), which contradicts the assumption that \(g\) is admissible.</p>
 <p class="figcap">The sectors \(S_+\subseteq q\) and \(S_-\subseteq p\) at \(x\). The motion \(g_{\tau_j}\) carries \(x_j\in S_+\) into \(S_-\).</p>
 <div class="figure" id="fig-pf2"></div>
 </li>
