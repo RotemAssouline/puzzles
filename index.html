@@ -1417,7 +1417,7 @@ playground(document.getElementById('fig-out'), {shapes: ['cap'], modes: ['slide'
     el('path', {d: f.d(pPoly, true), fill: C.p}, f.svg); el('path', {d: f.d(qPoly, true), fill: C.q}, f.svg);
     el('path', {d: f.d(curve), fill: 'none', stroke: C.ink, 'stroke-width': 2.4, 'stroke-linejoin': 'round'}, f.svg);
     // arrowheads along the curve, showing its orientation
-    for (const k of [6, 40, curve.length - 6]){ const a = curve[k - 1], b = curve[k + 1], an = Math.atan2(f.Y(b[1]) - f.Y(a[1]), f.X(b[0]) - f.X(a[0])), x = f.X(curve[k][0]), y = f.Y(curve[k][1]);
+    for (const k of [6, 22, curve.length - 6]){ const a = curve[k - 1], b = curve[k + 1], an = Math.atan2(f.Y(b[1]) - f.Y(a[1]), f.X(b[0]) - f.X(a[0])), x = f.X(curve[k][0]), y = f.Y(curve[k][1]);
       el('path', {d: `M${x + 7*Math.cos(an)} ${y + 7*Math.sin(an)} L${x - 6*Math.cos(an - .55)} ${y - 6*Math.sin(an - .55)} L${x - 6*Math.cos(an + .55)} ${y - 6*Math.sin(an + .55)}Z`, fill: C.ink}, f.svg); }
     // tangent and normal at a point of the knob
     const k = 31, P = curve[k], Q = curve[k + 1], R = curve[k - 1], L = Math.hypot(Q[0] - R[0], Q[1] - R[1]), T = [(Q[0] - R[0])/L, (Q[1] - R[1])/L], N = [-T[1], T[0]];
