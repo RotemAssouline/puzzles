@@ -1596,17 +1596,17 @@ playground(document.getElementById('fig-out'), {shapes: ['cap'], modes: ['slide'
     // the sectors, of radius rho, at angle more than theta from the tangent line
     const th = 20*PI/180, rho = 0.85, sector = (a0, a1) => { const pts = [[0, 0]]; for (let k = 0; k <= 40; k++){ const a = a0 + (a1 - a0)*k/40; pts.push([rho*Math.cos(a), rho*Math.sin(a)]); } return pts; };
     for (const [a0, a1] of [[th, PI - th], [PI + th, 2*PI - th]]) el('path', {d: f.d(sector(a0, a1), true), fill: C.w, 'fill-opacity': .14, stroke: C.w, 'stroke-width': 1.2, 'stroke-dasharray': '5 3'}, f.svg);
-    const arc = []; for (let k = 0; k <= 12; k++){ const a = PI + th*k/12; arc.push([.34*Math.cos(a), .34*Math.sin(a)]); }
+    const arc = []; for (let k = 0; k <= 12; k++){ const a = PI + th*k/12; arc.push([.3*Math.cos(a), .3*Math.sin(a)]); }
     el('path', {d: f.d(arc), fill: 'none', stroke: C.w, 'stroke-width': 1.2}, f.svg);
     el('path', {d: f.d(cut), fill: 'none', stroke: C.ink, 'stroke-width': 2.4}, f.svg);
     const V = [0.45, -0.75], al = 0.3, xj = [0, al], im = [V[0], al + V[1]];
     arrow(f, [0, 0], [0, .62], C.n); arrow(f, [0, 0], V, C.bad); arrow(f, [0, 0], im, C.w);
     el('path', {d: f.d([xj, im]), fill: 'none', stroke: C.ink, 'stroke-width': 1.3, 'stroke-dasharray': '4 3'}, f.svg);
     for (const P of [[0, 0], xj, im]) el('circle', {cx: f.X(P[0]), cy: f.Y(P[1]), r: 3.2, fill: C.ink}, f.svg);
-    txt(f, -.08, -.2, 'x', 'small', 'end'); rich(f, -.1, al - .06, [['x'], ['j', 1]], 'small', 'end');
+    txt(f, -.07, .05, 'x', 'small', 'end'); rich(f, -.07, al - .04, [['x'], ['j', 1]], 'small', 'end');
     txt(f, .08, .55, 'n', 'small', 'start'); txt(f, .36, -.54, 'e', 'small'); rich(f, V[0] + .06, V[1] - .1, [['V(x)']], 'small', 'start');
     rich(f, im[0] + .09, im[1] - .06, [['g'], ['τ', 1], ['j', 2], ['(x'], ['j', 1], [')']], 'small', 'start');
-    rich(f, -.36, .42, [['S'], ['+', 1]], 'small'); rich(f, -.36, -.52, [['S'], ['−', 1]], 'small'); tex(f, -.55, -.14, '\\theta', 'small');
+    rich(f, -.36, .42, [['S'], ['+', 1]], 'small'); rich(f, -.36, -.52, [['S'], ['−', 1]], 'small'); tex(f, -.42, -.115, '\\theta', 'small');
     txt(f, -1.15, .7, 'q'); txt(f, -1.15, -.75, 'p'); txt(f, 1.65, h(1.65) + .15, 'γ', 'small');
   }
 
