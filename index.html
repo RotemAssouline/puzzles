@@ -563,7 +563,7 @@ g_{\tau_j}(x_j)=x+r_je+o(r_j).
 <details class="sec" open><summary><h3 id="own-puzzle">Make your own puzzle</h3></summary>
 <p>In the figure below you can cut the board yourself, decide what Theorem 2 predicts for your cut, and check the prediction by trying to move \(q\).</p>
 <details class="fig" open><summary><b>Figure 9: your own cut</b></summary>
-<p class="figcap">Drag across the board to cut it in two. While you draw, the circle on the right collects the directions of the normals of your cut.</p>
+<p class="figcap">Drag across the board to cut it in two. Your stroke is smoothed and continued to the edges of the board; while you draw, the dark curve shows the resulting cut, and the circle on the right collects the directions of its normals.</p>
 <div class="figure interactive" id="fig-custom"></div>
 </details>
 </details>
@@ -1030,7 +1030,7 @@ function thumb(k){
 function playground(root, o){
   const {el, place, shift, turn} = PZ, uid = root.id, PI = Math.PI;
   let key = o.shapes[0], mode = o.modes[0], hints = !!o.hints, param = SHAPES[key].param;
-  let G, pose, pin, grab = null, lastW = null, ghost = null, status = '', pinTouched = false, done = false, won = false, drawing = false, stroke = null;
+  let G, pose, pin, grab = null, lastW = null, ghost = null, status = '', pinTouched = false, done = false, won = false, drawing = false, stroke = null, preview = null;
   const box = document.createElement('div'); box.className = 'pz-box'; root.appendChild(box);
   const ctl = document.createElement('div'); ctl.className = 'pz-ctl'; box.appendChild(ctl);
   function buttons(items, cur, on){ const bs = items.map(([k, t]) => { const b = document.createElement('button'); b.type = 'button'; b.innerHTML = t;
@@ -1197,7 +1197,10 @@ function playground(root, o){
         el('rect', {x: V.X(B[0]), y: V.Y(B[3]), width: V.S*(B[1] - B[0]), height: V.S*(B[3] - B[2]), fill: 'none', stroke: '#26211d', 'stroke-width': 2.2}, layer.rail);
         if (!stroke){ const t1 = el('text', {x: W/2, y: H/2 - 6, 'class': 'lbl invite', 'text-anchor': 'middle'}, layer.rail); t1.textContent = 'Cut the board in two';
           const t2 = el('text', {x: W/2, y: H/2 + 22, 'class': 'lbl invite small', 'text-anchor': 'middle'}, layer.rail); t2.textContent = 'drag from one edge to another'; }
-        else if (stroke.length > 1) el('path', {d: stroke.map((q, i) => (i ? 'L' : 'M') + V.X(q[0]).toFixed(1) + ' ' + V.Y(q[1]).toFixed(1)).join(''), fill: 'none', stroke: '#2b3330', 'stroke-width': 3, 'stroke-linecap': 'round', 'stroke-linejoin': 'round'}, layer.rail); } }
+        else if (stroke.length > 1){ const path = (pts) => pts.map((q, i) => (i ? 'L' : 'M') + V.X(q[0]).toFixed(1) + ' ' + V.Y(q[1]).toFixed(1)).join('');
+          // the stroke as drawn, faintly, and the cut it will make: smoothed, and continued to the edges of the board
+          el('path', {d: path(stroke), fill: 'none', stroke: '#2b3330', 'stroke-opacity': preview ? .25 : 1, 'stroke-width': 3, 'stroke-linecap': 'round', 'stroke-linejoin': 'round'}, layer.rail);
+          if (preview) el('path', {d: path(preview), fill: 'none', stroke: '#2b3330', 'stroke-width': 2.4, 'stroke-linejoin': 'round'}, layer.rail); } } }
     // the line along which a straight slide moves, drawn on top of the pieces
     const rl = grab && grab.u ? grab : null;
     if (rl){ const [a, b] = rl.m0, [ux, uy] = rl.u, ends = {x1: V.X(a - 30*ux), y1: V.Y(b - 30*uy), x2: V.X(a + 30*ux), y2: V.Y(b + 30*uy)};
@@ -1228,7 +1231,7 @@ function playground(root, o){
   }
   function drawHints(){
     const hg = layer.hints; hg.innerHTML = ''; layer.inset.innerHTML = '';
-    if (drawing){ if (o.inset){ const T = []; for (let i = 0; stroke && i + 1 < stroke.length; i++){ const a = stroke[i], b = stroke[i + 1], l = Math.hypot(b[0] - a[0], b[1] - a[1]); T.push({T: [(b[0] - a[0])/l, (b[1] - a[1])/l]}); }
+    if (drawing){ if (o.inset){ const T = [], line = preview || stroke; for (let i = 0; line && i + 1 < line.length; i++){ const a = line[i], b = line[i + 1], l = Math.hypot(b[0] - a[0], b[1] - a[1]); if (l > 1e-9) T.push({T: [(b[0] - a[0])/l, (b[1] - a[1])/l]}); }
       lastW = null; insetCircle(T); } return; }
     if (!hints) return;
     const smp = G.iface.flat(), ln = (a, b, col, wd) => el('line', {x1: V.X(a[0]), y1: V.Y(a[1]), x2: V.X(b[0]), y2: V.Y(b[1]), stroke: col, 'stroke-width': wd, 'stroke-linecap': 'round'}, hg);
@@ -1289,7 +1292,7 @@ function playground(root, o){
   // ---------- pointer ----------
   const at = (e) => { const p = svg.createSVGPoint(); p.x = e.clientX; p.y = e.clientY; const q = p.matrixTransform(svg.getScreenCTM().inverse()); return V.inv(q.x, q.y); };
   svg.addEventListener('pointerdown', (e) => {
-    if (drawing){ stroke = [at(e)]; grab = {kind: 'draw'}; try { svg.setPointerCapture(e.pointerId); } catch (err) {} e.preventDefault(); render(); return; }
+    if (drawing){ stroke = [at(e)]; preview = null; grab = {kind: 'draw'}; try { svg.setPointerCapture(e.pointerId); } catch (err) {} e.preventDefault(); render(); return; }
     if (done) return;
     const m = at(e);
     const near = (dx, dy) => Math.hypot(V.X(m[0]) - V.X(pin[0]) - dx, V.Y(m[1]) - V.Y(pin[1]) - dy);
@@ -1302,7 +1305,7 @@ function playground(root, o){
   });
   svg.addEventListener('pointermove', (e) => { if (grab) move(at(e)); });
   for (const ev of ['pointerup', 'pointercancel']) svg.addEventListener(ev, () => { if (!grab) return;
-    if (grab.kind === 'draw'){ grab = null; const res = makeCut(stroke, G.board); stroke = null;
+    if (grab.kind === 'draw'){ grab = null; const res = makeCut(stroke, G.board); stroke = null; preview = null;
       if (res.error){ status = res.error; render(); return; }
       SHAPES[key].cut = res; drawing = false; hasCut = true; build(); return; }
     // on release: if q has come free, the figure pauses until q is put back; otherwise a slide or a turn snaps back
@@ -1320,7 +1323,9 @@ function playground(root, o){
   const atRest = (p) => Math.hypot(p.tx, p.ty) < 1e-9 && Math.abs(p.th) < 1e-9;
   const blocksFirstOrder = (f) => G.iface.some((pc) => pc.slice(1, -1).some((o) => f(o) < -1e-3));
   function move(m){
-    if (grab.kind === 'draw'){ const l = stroke[stroke.length - 1]; if (Math.hypot(m[0] - l[0], m[1] - l[1]) > 0.03){ stroke.push(m); render(); } return; }
+    if (grab.kind === 'draw'){ const l = stroke[stroke.length - 1]; if (Math.hypot(m[0] - l[0], m[1] - l[1]) > 0.03){ stroke.push(m);
+      // the cut that releasing now would make: the stroke smoothed, continued to the edges of the board
+      const c = makeCut(stroke, G.board); preview = c.samples ? c.samples.map((x) => x.P) : null; render(); } return; }
     if (grab.kind === 'pin'){ pin = keepPin(m); status = ''; render(); return; }
     const {m0, pose0} = grab, dx = m[0] - m0[0], dy = m[1] - m0[1];
     if (mode === 'slide'){ const L0 = Math.hypot(dx, dy);
