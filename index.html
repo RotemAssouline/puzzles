@@ -1707,9 +1707,11 @@ playground(document.getElementById('fig-out'), {shapes: ['cap'], modes: ['slide'
     el('path', {d: f.d([xj, im]), fill: 'none', stroke: C.ink, 'stroke-width': 1.3, 'stroke-dasharray': '4 3'}, f.svg);
     for (const P of [[0, 0], xj, im]) el('circle', {cx: f.X(P[0]), cy: f.Y(P[1]), r: 3.2, fill: C.ink}, f.svg);
     txt(f, -.07, .05, 'x', 'small', 'end'); rich(f, -.07, al - .04, [['x'], ['j', 1]], 'small', 'end');
-    txt(f, .08, .55, 'n', 'small', 'start'); txt(f, .36, -.54, 'e', 'small'); rich(f, V[0] + .06, V[1] - .1, [['V(x)']], 'small', 'start');
+    // labels in the colors of the objects they name
+    const paint = (t, c) => { t.style.color = c; return t; };
+    paint(txt(f, .08, .55, 'n', 'small', 'start'), C.n); paint(txt(f, .36, -.54, 'e', 'small'), C.w); paint(rich(f, V[0] + .06, V[1] - .1, [['V(x)']], 'small', 'start'), C.bad);
     rich(f, im[0] + .09, im[1] - .06, [['g'], ['τ', 1], ['j', 2], ['(x'], ['j', 1], [')']], 'small', 'start');
-    rich(f, -.36, .42, [['S'], ['+', 1]], 'small'); rich(f, -.36, -.52, [['S'], ['−', 1]], 'small'); tex(f, -.42, -.115, '\\theta', 'small');
+    paint(rich(f, -.36, .42, [['S'], ['+', 1]], 'small'), C.w); paint(rich(f, -.36, -.52, [['S'], ['−', 1]], 'small'), C.w); paint(tex(f, -.42, -.115, '\\theta', 'small'), C.w);
     txt(f, -1.15, .7, 'q'); txt(f, -1.15, -.75, 'p'); txt(f, 1.65, h(1.65) + .15, 'γ', 'small');
   }
 
