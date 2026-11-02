@@ -64,6 +64,10 @@ details.sec:not([open]) > summary > h3::before { transform: none; }
   details.sec.hint > summary::after { content: none; }
 }
 .print-btn { font: .85rem system-ui, sans-serif; padding: .2rem .7rem; cursor: pointer; }
+/* hovering over a link to a numbered equation shows the equation */
+.eq-pop { position: absolute; z-index: 50; max-width: min(92vw, 46rem); overflow-x: auto; padding: .1rem 1rem; pointer-events: none;
+          background: var(--background-primary); border: 1px solid var(--background-modifier-border); border-radius: 6px; box-shadow: 0 6px 18px rgba(0, 0, 0, .13); }
+@media print { .eq-pop { display: none; } }
 .drawing { display: block; max-width: 420px; width: 100%; margin: 1.2rem auto; }
 
 /* figures */
@@ -177,6 +181,24 @@ document.addEventListener('click', (e) => {
   if (a) openAncestors(document.getElementById(decodeURIComponent(a.getAttribute('href').slice(1))));
 });
 window.addEventListener('hashchange', revealHash);
+// hovering over a link to a numbered equation shows a copy of the equation next to the link
+(function(){
+  let pop = null, cur = null;
+  const hide = () => { if (pop) pop.remove(); cur = null; };
+  document.addEventListener('mouseover', (e) => {
+    const a = e.target.closest && e.target.closest('a[href^="#eq-"]');
+    if (!a || a === cur) return;
+    const t = document.getElementById(a.getAttribute('href').slice(1)), m = t && t.nextElementSibling;
+    if (!m || !m.classList.contains('math')) return;
+    cur = a; pop = pop || Object.assign(document.createElement('div'), {className: 'eq-pop'});
+    pop.replaceChildren(m.cloneNode(true)); document.body.appendChild(pop);
+    const r = a.getBoundingClientRect(), W = document.documentElement.clientWidth;
+    pop.style.left = (scrollX + Math.max(8, Math.min(r.left - 40, W - pop.offsetWidth - 8))) + 'px';
+    pop.style.top = (scrollY + (r.bottom + pop.offsetHeight + 8 < innerHeight ? r.bottom + 6 : r.top - pop.offsetHeight - 6)) + 'px';
+  });
+  document.addEventListener('mouseout', (e) => { if (cur && !cur.contains(e.relatedTarget)) hide(); });
+  document.addEventListener('click', hide);
+})();
 document.addEventListener('DOMContentLoaded', revealHash);
 // only what starts collapsed gets the (click to expand) hint
 document.addEventListener('DOMContentLoaded', () => document.querySelectorAll('details:not([open])').forEach((d) => d.classList.add('hint')));
@@ -389,9 +411,9 @@ n\cdot V(x)\lt0.\tag{6}
 <div class="figure" id="fig-pf-field"></div>
 <ul>
 <li>If \(\omega=0\), then \(V\) is the constant vector \(b\), and \(b\neq0\). By our assumption, \(w=b\) does not satisfy \(n\cdot w\ge0\) at every smooth point of \(\gamma\). So there is a smooth point \(x\) of \(\gamma\) with \(n\cdot V(x)=n\cdot b\lt0\), as claimed.</li>
-<li>If \(\omega\neq0\), then \(V(y)=\omega(y-z)^\perp\), where \(z=b^\perp/\omega\). Since \(n=\dot\gamma^\perp\), and rotating two vectors by \(90^\circ\) does not change their inner product,
+<li>If \(\omega\neq0\), then \(V(y)=\omega(y-z)^\perp\), where \(z=b^\perp/\omega\), and by <a href="#eq-2">(2)</a>,
 <span class="math">\[
-n\cdot V(\gamma)=\omega\,\dot\gamma^\perp\cdot(\gamma-z)^\perp=\omega\,\dot\gamma\cdot(\gamma-z)=\frac\omega2\,f',\qquad\text{where }f(t)=|\gamma(t)-z|^2.
+n\cdot V(\gamma)=\omega\,\dot\gamma\cdot(\gamma-z)=\frac\omega2\,f',\qquad\text{where }f(t)=|\gamma(t)-z|^2.
 \]</span>
 The function \(f\) is continuous, and \(f(t)\to\infty\) as \(t\to\pm\infty\), since \(|\gamma(t)|\to\infty\). If \(\omega f'\ge0\) at every smooth point, then \(f\) is nondecreasing if \(\omega\gt0\), so that \(f(t)\le f(0)\) for all \(t\le0\), and nonincreasing if \(\omega\lt0\), so that \(f(t)\le f(0)\) for all \(t\ge0\). Both contradict \(f(t)\to\infty\), as \(t\to-\infty\) and as \(t\to+\infty\), respectively, which proves <a href="#eq-6">(6)</a>.</li>
 </ul>
