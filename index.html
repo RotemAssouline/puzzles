@@ -366,28 +366,25 @@ n\cdot w=\dot\gamma_1\ge0\qquad\text{at every smooth point of }\gamma.\tag{3}
 <span id="eq-4"></span><span class="math">\[
 \gamma_1\text{ is nondecreasing.}\tag{4}
 \]</span>
-<p>Let \(y\in q\) and \(s\gt0\). We show that \(y+sw\notin p\). Since \(q\) is open, there is \(\delta_0\gt0\) such that \(y+(u,0)\in q\) for \(|u|\le\delta_0\). We show below that for every \(\delta\in(0,\delta_0]\) there is a point \(y'=y+(u,0)\) with \(|u|\le\delta\) and \(y'+sw\in q\). Letting \(\delta\to0\), it follows that \(y+sw\) lies in the closure of \(q\). Since \(p\) is open and disjoint from \(q\), it does not meet the closure of \(q\), so \(y+sw\notin p\).</p>
-<p>We cannot simply take \(y'=y\): the vertical line through \(y\) may contain a segment of \(\gamma\), along which \(\dot\gamma_1=0\) (see <a href="#fig-pf0">the figure below</a>). So fix \(\delta\in(0,\delta_0]\), and look at the nearby vertical lines.</p>
+<p>Let \(y\in q\) and \(s\gt0\); we need to show that \(y+sw\notin p\). Since \(p\) is open and disjoint from \(q\), it does not meet the closure of \(q\), so it suffices to show that \(y+sw\) lies in the closure of \(q\).</p>
+<p>Since \(q\) is open, we may choose \(\delta\gt0\), as small as we like, such that
+  \[y+(u,0)\in q \qquad \text{ for all } \,-\delta \le u \le \delta.\]
+It suffices to find a point \(y'\) with
+\[|y'-y|\le\delta \qquad \text{and} \qquad y'+sw\in q.\]
+Indeed, for such \(y'\) we have \(|(y'+sw)-(y+sw)|=|y'-y|\le\delta\), so since \(\delta\) can be taken arbitrarily small, the point \(y+sw\) lies in the closure of \(q\).</p>
+<p>We look for \(y'\) on the vertical lines near \(y\). (We cannot simply take \(y'=y\), since the vertical line through \(y\) may contain a segment of \(\gamma\), along which \(\dot\gamma_1=0\); see <a href="#fig-pf0">the figure below</a>.)</p>
+<p>We distinguish two cases: either there exists \(c\in[y_1-\delta,y_1+\delta]\) such that \(\gamma_1(t)\neq c\) for all \(t\in\mathbb{R}\), or for all \(c\in[y_1-\delta,y_1+\delta]\) there exists \(t\in\mathbb{R}\) with \(\gamma_1(t)=c\). In each case we choose \(c\in[y_1-\delta,y_1+\delta]\) and set
+<span class="math">\[
+y':=y+(c-y_1,0),\qquad L:=\{x\in\mathbb{R}^2: x_1=c\}.
+\]</span>
+Then \(|y'-y|=|c-y_1|\le\delta\), so \(y'\in q\), and both \(y'\) and \(y'+sw\) lie on the vertical line \(L\).</p>
 <ul>
-<li>If there exists \(c\in[y_1-\delta,y_1+\delta]\) such that \(\gamma_1(t)\neq c\) for all \(t\in\mathbb{R}\), then the point
+<li><strong>Case 1:</strong> <em>there exists \(c\in[y_1-\delta,y_1+\delta]\) such that \(\gamma_1(t)\neq c\) for all \(t\in\mathbb{R}\)</em>, i.e. \(L\) does not meet \(\gamma\). Choose such a \(c\). Then \(L\) is a connected subset of \(p\cup q\). Since it contains \(y'\in q\), it lies in \(q\), and in particular \(y'+sw\in q\).</li>
+<li><strong>Case 2:</strong> <em>for all \(c\in[y_1-\delta,y_1+\delta]\) there exists \(t\in\mathbb{R}\) with \(\gamma_1(t)=c\)</em>, i.e. every vertical line near \(y\) meets \(\gamma\). In particular, there exist \(t_-,t_+\in\mathbb{R}\) with \(\gamma_1(t_-)=y_1-\delta\) and \(\gamma_1(t_+)=y_1+\delta\), and \(t_-\lt t_+\) by <a href="#eq-4">(4)</a>. Since \(\gamma_1\) is piecewise smooth and not constant on \([t_-,t_+]\), there exists a smooth point \(t_0\in(t_-,t_+)\) with \(\dot\gamma_1(t_0)\neq0\), i.e. \(\dot\gamma_1(t_0)\gt0\). Choose \(c:=\gamma_1(t_0)\), which lies in \([y_1-\delta,y_1+\delta]\) by <a href="#eq-4">(4)</a>. By <a href="#eq-4">(4)</a> and \(\dot\gamma_1(t_0)\gt0\),
 <span class="math">\[
-y':=y+(c-y_1,0)
+\gamma_1(t)\lt c\quad\text{for all }t\lt t_0\qquad\text{and}\qquad\gamma_1(t)\gt c\quad\text{for all }t\gt t_0,
 \]</span>
-lies on a vertical line which does not meet \(\gamma\). This line is a connected subset of \(p\cup q\). Since it contains \(y'\in q\), it lies in \(q\), and in particular \(y'+sw\in q\).</li>
-<li>Otherwise, every \(c\in[y_1-\delta,y_1+\delta]\) is of the form \(\gamma_1(t)\). In particular, \(\gamma_1(t_-)=y_1-\delta\) and \(\gamma_1(t_+)=y_1+\delta\) for some \(t_-,t_+\in\mathbb{R}\), and \(t_-\lt t_+\) by <a href="#eq-4">(4)</a>. Since \(\gamma_1\) is piecewise smooth and not constant on \([t_-,t_+]\), there is a smooth point \(t_0\in(t_-,t_+)\) with \(\dot\gamma_1(t_0)\neq0\), i.e. \(\dot\gamma_1(t_0)\gt0\). By <a href="#eq-4">(4)</a>, \(|\gamma_1(t_0)-y_1|\le\delta\), and
-<span class="math">\[
-\gamma_1(t)\lt\gamma_1(t_0)\quad\text{for }t\lt t_0\qquad\text{and}\qquad\gamma_1(t)\gt\gamma_1(t_0)\quad\text{for }t\gt t_0,
-\]</span>
-so the vertical line \(L\) through \(\gamma(t_0)\) meets \(\gamma\) only at \(\gamma(t_0)\). Thus the point
-<span class="math">\[
-y':=y+\big(\gamma_1(t_0)-y_1,0\big)
-\]</span>
-lies on the line \(L\).
-<ul>
-<li>Each of the two open half-lines into which \(\gamma(t_0)\) divides \(L\) is a connected subset of \(p\cup q\), and therefore lies in \(p\) or in \(q\).</li>
-<li>Since \(n\cdot w=\dot\gamma_1(t_0)\gt0\) by <a href="#eq-3">(3)</a>, the points \(\gamma(t_0)+\varepsilon w\) lie in \(q\), and the points \(\gamma(t_0)-\varepsilon w\) lie in \(p\), for small \(\varepsilon\gt0\). Thus the points of \(L\) above \(\gamma(t_0)\) lie in \(q\), and the points of \(L\) below \(\gamma(t_0)\) lie in \(p\).</li>
-<li>Since \(y'\in q\), it lies above \(\gamma(t_0)\). Hence so does \(y'+sw\), which therefore lies in \(q\).</li>
-</ul></li>
+so \(L\) meets \(\gamma\) only at \(\gamma(t_0)\). Each of the two open half-lines into which \(\gamma(t_0)\) divides \(L\) is a connected subset of \(p\cup q\), and therefore lies in \(p\) or in \(q\). Since \(n\cdot w=\dot\gamma_1(t_0)\gt0\) by <a href="#eq-3">(3)</a>, there exists \(\varepsilon_0\gt0\) such that \(\gamma(t_0)+\varepsilon w\in q\) and \(\gamma(t_0)-\varepsilon w\in p\) for all \(\varepsilon\in(0,\varepsilon_0)\). Hence the half-line of \(L\) above \(\gamma(t_0)\) lies in \(q\), and the one below lies in \(p\). Since \(y'\in q\), it lies above \(\gamma(t_0)\). Hence so does \(y'+sw\), which therefore lies in \(q\).</li>
 </ul>
 <p class="figcap">The vertical line through \(y\) runs along a segment of \(\gamma\). The nearby line \(L\) meets \(\gamma\) only at \(\gamma(t_0)\), where \(\dot\gamma_1(t_0)\gt0\); above \(\gamma(t_0)\) it lies in \(q\), so the slide carries \(y'\in q\) to \(y'+sw\in q\).</p>
 <div class="figure" id="fig-pf0"></div>
