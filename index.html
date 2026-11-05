@@ -365,11 +365,7 @@ n\cdot(\gamma-z)^\perp=\dot\gamma^\perp\cdot(\gamma-z)^\perp=\dot\gamma\cdot(\ga
   in particular write \(\gamma=(\gamma_1,\gamma_2)\), and then \(n=(-\dot\gamma_2,\dot\gamma_1)\).</p>
   <p>
   Rotating the picture, we may assume that \(w=(0,1)\),
-  and then the assumption \(n\cdot w\ge0\) becomes</p>
-<span id="eq-3"></span><span class="math">\[
-n\cdot w=\dot\gamma_1\ge0\qquad\text{at every smooth point of }\gamma.\tag{3}
-\]</span>
-<p>Since \(\gamma_1\) is continuous and piecewise smooth, this means that \(\gamma_1\) is nondecreasing.</p>
+  and then the assumption \(n\cdot w\ge0\) becomes \(n\cdot w=\dot\gamma_1\ge0\) at every smooth point of \(\gamma\). Since \(\gamma_1\) is continuous and piecewise smooth, this means that \(\gamma_1\) is nondecreasing.</p>
 <p>Let \(y\in q\) and \(s\gt0\); we need to show that \(y+sw\notin p\). Since \(p\) is open and disjoint from \(q\), it does not meet the closure of \(q\), so it suffices to show that \(y+sw\) lies in the closure of \(q\).</p>
 <p>
 It suffices to show that for every sufficiently small \(\delta > 0\) we can find a point \(y'\) with
@@ -409,8 +405,8 @@ r_j:=\big(|a_j|^2+\theta_j^2\big)^{1/2}
 g_{\tau_j}(y)=y+r_jV(y)+o(r_j),\qquad\text{where }V(y):=b+\omega y^\perp,
 \]</span>
 <p>uniformly for \(y\) in compact sets. We claim that there is a smooth point \(x\) of \(\gamma\) such that</p>
-<span id="eq-5"></span><span class="math">\[
-n\cdot V(x)\lt0.\tag{5}
+<span id="eq-3"></span><span class="math">\[
+n\cdot V(x)\lt0.\tag{3}
 \]</span>
 <ul>
 <li>If \(\omega=0\), then \(V\) is the constant vector \(b\), and \(b\neq0\). By our assumption, \(w=b\) does not satisfy \(n\cdot w\ge0\) at every smooth point of \(\gamma\). So there is a smooth point \(x\) of \(\gamma\) with \(n\cdot V(x)=n\cdot b\lt0\), as claimed.
@@ -424,11 +420,11 @@ and by <a href="#eq-2">(2)</a>,
 <span class="math">\[
 n\cdot V(\gamma)=\omega\,\dot\gamma\cdot(\gamma-z)=\frac\omega2\,f',\qquad\text{where }f(t):=|\gamma(t)-z|^2.
 \]</span>
-The function \(f\) is continuous, and \(f(t)\to\infty\) as \(t\to\pm\infty\), since \(|\gamma(t)|\to\infty\). If \(\omega f'\ge0\) at every smooth point, then \(f\) is nondecreasing if \(\omega\gt0\), so that \(f(t)\le f(0)\) for all \(t\le0\), and nonincreasing if \(\omega\lt0\), so that \(f(t)\le f(0)\) for all \(t\ge0\). Both contradict \(f(t)\to\infty\), as \(t\to-\infty\) and as \(t\to+\infty\), respectively, which proves <a href="#eq-5">(5)</a>.
+The function \(f\) is continuous, and \(f(t)\to\infty\) as \(t\to\pm\infty\), since \(|\gamma(t)|\to\infty\). If \(\omega f'\ge0\) at every smooth point, then \(f\) is nondecreasing if \(\omega\gt0\), so that \(f(t)\le f(0)\) for all \(t\le0\), and nonincreasing if \(\omega\lt0\), so that \(f(t)\le f(0)\) for all \(t\ge0\). Both contradict \(f(t)\to\infty\), as \(t\to-\infty\) and as \(t\to+\infty\), respectively, which proves <a href="#eq-3">(3)</a>.
 <div class="figure" id="fig-pf-om1"><div class="pz-title pz-figtitle">\(\omega\gt0\)</div></div>
 </li>
 </ul>
-<p>By <a href="#eq-5">(5)</a>, we may choose \(\alpha\gt0\) with \(\alpha+n\cdot V(x)\lt0\). Then the vector</p>
+<p>By <a href="#eq-3">(3)</a>, we may choose \(\alpha\gt0\) with \(\alpha+n\cdot V(x)\lt0\). Then the vector</p>
 <span class="math">\[
 e:=\alpha n+V(x)
 \]</span>
@@ -675,8 +671,8 @@ X(x):=w\quad(w\neq0)\qquad\text{or}\qquad X(x):=\varepsilon(x-z)^\perp\quad(z\in
 \nu:=\dot\Sigma^\perp
 \]</span>
 <p>satisfies</p>
-<span id="eq-6"></span><span class="math">\[
-\nu\cdot X\ge0\qquad\text{at every smooth point of }\Sigma\text{ in }B.\tag{6}
+<span id="eq-4"></span><span class="math">\[
+\nu\cdot X\ge0\qquad\text{at every smooth point of }\Sigma\text{ in }B.\tag{4}
 \]</span>
 <p>Then no trajectory in \(B\) which starts in \(B^+\) reaches \(\Sigma\).</p>
 </div>
@@ -700,7 +696,7 @@ y':=\Phi_{-s}(x')
 <span class="math">\[
 \nu\cdot X=(\ell\circ\Sigma)'\ \text{ for a slide},\qquad \nu\cdot X=|\Sigma-z|\,(\ell\circ\Sigma)'\ \text{ for a turn}.
 \]</span>
-<p>Hence \(\ell\circ\Sigma\) is differentiable, with nonnegative derivative by <a href="#eq-6">(6)</a>, except at the finitely many points where \(\Sigma\) has a corner or passes through \(z\). Being continuous, \(\ell\circ\Sigma\) is nondecreasing along \(\Sigma\cap B\).</p>
+<p>Hence \(\ell\circ\Sigma\) is differentiable, with nonnegative derivative by <a href="#eq-4">(4)</a>, except at the finitely many points where \(\Sigma\) has a corner or passes through \(z\). Being continuous, \(\ell\circ\Sigma\) is nondecreasing along \(\Sigma\cap B\).</p>
 <p>Now let a trajectory in \(B\) lead from \(y\in B^+\) to \(\Phi_s(y)\); we need to show that \(\Phi_s(y)\notin B^-\). Since \(B^-\) is open and disjoint from \(B^+\), it does not meet the closure of \(B^+\), so it suffices to show that \(\Phi_s(y)\) lies in the closure of \(B^+\). If \(y=z\), then \(\Phi_s(y)=y\in B^+\), so we assume that \(y\neq z\).</p>
 <p>The trajectory is a compact subset of \(B\), the sets \(B\) and \(B^+\) are open, and each \(\Phi_u\) is an isometry. So we may choose \(\delta\gt0\), as small as we like, with \(\delta\lt|y-z|\) in the case of a turn, such that for all \(y'\) with \(|y'-y|\le\delta\),</p>
 <span class="math">\[
@@ -734,64 +730,64 @@ Suppose that \(\Phi_{u_1}(y')=\Sigma(t_0)\) for some \(u_1\in(0,s]\), and let \(
 </details>
 <div class="callout"><div class="callout-title">Lemma 2</div>
 <p>Suppose that</p>
-<span id="eq-7"></span><span class="math">\[
-n\cdot X\ge0\qquad\text{at every smooth point of }\gamma.\tag{7}
+<span id="eq-5"></span><span class="math">\[
+n\cdot X\ge0\qquad\text{at every smooth point of }\gamma.\tag{5}
 \]</span>
 <p>Then there is \(s_0\gt0\) such that \(\Phi_s(q)\cap p=\varnothing\) for every \(s\in[0,s_0]\).</p>
 </div>
 <details class="proof"><summary>Proof of Lemma 2</summary>
 <p>Suppose that no such \(s_0\) exists. Then there are \(s_j\searrow0\) and \(y_j\in q\) with \(\Phi_{s_j}(y_j)\in p\). Since \(|\Phi_s(y)-y|\le s|w|\), respectively \(\le s|y-z|\), we may pass to a subsequence such that \(y_j\) and \(\Phi_{s_j}(y_j)\) converge to the same point \(x\). Then \(x\in\overline q\cap\overline p=\gamma\), and for every disk \(B\) around \(x\), the trajectory from \(y_j\) to \(\Phi_{s_j}(y_j)\) lies in \(B\) for all large \(j\).</p>
 <p>We first show that for every point of \(\gamma\) other than an endpoint and every sufficiently small disk \(B\) around it,</p>
-<span id="eq-8"></span><span class="math">\[
-\text{no trajectory in }B\text{ which starts in }q\text{ reaches }\gamma.\tag{8}
+<span id="eq-6"></span><span class="math">\[
+\text{no trajectory in }B\text{ which starts in }q\text{ reaches }\gamma.\tag{6}
 \]</span>
-<p>Indeed, for such a disk \(B\), \(\gamma\cap B\) is a single arc, dividing \(B\) into two sides, and \(B\setminus\gamma\subseteq p\cup q\) by clean contact. Each side is connected, hence contained in \(p\) or in \(q\); since \(q\) lies to the left of \(\gamma\) and \(p\) meets \(B\), the left side is \(q\cap B\) and the right side is \(p\cap B\). By <a href="#eq-7">(7)</a>, Lemma 1 applies to \(\Sigma=\gamma\) and \(\nu=n\), and gives <a href="#eq-8">(8)</a>.</p>
+<p>Indeed, for such a disk \(B\), \(\gamma\cap B\) is a single arc, dividing \(B\) into two sides, and \(B\setminus\gamma\subseteq p\cup q\) by clean contact. Each side is connected, hence contained in \(p\) or in \(q\); since \(q\) lies to the left of \(\gamma\) and \(p\) meets \(B\), the left side is \(q\cap B\) and the right side is \(p\cap B\). By <a href="#eq-5">(5)</a>, Lemma 1 applies to \(\Sigma=\gamma\) and \(\nu=n\), and gives <a href="#eq-6">(6)</a>.</p>
 <p>We now derive a contradiction. We distinguish two cases: either \(x\) is not an endpoint of \(\gamma\), or \(x\) is an endpoint of \(\gamma\).</p>
 <ul class="cases">
-<li><p><span class="case"><strong>Case 1:</strong> <em>\(x\) is not an endpoint of \(\gamma\).</em></span> Let \(B\) be a disk around \(x\) as in <a href="#eq-8">(8)</a>. For large \(j\), the trajectory from \(y_j\in q\) to \(\Phi_{s_j}(y_j)\in p\) lies in \(B\), hence meets \(\gamma\), contradicting <a href="#eq-8">(8)</a>.</p></li>
+<li><p><span class="case"><strong>Case 1:</strong> <em>\(x\) is not an endpoint of \(\gamma\).</em></span> Let \(B\) be a disk around \(x\) as in <a href="#eq-6">(6)</a>. For large \(j\), the trajectory from \(y_j\in q\) to \(\Phi_{s_j}(y_j)\in p\) lies in \(B\), hence meets \(\gamma\), contradicting <a href="#eq-6">(6)</a>.</p></li>
 <li><p><span class="case"><strong>Case 2:</strong> <em>\(x=x_0\) is an endpoint of \(\gamma\).</em></span> Let \(\hat\gamma\) be as in the definition of clean contact, oriented like \(\gamma\), and consider its normal</p>
 <span class="math">\[
 \nu:=\dot{\hat\gamma}^\perp,
 \]</span>
 <p>which agrees with \(n\) along \(\gamma\). Let \(\psi\) be the polar angle about \(x_0\), measured from the tangent ray, in the sense for which \(\nu(x_0)\) has angle \(\pi/2\); thus \(\gamma\) leaves \(x_0\) in the direction \(\psi=\pi\). By clean contact, there is a small disk \(B\) around \(x_0\) in which \(q\) lies on the side of \(\hat\gamma\) to which \(\nu\) points, and \(p\) on the other side. In \(B\), the boundaries of \(p\) and \(q\) consist of \(\gamma\) and of finitely many arcs leaving \(x_0\), none of them tangent to \(\hat\gamma\). Hence there is \(\beta\in(0,\pi/4)\) such that, after shrinking \(B\),</p>
-<span id="eq-9"></span><span class="math">\[
-\begin{aligned}&\text{the arcs of }\partial q\text{ other than }\gamma\text{ lie in }\{\beta\le\psi\le\pi-\beta\},\\&\text{the arcs of }\partial p\text{ other than }\gamma\text{ lie in }\{-\pi+\beta\le\psi\le-\beta\}.\end{aligned}\tag{9}
+<span id="eq-7"></span><span class="math">\[
+\begin{aligned}&\text{the arcs of }\partial q\text{ other than }\gamma\text{ lie in }\{\beta\le\psi\le\pi-\beta\},\\&\text{the arcs of }\partial p\text{ other than }\gamma\text{ lie in }\{-\pi+\beta\le\psi\le-\beta\}.\end{aligned}\tag{7}
 \]</span>
 <p>Moreover, since \(\gamma\) leaves \(x_0\) in the direction \(\psi=\pi\), after shrinking \(B\) we have \(|\psi-\pi|\lt\beta\) on \(\gamma\cap B\setminus\{x_0\}\). We claim that the set</p>
 <span class="math">\[
 W:=\{x\in B\setminus\{x_0\}\colon|\psi(x)|\lt\beta\}
 \]</span>
-<p>contains no point of \(p\cup q\). Let \(W_\pm:=\{x\in W\colon 0\lt\pm\psi(x)\lt\beta\}\). By <a href="#eq-9">(9)</a>, neither \(W_+\) nor \(W_-\) meets \(\partial p\) or \(\partial q\). Since \(W_+\) is connected, it is either contained in \(q\) or disjoint from \(q\), and either contained in \(p\) or disjoint from \(p\). It is disjoint from \(p\), since it lies on the side of \(\hat\gamma\) to which \(\nu\) points. If it were contained in \(q\), then the points \(x\in B\setminus\{x_0\}\) with \(\psi(x)=0\), which lie on \(\hat\gamma\) and hence not in \(q\), would lie in \(\partial q\setminus\gamma\), contradicting <a href="#eq-9">(9)</a>. Hence \(W_+\) contains no point of \(p\cup q\), and similarly for \(W_-\). Finally, if a point \(x\in W\) with \(\psi(x)=0\) lay in \(p\cup q\), then, since \(p\) and \(q\) are open, so would the points of \(W_+\) near \(x\). This proves the claim.</p>
-<p>By <a href="#eq-7">(7)</a> and continuity, \(\nu(x_0)\cdot X(x_0)\ge0\). We distinguish two cases: either \(X(x_0)\neq0\), or \(X(x_0)=0\).</p>
+<p>contains no point of \(p\cup q\). Let \(W_\pm:=\{x\in W\colon 0\lt\pm\psi(x)\lt\beta\}\). By <a href="#eq-7">(7)</a>, neither \(W_+\) nor \(W_-\) meets \(\partial p\) or \(\partial q\). Since \(W_+\) is connected, it is either contained in \(q\) or disjoint from \(q\), and either contained in \(p\) or disjoint from \(p\). It is disjoint from \(p\), since it lies on the side of \(\hat\gamma\) to which \(\nu\) points. If it were contained in \(q\), then the points \(x\in B\setminus\{x_0\}\) with \(\psi(x)=0\), which lie on \(\hat\gamma\) and hence not in \(q\), would lie in \(\partial q\setminus\gamma\), contradicting <a href="#eq-7">(7)</a>. Hence \(W_+\) contains no point of \(p\cup q\), and similarly for \(W_-\). Finally, if a point \(x\in W\) with \(\psi(x)=0\) lay in \(p\cup q\), then, since \(p\) and \(q\) are open, so would the points of \(W_+\) near \(x\). This proves the claim.</p>
+<p>By <a href="#eq-5">(5)</a> and continuity, \(\nu(x_0)\cdot X(x_0)\ge0\). We distinguish two cases: either \(X(x_0)\neq0\), or \(X(x_0)=0\).</p>
 <ul class="cases">
-<li><p><span class="case"><strong>Case 2a:</strong> <em>\(X(x_0)\neq0\).</em></span> We find an arc \(\Sigma\) through \(x_0\), oriented like \(\gamma\), which divides a small disk \(B\) around \(x_0\) into two sides, with \(q\cap B\) on its left and \(p\cap B\) on its right, and which satisfies <a href="#eq-6">(6)</a>. Then, for large \(j\), the trajectory from \(y_j\in q\) to \(\Phi_{s_j}(y_j)\in p\) lies in \(B\), hence meets \(\Sigma\), contradicting Lemma 1. To find \(\Sigma\), we distinguish two cases: either \(\nu(x_0)\cdot X(x_0)\gt0\), or \(\nu(x_0)\cdot X(x_0)=0\).</p>
+<li><p><span class="case"><strong>Case 2a:</strong> <em>\(X(x_0)\neq0\).</em></span> We find an arc \(\Sigma\) through \(x_0\), oriented like \(\gamma\), which divides a small disk \(B\) around \(x_0\) into two sides, with \(q\cap B\) on its left and \(p\cap B\) on its right, and which satisfies <a href="#eq-4">(4)</a>. Then, for large \(j\), the trajectory from \(y_j\in q\) to \(\Phi_{s_j}(y_j)\in p\) lies in \(B\), hence meets \(\Sigma\), contradicting Lemma 1. To find \(\Sigma\), we distinguish two cases: either \(\nu(x_0)\cdot X(x_0)\gt0\), or \(\nu(x_0)\cdot X(x_0)=0\).</p>
 <ul class="cases">
-<li><p><span class="case"><strong>Case 2a(i):</strong> <em>\(\nu(x_0)\cdot X(x_0)\gt0\).</em></span> Take \(\Sigma\) to be \(\hat\gamma\). Along \(\gamma\), <a href="#eq-6">(6)</a> is <a href="#eq-7">(7)</a>; along the tangent ray, \(\nu\cdot X\gt0\) if \(B\) is small.</p></li>
+<li><p><span class="case"><strong>Case 2a(i):</strong> <em>\(\nu(x_0)\cdot X(x_0)\gt0\).</em></span> Take \(\Sigma\) to be \(\hat\gamma\). Along \(\gamma\), <a href="#eq-4">(4)</a> is <a href="#eq-5">(5)</a>; along the tangent ray, \(\nu\cdot X\gt0\) if \(B\) is small.</p></li>
 <li><p><span class="case"><strong>Case 2a(ii):</strong> <em>\(\nu(x_0)\cdot X(x_0)=0\).</em></span> Then \(X(x_0)\) is parallel to the tangent ray. Let \(\sigma\in\{1,-1\}\) be such that \(\sigma X(x_0)\) points in the direction \(\psi=0\), and let</p>
 <span class="math">\[
 O_+:=\{\Phi_{\sigma u}(x_0)\colon u\gt0\}\cap B.
 \]</span>
-<p>Since \(O_+\) is contained in a line or a circle tangent to the tangent ray at \(x_0\), after shrinking \(B\), \(O_+\) is an arc contained in \(W\). Let \(\Sigma\) be the curve consisting of \(\gamma\cap B\) and \(O_+\), oriented like \(\gamma\). Since \(X\) is tangent to \(O_+\), we have \(\nu\cdot X=0\) along \(O_+\), so \(\Sigma\) satisfies <a href="#eq-6">(6)</a>. Moreover, \(\Sigma\) and \(\hat\gamma\) coincide in \(B\setminus W\), and \(W\) contains no point of \(p\cup q\), so \(q\cap B\) and \(p\cap B\) lie on the same sides of \(\Sigma\) as of \(\hat\gamma\).</p></li>
+<p>Since \(O_+\) is contained in a line or a circle tangent to the tangent ray at \(x_0\), after shrinking \(B\), \(O_+\) is an arc contained in \(W\). Let \(\Sigma\) be the curve consisting of \(\gamma\cap B\) and \(O_+\), oriented like \(\gamma\). Since \(X\) is tangent to \(O_+\), we have \(\nu\cdot X=0\) along \(O_+\), so \(\Sigma\) satisfies <a href="#eq-4">(4)</a>. Moreover, \(\Sigma\) and \(\hat\gamma\) coincide in \(B\setminus W\), and \(W\) contains no point of \(p\cup q\), so \(q\cap B\) and \(p\cap B\) lie on the same sides of \(\Sigma\) as of \(\hat\gamma\).</p></li>
 </ul></li>
 <li><p><span class="case"><strong>Case 2b:</strong> <em>\(X(x_0)=0\).</em></span> Then \(z=x_0\), and \(\Phi_s=\rho_{x_0}(\varepsilon s)\) turns points about \(x_0\) by the angle \(\varepsilon s\), keeping their distance to \(x_0\). Since \(q\) lies on the side of \(\hat\gamma\) to which \(\nu\) points, and \(\hat\gamma\) is tangent at \(x_0\) to the line \(\{\psi\in\{0,\pi\}\}\), we have, if \(B\) is small,</p>
 <span class="math">\[
 -\beta/2\lt\psi\lt\pi+\beta/2\pmod{2\pi}\qquad\text{on }q\cap B.
 \]</span>
-<p>Let \(j\) be so large that \(s_j\le\beta/2\) and the trajectory from \(y_j\) lies in \(B\). It stays in \(\{-\beta\lt\psi\lt\pi+\beta\}\), so by <a href="#eq-9">(9)</a> it does not meet \(\partial p\setminus\gamma\); and it does not meet \(x_0\). Let \(x^*\) be its first point in \(\overline p\). Since \(p\) is open and \(y_j\notin\overline p\), the point \(x^*\) lies in \(\partial p\); so it is a point of \(\gamma\) other than \(x_0\), which is smooth if \(B\) is small. Let \(B'\) be a disk around \(x^*\) as in <a href="#eq-8">(8)</a>. Just before reaching \(x^*\), the trajectory lies in \(B'\) and outside \(\overline p\), hence in \(q\). Since \(x^*\in\gamma\), this contradicts <a href="#eq-8">(8)</a>.</p></li>
+<p>Let \(j\) be so large that \(s_j\le\beta/2\) and the trajectory from \(y_j\) lies in \(B\). It stays in \(\{-\beta\lt\psi\lt\pi+\beta\}\), so by <a href="#eq-7">(7)</a> it does not meet \(\partial p\setminus\gamma\); and it does not meet \(x_0\). Let \(x^*\) be its first point in \(\overline p\). Since \(p\) is open and \(y_j\notin\overline p\), the point \(x^*\) lies in \(\partial p\); so it is a point of \(\gamma\) other than \(x_0\), which is smooth if \(B\) is small. Let \(B'\) be a disk around \(x^*\) as in <a href="#eq-6">(6)</a>. Just before reaching \(x^*\), the trajectory lies in \(B'\) and outside \(\overline p\), hence in \(q\). Since \(x^*\in\gamma\), this contradicts <a href="#eq-6">(6)</a>.</p></li>
 </ul></li>
 </ul>
 <p>In all cases we have reached a contradiction, which proves Lemma 2.</p>
 </details>
-<p><i>Proof of <span class="pz-piece n1" role="img" aria-label="the first statement"></span>.</i> Apply Lemma 2 to \(X(x)=w\). Then <a href="#eq-7">(7)</a> is the assumption \(n\cdot w\ge0\), and since \(\Phi_s(x)=x+sw\), Lemma 2 implies that \((q+sw)\cap p=\varnothing\) for every \(s\in[0,s_0]\).</p>
-<p><i>Proof of <span class="pz-piece n2" role="img" aria-label="the second statement"></span>.</i> Apply Lemma 2 to \(X(x)=\varepsilon(x-z)^\perp\). By <a href="#eq-2">(2)</a>, \(n\cdot X=\varepsilon\,\dot\gamma\cdot(\gamma-z)\) at every smooth point of \(\gamma\), so <a href="#eq-7">(7)</a> is the assumption \(\varepsilon\,\dot\gamma\cdot(\gamma-z)\ge0\). Since \(\Phi_s=\rho_z(\varepsilon s)\), Lemma 2 implies that \(\rho_z(\varepsilon s)(q)\cap p=\varnothing\) for every \(s\in[0,s_0]\), i.e. the statement with \(\theta_0=s_0\).</p>
+<p><i>Proof of <span class="pz-piece n1" role="img" aria-label="the first statement"></span>.</i> Apply Lemma 2 to \(X(x)=w\). Then <a href="#eq-5">(5)</a> is the assumption \(n\cdot w\ge0\), and since \(\Phi_s(x)=x+sw\), Lemma 2 implies that \((q+sw)\cap p=\varnothing\) for every \(s\in[0,s_0]\).</p>
+<p><i>Proof of <span class="pz-piece n2" role="img" aria-label="the second statement"></span>.</i> Apply Lemma 2 to \(X(x)=\varepsilon(x-z)^\perp\). By <a href="#eq-2">(2)</a>, \(n\cdot X=\varepsilon\,\dot\gamma\cdot(\gamma-z)\) at every smooth point of \(\gamma\), so <a href="#eq-5">(5)</a> is the assumption \(\varepsilon\,\dot\gamma\cdot(\gamma-z)\ge0\). Since \(\Phi_s=\rho_z(\varepsilon s)\), Lemma 2 implies that \(\rho_z(\varepsilon s)(q)\cap p=\varnothing\) for every \(s\in[0,s_0]\), i.e. the statement with \(\theta_0=s_0\).</p>
 <div class="callout"><div class="callout-title">Lemma 3</div>
 <p>Suppose that there exists an admissible motion of \(q\) which is not constant. Then there are \(b\in\mathbb{R}^2\) and \(\omega\in\mathbb{R}\), not both zero, such that the vector field</p>
 <span class="math">\[
 V(y):=b+\omega y^\perp
 \]</span>
 <p>satisfies</p>
-<span id="eq-10"></span><span class="math">\[
-n\cdot V\ge0\qquad\text{at every smooth point of }\gamma.\tag{10}
+<span id="eq-8"></span><span class="math">\[
+n\cdot V\ge0\qquad\text{at every smooth point of }\gamma.\tag{8}
 \]</span>
 </div>
 <details class="proof"><summary>Proof of Lemma 3</summary>
@@ -808,8 +804,8 @@ r_j:=\big(|a_j|^2+\theta_j^2\big)^{1/2}
 \Big(\frac{a_j}{r_j},\frac{\theta_j}{r_j}\Big)\to(b,\omega),\qquad\text{where }|b|^2+\omega^2=1.
 \]</span>
 <p>Since \(\cos\theta_j=1+O(\theta_j^2)\) and \(\sin\theta_j=\theta_j+O(\theta_j^3)\),</p>
-<span id="eq-11"></span><span class="math">\[
-g_{\tau_j}(y)=y+r_jV(y)+o(r_j)\qquad\text{uniformly for }y\text{ in compact sets}.\tag{11}
+<span id="eq-9"></span><span class="math">\[
+g_{\tau_j}(y)=y+r_jV(y)+o(r_j)\qquad\text{uniformly for }y\text{ in compact sets}.\tag{9}
 \]</span>
 <p>Assume by contradiction that \(n\cdot V(x)\lt0\) at some smooth point \(x\) of \(\gamma\). Since \(n\) and \(V\) are continuous along each smooth arc of \(\gamma\), we may assume that \(x\) is not an endpoint of \(\gamma\). Write \(x=\gamma(t)\) and \(n=n(t)\). Then the number and the vector</p>
 <span class="math">\[
@@ -823,7 +819,7 @@ S_\pm:=\{x+v\colon 0\lt|v|\lt\rho,\ \pm v\cdot n\gt|v|\sin\theta\}.
 <span class="math">\[
 \gamma(t+\sigma)=x+\sigma\dot\gamma(t)+o(\sigma),\qquad|\dot\gamma(t)|=1\qquad\text{and}\qquad\dot\gamma(t)\cdot n=0,
 \]</span>
-<p>there is \(\sigma_0\gt0\) such that for \(0\lt|\sigma|\lt\sigma_0\), the vector \(v=\gamma(t+\sigma)-x\) is nonzero and satisfies \(|v\cdot n|\lt|v|\sin\theta\), i.e. \(\gamma(t+\sigma)\) lies in neither sector. The points \(\gamma(t+\sigma)\) with \(|\sigma|\ge\sigma_0\) form a compact set, which does not contain \(x\) since \(\gamma\) has no self-intersections. Hence, if \(\rho\) is smaller than the distance from \(x\) to this set, neither sector meets \(\gamma\). Let \(B\) be the disk of radius \(\rho\) about \(x\). By clean contact, if \(\rho\) is small, then \(B\setminus\gamma\subseteq p\cup q\), and, as in the proof of <a href="#eq-8">(8)</a>, the points of \(B\setminus\gamma\) on the left of \(\gamma\) lie in \(q\) and those on its right lie in \(p\). Each sector is a connected subset of \(B\setminus\gamma\), so it lies on one side of \(\gamma\). For small \(\varepsilon\gt0\), the point \(x+\varepsilon n\) lies in \(S_+\) and on the left of \(\gamma\), and \(x-\varepsilon n\) lies in \(S_-\) and on the right of \(\gamma\). Hence</p>
+<p>there is \(\sigma_0\gt0\) such that for \(0\lt|\sigma|\lt\sigma_0\), the vector \(v=\gamma(t+\sigma)-x\) is nonzero and satisfies \(|v\cdot n|\lt|v|\sin\theta\), i.e. \(\gamma(t+\sigma)\) lies in neither sector. The points \(\gamma(t+\sigma)\) with \(|\sigma|\ge\sigma_0\) form a compact set, which does not contain \(x\) since \(\gamma\) has no self-intersections. Hence, if \(\rho\) is smaller than the distance from \(x\) to this set, neither sector meets \(\gamma\). Let \(B\) be the disk of radius \(\rho\) about \(x\). By clean contact, if \(\rho\) is small, then \(B\setminus\gamma\subseteq p\cup q\), and, as in the proof of <a href="#eq-6">(6)</a>, the points of \(B\setminus\gamma\) on the left of \(\gamma\) lie in \(q\) and those on its right lie in \(p\). Each sector is a connected subset of \(B\setminus\gamma\), so it lies on one side of \(\gamma\). For small \(\varepsilon\gt0\), the point \(x+\varepsilon n\) lies in \(S_+\) and on the left of \(\gamma\), and \(x-\varepsilon n\) lies in \(S_-\) and on the right of \(\gamma\). Hence</p>
 <span class="math">\[
 S_+\subseteq q\qquad\text{and}\qquad S_-\subseteq p.
 \]</span>
@@ -832,7 +828,7 @@ S_+\subseteq q\qquad\text{and}\qquad S_-\subseteq p.
 <span class="math">\[
 x_j:=x+\alpha r_jn.
 \]</span>
-<p>For large \(j\), \(0\lt\alpha r_j\lt\rho\), so \(x_j\in S_+\subseteq q\). Since \(V\) is affine, \(V(x_j)=V(x)+O(r_j)\), so by <a href="#eq-11">(11)</a>,</p>
+<p>For large \(j\), \(0\lt\alpha r_j\lt\rho\), so \(x_j\in S_+\subseteq q\). Since \(V\) is affine, \(V(x_j)=V(x)+O(r_j)\), so by <a href="#eq-9">(9)</a>,</p>
 <span class="math">\[
 g_{\tau_j}(x_j)=x+r_je+o(r_j).
 \]</span>
@@ -842,11 +838,11 @@ v_j:=g_{\tau_j}(x_j)-x
 \]</span>
 <p>satisfy \(|v_j|=r_j|e|+o(r_j)\) and \(v_j\cdot n+|v_j|\sin\theta=r_j\big(e\cdot n+|e|\sin\theta\big)+o(r_j)\). Since \(e\neq0\) and \(e\cdot n+|e|\sin\theta\lt0\), for large \(j\) we get \(0\lt|v_j|\lt\rho\) and \(-v_j\cdot n\gt|v_j|\sin\theta\), i.e. \(g_{\tau_j}(x_j)\in S_-\subseteq p\). Hence \(g_{\tau_j}(q)\) meets \(p\), which contradicts the assumption that \(g\) is admissible.</p>
 </details>
-<p><i>Proof of <span class="pz-piece n3" role="img" aria-label="the third statement"></span>.</i> Suppose that the hypotheses of <span class="pz-piece n1" role="img" aria-label="the first statement"></span> and <span class="pz-piece n2" role="img" aria-label="the second statement"></span> fail for every \(w\), \(z\) and \(\varepsilon\), and that there exists an admissible motion of \(q\) which is not constant. Let \(b\), \(\omega\) and \(V\) be as in Lemma 3. If \(\omega=0\), then by <a href="#eq-10">(10)</a>, \(w=b\neq0\) satisfies \(n\cdot w\ge0\) at every smooth point of \(\gamma\). If \(\omega\neq0\), then \(V(y)=\omega(y-z)^\perp\) for the point</p>
+<p><i>Proof of <span class="pz-piece n3" role="img" aria-label="the third statement"></span>.</i> Suppose that the hypotheses of <span class="pz-piece n1" role="img" aria-label="the first statement"></span> and <span class="pz-piece n2" role="img" aria-label="the second statement"></span> fail for every \(w\), \(z\) and \(\varepsilon\), and that there exists an admissible motion of \(q\) which is not constant. Let \(b\), \(\omega\) and \(V\) be as in Lemma 3. If \(\omega=0\), then by <a href="#eq-8">(8)</a>, \(w=b\neq0\) satisfies \(n\cdot w\ge0\) at every smooth point of \(\gamma\). If \(\omega\neq0\), then \(V(y)=\omega(y-z)^\perp\) for the point</p>
 <span class="math">\[
 z:=b^\perp/\omega,
 \]</span>
-<p>and by <a href="#eq-2">(2)</a> and <a href="#eq-10">(10)</a>, \(\varepsilon\,\dot\gamma\cdot(\gamma-z)\ge0\) at every smooth point of \(\gamma\), where \(\varepsilon\) is the sign of \(\omega\). Both contradict the assumption. Hence every admissible motion is constant, i.e. \(p\) and \(q\) are interlocked.</p>
+<p>and by <a href="#eq-2">(2)</a> and <a href="#eq-8">(8)</a>, \(\varepsilon\,\dot\gamma\cdot(\gamma-z)\ge0\) at every smooth point of \(\gamma\), where \(\varepsilon\) is the sign of \(\omega\). Both contradict the assumption. Hence every admissible motion is constant, i.e. \(p\) and \(q\) are interlocked.</p>
 </details>
 
 <h4>Acknowledgements</h4>
@@ -1691,8 +1687,8 @@ playground(document.getElementById('fig-out'), {shapes: ['cap'], modes: ['slide'
     el('path', {d: f.d(cut), fill: 'none', stroke: C.ink, 'stroke-width': 2.4, 'stroke-linejoin': 'round'}, f.svg);
     for (const Q of [y, [0, y[1] + h], [x0, y[1]], [x0, y[1] + h]]) el('circle', {cx: f.X(Q[0]), cy: f.Y(Q[1]), r: 3, fill: C.ink}, f.svg);
     txt(f, -1.6, .85, 'q'); txt(f, 1.4, -.95, 'p');
-    txt(f, .12, y[1] - .08, 'y', 'small', 'start'); txt(f, .12, y[1] + h - .08, 'y + sw', 'small', 'start');
-    txt(f, x0 - .12, y[1] - .08, 'y′', 'small', 'end'); txt(f, x0 - .12, y[1] + h - .08, 'y′ + sw', 'small', 'end');
+    txt(f, .07, y[1] - .04, 'y', 'small', 'start'); txt(f, .07, y[1] + h - .04, 'y + sw', 'small', 'start');
+    txt(f, x0 - .07, y[1] - .04, 'y′', 'small', 'end'); txt(f, x0 - .07, y[1] + h - .04, 'y′ + sw', 'small', 'end');
     txt(f, .12, -.9, 'γ', 'small', 'start');
   })();
 
