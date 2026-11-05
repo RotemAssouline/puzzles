@@ -361,45 +361,40 @@ n\cdot(\gamma-z)^\perp=\dot\gamma^\perp\cdot(\gamma-z)^\perp=\dot\gamma\cdot(\ga
 <details class="proof"><summary>Proof of Theorem 1</summary>
 <ol class="pz-pieces">
 <li>
-<p>Rotating the picture, we may assume that \(w=(0,1)\). For a point \(x \in \mathbb{R}^2\), write \(x=(x_1,x_2)\), and similarly \(\gamma=(\gamma_1,\gamma_2)\). Since \(n=\dot\gamma^\perp\) and \(v^\perp=(-v_2,v_1)\) for every \(v\in\mathbb{R}^2\), we have \(n=(-\dot\gamma_2,\dot\gamma_1)\). Thus the assumption \(n\cdot w\ge0\) reads</p>
+<p>For a point \(x \in \mathbb{R}^2\), write \(x=(x_1,x_2)\); 
+  in particular write \(\gamma=(\gamma_1,\gamma_2)\), and then \(n=(-\dot\gamma_2,\dot\gamma_1)\).</p>
+  <p>
+  Rotating the picture, we may assume that \(w=(0,1)\),
+  and then the assumption \(n\cdot w\ge0\) becomes</p>
 <span id="eq-3"></span><span class="math">\[
 n\cdot w=\dot\gamma_1\ge0\qquad\text{at every smooth point of }\gamma.\tag{3}
 \]</span>
-<p>Since \(\gamma_1\) is continuous and piecewise smooth, this means that</p>
-<span id="eq-4"></span><span class="math">\[
-\gamma_1\text{ is nondecreasing.}\tag{4}
-\]</span>
+<p>Since \(\gamma_1\) is continuous and piecewise smooth, this means that \(\gamma_1\) is nondecreasing.</p>
 <p>Let \(y\in q\) and \(s\gt0\); we need to show that \(y+sw\notin p\). Since \(p\) is open and disjoint from \(q\), it does not meet the closure of \(q\), so it suffices to show that \(y+sw\) lies in the closure of \(q\).</p>
-<p>Since \(q\) is open, we may choose \(\delta\gt0\), as small as we like, such that
-  \[y+(u,0)\in q \qquad \text{ for all } \,-\delta \le u \le \delta.\]
-It suffices to find a point \(y'\) with
+<p>
+It suffices to show that for every sufficiently small \(\delta > 0\) we can find a point \(y'\) with
 \[|y'-y|\le\delta \qquad \text{and} \qquad y'+sw\in q.\]
-Indeed, for such \(y'\) we have \(|(y'+sw)-(y+sw)|=|y'-y|\le\delta\), so since \(\delta\) can be taken arbitrarily small, the point \(y+sw\) lies in the closure of \(q\).</p>
-<p>We look for \(y'\) on the vertical lines near \(y\). (We cannot simply take \(y'=y\), since the vertical line through \(y\) may contain a segment of \(\gamma\), along which \(\dot\gamma_1=0\); see <a href="#fig-pf0a">the figures below</a>.)</p>
-<p>We distinguish two cases: either there exists \(c\in[y_1-\delta,y_1+\delta]\) such that \(\gamma_1(t)\neq c\) for all \(t\in\mathbb{R}\), or for all \(c\in[y_1-\delta,y_1+\delta]\) there exists \(t\in\mathbb{R}\) with \(\gamma_1(t)=c\). In each case we choose \(c\in[y_1-\delta,y_1+\delta]\) and set
-<span class="math">\[
-y':=y+(c-y_1,0),\qquad L:=\{x\in\mathbb{R}^2: x_1=c\}.
-\]</span>
-Then \(|y'-y|=|c-y_1|\le\delta\), so \(y'\in q\), and both \(y'\) and \(y'+sw\) lie on the vertical line \(L\).</p>
+Indeed, for such \(y'\) we have \(|(y'+sw)-(y+sw)|=|y'-y|\le\delta\), and by taking \(\delta \searrow 0\) we conclude that the point \(y+sw\) lies in the closure of \(q\) (we cannot simply take \(y'=y\), since the vertical line through \(y\) may contain a segment of \(\gamma\), along which \(\dot\gamma_1=0\); see <a href="#fig-pf0a">the figures below</a>).</p>
 <ul>
-<li><span class="case"><strong>Case 1:</strong> <em>there exists \(c\in[y_1-\delta,y_1+\delta]\) such that \(\gamma_1(t)\neq c\) for all \(t\in\mathbb{R}\)</em></span>, i.e. \(L\) does not meet \(\gamma\). Choose such a \(c\). Since \(L\) does not meet \(\gamma\), it lies in \(\mathbb{R}^2\setminus\gamma=p\cup q\). As \(L\) is connected and \(p,q\) are disjoint open sets, \(L\) lies entirely in \(p\) or entirely in \(q\). Since \(L\) contains \(y'\in q\), it lies in \(q\), and in particular \(y'+sw\in q\).
+<li><span class="case"><strong>Case 1:</strong> <em>there exists \(c\in[y_1-\delta,y_1+\delta]\) such that \(\gamma_1(t)\neq c\) for all \(t\in\mathbb{R}\)</em></span>, i.e. some vertical line near \(y\) does not meet \(\gamma\). Choose such a \(c\) and set \(y':=y+(c-y_1,0)\). Then \(|y'-y|=|c-y_1|\le\delta\), so \(y'\in q\) for small \(\delta\). By our choice of \(c\), the vertical segment joining \(y'\) to \(y'+sw\) does not meet the interface \(\gamma\), so since \(y'\in q\) also \(y'+sw\in q\).
 <div class="figure" id="fig-pf0a"></div>
 </li>
-<li><span class="case"><strong>Case 2:</strong> <em>for all \(c\in[y_1-\delta,y_1+\delta]\) there exists \(t\in\mathbb{R}\) with \(\gamma_1(t)=c\)</em></span>, i.e. every vertical line near \(y\) meets \(\gamma\). In particular, there exist \(t_-,t_+\in\mathbb{R}\) with \(\gamma_1(t_-)=y_1-\delta\) and \(\gamma_1(t_+)=y_1+\delta\), and \(t_-\lt t_+\) by <a href="#eq-4">(4)</a>. Since \(\gamma_1\) is piecewise smooth and not constant on \([t_-,t_+]\), there exists a smooth point \(t_0\in(t_-,t_+)\) with \(\dot\gamma_1(t_0)\neq0\), i.e. \(\dot\gamma_1(t_0)\gt0\). Choose \(c:=\gamma_1(t_0)\), which lies in \([y_1-\delta,y_1+\delta]\) by <a href="#eq-4">(4)</a>. By <a href="#eq-4">(4)</a> and \(\dot\gamma_1(t_0)\gt0\),
+<li><span class="case"><strong>Case 2:</strong> <em>for all \(c\in[y_1-\delta,y_1+\delta]\) there exists \(t\in\mathbb{R}\) with \(\gamma_1(t)=c\)</em></span>, i.e. every vertical line near \(y\) meets \(\gamma\). In particular, there exist \(t_-,t_+\in\mathbb{R}\) with \(\gamma_1(t_-)=y_1-\delta\) and \(\gamma_1(t_+)=y_1+\delta\). Since \(\gamma_1\) is nondecreasing, we have \(t_-\lt t_+\) and \(\gamma_1([t_-,t_+])\subseteq[y_1-\delta,y_1+\delta]\). <br> Since \(\gamma_1\) is piecewise smooth and \(\gamma_1(t_-)\lt\gamma_1(t_+)\), there exists a smooth point \(t_0\in(t_-,t_+)\) with \(\dot\gamma_1(t_0)\gt0\). Set 
 <span class="math">\[
-\gamma_1(t)\lt c\quad\text{for all }t\lt t_0\qquad\text{and}\qquad\gamma_1(t)\gt c\quad\text{for all }t\gt t_0,
+c:=\gamma_1(t_0), \qquad y':=y+(c-y_1,0),\qquad L:=\{x\in\mathbb{R}^2: x_1=c\}.
 \]</span>
-so \(L\) meets \(\gamma\) only at \(\gamma(t_0)\). Each of the two open half-lines into which \(\gamma(t_0)\) divides \(L\) does not meet \(\gamma\), so it lies in \(\mathbb{R}^2\setminus\gamma=p\cup q\); being connected, it lies entirely in \(p\) or entirely in \(q\). Since \(n\cdot w=\dot\gamma_1(t_0)\gt0\) by <a href="#eq-3">(3)</a>, there exists \(\varepsilon_0\gt0\) such that \(\gamma(t_0)+\varepsilon w\in q\) and \(\gamma(t_0)-\varepsilon w\in p\) for all \(\varepsilon\in(0,\varepsilon_0)\). Hence the half-line of \(L\) above \(\gamma(t_0)\) lies in \(q\), and the one below lies in \(p\). Since \(y'\in q\), it lies above \(\gamma(t_0)\). Hence so does \(y'+sw\), which therefore lies in \(q\).
+Then \(|y'-y|=|c-y_1|\le\delta\), so \(y'\in q\) for \(\delta\) small, and both \(y'\) and \(y'+sw\) lie on the vertical line \(L\). Since \(\gamma_1\) is nondecreasing and \(\dot\gamma_1(t_0)\gt0\), the line \(L\) meets \(\gamma\) only at \(\gamma(t_0)\), and each of the two open half-lines into which \(\gamma(t_0)\) divides the line \(L\) lies either entirely in \(p\) or entirely in \(q\).  <br>
+Since \(\dot\gamma_1(t_0)\gt0\), near \(\gamma(t_0)\) the curve \(\gamma\) is the graph of a function of \(x_1\), traversed from left to right. So \(\gamma\) divides a small disk around \(\gamma(t_0)\) into the part above the graph, which lies to the left of \(\gamma\) and hence in \(q\), and the part below the graph, which lies in \(p\). In particular, \(\gamma(t_0)+\varepsilon w\in q\) and \(\gamma(t_0)-\varepsilon w\in p\) for all sufficiently small \(\varepsilon\gt0\). Hence the half-line of \(L\) above \(\gamma(t_0)\) lies in \(q\), and the one below lies in \(p\). Since \(y'\in q\), it lies above \(\gamma(t_0)\). Hence so does \(y'+sw\), which therefore lies in \(q\).
 <div class="figure" id="fig-pf0"></div>
 </li>
 </ul>
 </li>
 <li>
-<p>Suppose that no \(w\neq0\) satisfies \(n\cdot w\ge0\) at every smooth point of \(\gamma\), and let \(g_\tau\), \(0\le\tau\le1\), be an admissible motion which is not constant. We show that this is impossible.</p>
-<p>We may assume that \(g_\tau\) is not the identity for arbitrarily small \(\tau\gt0\), for otherwise we start the motion at the last time at which \(g_\tau\) is the identity. Choose \(\tau_j\searrow0\) such that \(g_{\tau_j}\) is not the identity.</p>
-<p>Every orientation-preserving isometry is a rotation about the origin followed by a translation,<sup class="fn"><a href="#fn-artin" id="fnref-artin">4</a></sup> so</p>
+<p>Assume by contradiction that there does not exist \(w\neq0\) such that \(n\cdot w\ge0\) at every smooth point of \(\gamma\), while there exists a nonconstant admissible motion \(g_\tau\), \(0\le\tau\le1\).
+  We may assume that \(g_\tau\) is not constant in a neighborhood of \(\tau=0\), for otherwise we start the motion at the last time at which \(g_\tau\) is the identity. </p>
+  <p>Choose \(\tau_j\searrow0\) such that \(g_{\tau_j}\) is not the identity. Every orientation-preserving isometry is a rotation about the origin followed by a translation,<sup class="fn"><a href="#fn-artin" id="fnref-artin">4</a></sup> so there exist \(\theta_j\in(-\pi,\pi]\) and \(a_j\in\mathbb{R}^2\) such that</p>
 <span class="math">\[
-g_{\tau_j}(y)=(\cos\theta_j)\,y+(\sin\theta_j)\,y^\perp+a_j,\qquad\text{where }\theta_j\in(-\pi,\pi]\text{ and }a_j\in\mathbb{R}^2.
+g_{\tau_j}(y)=(\cos\theta_j)\,y+(\sin\theta_j)\,y^\perp+a_j,\qquad j \ge 1.
 \]</span>
 <p>Since \(g\) is continuous and \(g_0\) is the identity, \(\theta_j\to0\) and \(a_j\to0\). The numbers</p>
 <span class="math">\[
@@ -1682,9 +1677,9 @@ playground(document.getElementById('fig-out'), {shapes: ['cap'], modes: ['slide'
     return tex(f, x, y, s + '}'.repeat(lvl), cls, anchor); }
 
   // 7a. for the proof of Theorem 1, case 1: the vertical line through y runs along a vertical piece of the interface;
-  // the nearby line L does not meet the interface at all, so it lies in q
+  // a nearby vertical line does not meet the interface at all, so it lies in q
   (function(){
-    const B = [-2, 2, -1.3, 1.3], f = frame(panel(wrap('fig-pf0a')), B, 520, 'An interface which comes up along a vertical ray and then turns right, with q to its left and above it and p to its right and below it. The vertical line through a point y of q runs along the vertical ray; a nearby vertical line L to its left does not meet the interface, and lies in q together with the points y prime and y prime plus s w.');
+    const B = [-2, 2, -1.3, 1.3], f = frame(panel(wrap('fig-pf0a')), B, 520, 'An interface which comes up along a vertical ray and then turns right, with q to its left and above it and p to its right and below it. The vertical line through a point y of q runs along the vertical ray; a nearby vertical line to its left does not meet the interface, and lies in q together with the points y prime and y prime plus s w.');
     const r = .35, yc = -.4, cut = [[0, B[2] - .2], [0, yc]];
     for (let k = 1; k <= 20; k++){ const a = PI - (PI/2)*k/20; cut.push([r + r*Math.cos(a), yc + r*Math.sin(a)]); }
     for (let k = 1; k <= 50; k++){ const x = r + (B[1] + .2 - r)*k/50; cut.push([x, yc + r + .25*(1 - Math.cos(1.6*(x - r)))]); }
@@ -1695,7 +1690,7 @@ playground(document.getElementById('fig-out'), {shapes: ['cap'], modes: ['slide'
     el('path', {d: f.d([[x0, B[2]], [x0, B[3]]]), fill: 'none', stroke: C.w, 'stroke-width': 1.8, 'stroke-dasharray': '6 4'}, f.svg);
     el('path', {d: f.d(cut), fill: 'none', stroke: C.ink, 'stroke-width': 2.4, 'stroke-linejoin': 'round'}, f.svg);
     for (const Q of [y, [0, y[1] + h], [x0, y[1]], [x0, y[1] + h]]) el('circle', {cx: f.X(Q[0]), cy: f.Y(Q[1]), r: 3, fill: C.ink}, f.svg);
-    txt(f, x0 - .12, -.9, 'L', 'small', 'end'); txt(f, -1.6, .85, 'q'); txt(f, 1.4, -.95, 'p');
+    txt(f, -1.6, .85, 'q'); txt(f, 1.4, -.95, 'p');
     txt(f, .12, y[1] - .08, 'y', 'small', 'start'); txt(f, .12, y[1] + h - .08, 'y + sw', 'small', 'start');
     txt(f, x0 - .12, y[1] - .08, 'y′', 'small', 'end'); txt(f, x0 - .12, y[1] + h - .08, 'y′ + sw', 'small', 'end');
     txt(f, .12, -.9, 'γ', 'small', 'start');
@@ -1719,11 +1714,11 @@ playground(document.getElementById('fig-out'), {shapes: ['cap'], modes: ['slide'
     const h0 = 1e-4, tg = [h0, fr(x0 + h0) - fr(x0)], tl = Math.hypot(...tg); arrow(f, P, [P[0] - .3*tg[1]/tl, P[1] + .3*tg[0]/tl], C.n);
     for (const Q of pts) el('circle', {cx: f.X(Q[0]), cy: f.Y(Q[1]), r: 3, fill: C.ink}, f.svg);
     txt(f, x0 + .12, -.5, 'L', 'small', 'start'); txt(f, -1.6, .85, 'q'); txt(f, 1.6, -.95, 'p');
-    txt(f, -.12, y[1] - .08, 'y', 'small', 'end'); txt(f, -.12, y[1] + h - .08, 'y + sw', 'small', 'end');
-    txt(f, x0 + .12, y[1] - .08, 'y′', 'small', 'start'); txt(f, x0 + .12, y[1] + h - .08, 'y′ + sw', 'small', 'start');
-    rich(f, -d - .08, fl(-d) - .38, [['γ(t'], ['−', 1], [')']], 'small', 'end');
-    rich(f, d + .1, fr(d) + .17, [['γ(t'], ['+', 1], [')']], 'small', 'start');
-    rich(f, x0 + .1, P[1] - .3, [['γ(t'], ['0', 1], [')']], 'small', 'start');
+    txt(f, -.07, y[1] - .04, 'y', 'small', 'end'); txt(f, -.07, y[1] + h - .04, 'y + sw', 'small', 'end');
+    txt(f, x0 + .07, y[1] - .04, 'y′', 'small', 'start'); txt(f, x0 + .07, y[1] + h - .04, 'y′ + sw', 'small', 'start');
+    rich(f, -d, fl(-d) - .14, [['γ(t'], ['−', 1], [')']], 'small', 'middle');
+    rich(f, d, fr(d) + .11, [['γ(t'], ['+', 1], [')']], 'small', 'middle');
+    rich(f, x0 + .05, P[1] - .12, [['γ(t'], ['0', 1], [')']], 'small', 'start');
     txt(f, 1.6, fr(1.6) - .35, 'γ', 'small');
   })();
 
@@ -1747,10 +1742,10 @@ playground(document.getElementById('fig-out'), {shapes: ['cap'], modes: ['slide'
 
   // 8. for the proof of Theorem 1: the sectors S+ in q and S- in p at x, and the point x_j carried from S+ into S-
   (function(){
-    sectors(panel(wrap('fig-pf2')));
+    sectors(panel(wrap('fig-pf2')), 720);
   })();
-  function sectors(pan){
-    const B = [-1.5, 1.9, -1.0, 1.0], f = frame(pan, B, 480, 'Near a smooth point x of the interface: two sectors, above and below the tangent line, lie in q and in p; the point x_j in the upper sector is carried into the lower one.');
+  function sectors(pan, W = 480){
+    const B = [-1.5, 1.9, -1.0, 1.0], f = frame(pan, B, W, 'Near a smooth point x of the interface: two sectors, above and below the tangent line, lie in q and in p; the point x_j in the upper sector is carried into the lower one.');
     const h = (u) => 0.22*u*u, cut = []; for (let k = 0; k <= 60; k++){ const u = B[0] - .2 + (B[1] - B[0] + .4)*k/60; cut.push([u, h(u)]); }
     el('path', {d: f.d(cut.concat([[B[1] + .2, B[2] - .2], [B[0] - .2, B[2] - .2]]), true), fill: C.p}, f.svg);
     el('path', {d: f.d(cut.concat([[B[1] + .2, B[3] + .2], [B[0] - .2, B[3] + .2]]), true), fill: C.q}, f.svg);
@@ -1761,15 +1756,17 @@ playground(document.getElementById('fig-out'), {shapes: ['cap'], modes: ['slide'
     const arc = []; for (let k = 0; k <= 12; k++){ const a = PI + th*k/12; arc.push([.3*Math.cos(a), .3*Math.sin(a)]); }
     el('path', {d: f.d(arc), fill: 'none', stroke: C.w, 'stroke-width': 1.2}, f.svg);
     el('path', {d: f.d(cut), fill: 'none', stroke: C.ink, 'stroke-width': 2.4}, f.svg);
-    const V = [0.45, -0.75], al = 0.3, xj = [0, al], im = [V[0], al + V[1]];
+    const V = [0.45, -0.75], al = 0.4, xj = [0, al], im = [V[0], al + V[1]];
     arrow(f, [0, 0], [0, .62], C.n); arrow(f, [0, 0], V, C.bad); arrow(f, [0, 0], im, C.w);
     el('path', {d: f.d([xj, im]), fill: 'none', stroke: C.ink, 'stroke-width': 1.3, 'stroke-dasharray': '4 3'}, f.svg);
     for (const P of [[0, 0], xj, im]) el('circle', {cx: f.X(P[0]), cy: f.Y(P[1]), r: 3.2, fill: C.ink}, f.svg);
-    txt(f, -.07, .05, 'x', 'small', 'end'); rich(f, -.07, al - .04, [['x'], ['j', 1]], 'small', 'end');
+    // offsets in pixels, so that the labels hug their points at any size
+    const px = (n) => n/f.S;
+    txt(f, -px(8), px(10), 'x', 'small', 'end'); rich(f, -px(9), al - px(5), [['x'], ['j', 1]], 'small', 'end');
     // labels in the colors of the objects they name
     const paint = (t, c) => { t.style.color = c; return t; };
-    paint(txt(f, .08, .55, 'n', 'small', 'start'), C.n); paint(txt(f, .36, -.54, 'e', 'small'), C.w); paint(rich(f, V[0] + .06, V[1] - .1, [['V(x)']], 'small', 'start'), C.bad);
-    rich(f, im[0] + .09, im[1] - .06, [['g'], ['τ', 1], ['j', 2], ['(x'], ['j', 1], [')']], 'small', 'start');
+    paint(txt(f, .08, .55, 'n', 'small', 'start'), C.n); paint(txt(f, .31, -.33, 'e', 'small'), C.w); paint(rich(f, V[0] + px(8), V[1] - px(8), [['V(x)']], 'small', 'start'), C.bad);
+    rich(f, im[0] + px(10), im[1] - px(5), [['g'], ['τ', 1], ['j', 2], ['(x'], ['j', 1], [')']], 'small', 'start');
     paint(rich(f, -.36, .42, [['S'], ['+', 1]], 'small'), C.w); paint(rich(f, -.36, -.52, [['S'], ['−', 1]], 'small'), C.w); paint(tex(f, -.42, -.115, '\\theta', 'small'), C.w);
     txt(f, -1.15, .7, 'q'); txt(f, -1.15, -.75, 'p'); txt(f, 1.65, h(1.65) + .15, 'γ', 'small');
   }
@@ -1777,8 +1774,8 @@ playground(document.getElementById('fig-out'), {shapes: ['cap'], modes: ['slide'
   // 8d. for Lemma 3: a bounded interface, a small disk about a point x of its neck, and the sectors in the disk
   (function(){
     const box = wrap('fig-l3'), B = [-.1, 3.1, -.1, 2.5], L = 2.4, X0 = [1.5 - .07*L, .4*L];
-    const big = (d) => { d.style.flex = '1 1 400px'; return d; };
-    const f = frame(big(panel(box, 'the disk <i>B</i> about <i>x</i>')), B, 440, 'Two adjacent pieces of a board with a jigsaw interface; a small disk about a point x of the neck misses the rest of the interface.');
+    const sized = (d, flex) => { d.style.flex = flex; return d; };
+    const f = frame(sized(panel(box, 'the disk <i>B</i> about <i>x</i>'), '0 1 280px'), B, 280, 'Two adjacent pieces of a board with a jigsaw interface; a small disk about a point x of the neck misses the rest of the interface.');
     const gam = edge([1.5, 0], [1.5, L], 1);
     el('path', {d: f.d(gam.concat([[0, L], [0, 0]]), true), fill: C.q}, f.svg);
     el('path', {d: f.d(gam.concat([[3, L], [3, 0]]), true), fill: C.p}, f.svg);
@@ -1788,7 +1785,7 @@ playground(document.getElementById('fig-out'), {shapes: ['cap'], modes: ['slide'
     el('circle', {cx: f.X(X0[0]), cy: f.Y(X0[1]), r: 3.2, fill: C.ink}, f.svg);
     txt(f, X0[0], X0[1] - .24, 'x', 'small'); txt(f, X0[0] + .1, X0[1] + .2, 'B', 'small');
     txt(f, .5, 1.9, 'q'); txt(f, 2.5, 1.9, 'p'); txt(f, 1.62, .35, 'γ', 'small', 'start');
-    sectors(big(panel(box, 'the sectors in <i>B</i>')));
+    sectors(sized(panel(box, 'the sectors in <i>B</i>'), '1 1 620px'), 640);
   })();
 
   // 8b. for the proof of Theorem 1: the initial velocity V, a translation if omega = 0 and a rotation about z otherwise
