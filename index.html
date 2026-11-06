@@ -158,6 +158,37 @@ details.sec:not([open]) > summary > h3::before { transform: none; }
 @keyframes tryit-nudge { 50% { transform: translateX(5px); } }
 @media (prefers-reduced-motion: reduce) { .tryit::before { animation: none; } }
 
+/* phones: everything below applies only to narrow screens */
+@media screen and (max-width: 640px) {
+  body { margin: 1.5rem auto; padding: 0 16px; font-size: 17px; overflow-wrap: break-word; }
+  h1 { font-size: 1.55rem; }
+  h3 { font-size: 1.3rem; }
+  /* the section icon sits inside the margin on desktop; on a phone there is no margin to hold it */
+  details.sec > summary > h3 { padding-left: 1.15em; }
+  details.sec > summary > h3::before { left: 0; }
+  /* nested lists and boxes: keep the indentation small, so the text does not become a narrow column */
+  ol, ul { padding-left: 1.35em; }
+  li ol, li ul { padding-left: 1.15em; }
+  ol.pz-bullets { padding-left: 1.5em; }
+  ol.pz-bullets > li::before { left: -1.35em; }
+  ul.cases { padding-left: 1em; }
+  ol.pz-pieces { padding-left: 0; }
+  ol.pz-pieces > li::before { position: static; display: block; margin: .9rem 0 -.45rem; }
+  .callout { padding: .5rem .75rem; }
+  details.proof[open] { padding: 0 .65rem; }
+  li details.proof[open] { margin-left: -.35rem; margin-right: 0; }
+  .callout details.proof[open], details.proof details.proof[open] { padding: 0 .5rem; }
+  /* an inline formula too wide for a line gets a line of its own, scrolling sideways if it is wider than the screen */
+  mjx-container.mjx-wide { display: block !important; overflow-x: auto; overflow-y: hidden; text-align: center; margin: .35em 0; padding: .15em 0; }
+  /* figures: a swipe that does not grab a piece or a pin scrolls the page */
+  .figure svg { touch-action: pan-y pinch-zoom; }
+  .figure.interactive svg:not(.pz-thumb) { max-height: 62vh; }
+  .figure .pz-param { flex: 1 1 100%; box-sizing: border-box; }
+  .figure .pz-param input[type=range] { width: auto; max-width: none; flex: 1 1 auto; min-width: 0; }
+  .figure .pz-static { gap: .6rem; }
+  .eq-pop { display: none; }
+}
+
 @media print {
   body { max-width: none; margin: 0; font-size: 11pt; }
   .print-btn, .figure.interactive { display: none !important; }
@@ -204,6 +235,25 @@ window.addEventListener('hashchange', revealHash);
   document.addEventListener('click', hide);
 })();
 document.addEventListener('DOMContentLoaded', revealHash);
+// on a phone, an inline formula wider than its line is put on a line of its own (see .mjx-wide)
+(function(){
+  const phone = matchMedia('screen and (max-width: 640px)');
+  const block = (el) => { for (let a = el.parentElement; a; a = a.parentElement) if (!getComputedStyle(a).display.startsWith('inline')) return a; };
+  function mark(){
+    const all = document.querySelectorAll('mjx-container:not([display="true"])');
+    all.forEach((m) => m.classList.remove('mjx-wide'));
+    if (!phone.matches) return;
+    all.forEach((m) => { if (m.closest('.figure, .math, .eq-pop')) return;
+      const w = m.getBoundingClientRect().width, b = block(m); if (!w || !b) return;
+      const cs = getComputedStyle(b), avail = b.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
+      if (w > avail + 0.5) m.classList.add('mjx-wide'); });
+  }
+  let t = 0; const later = () => { clearTimeout(t); t = setTimeout(mark, 50); };
+  document.addEventListener('DOMContentLoaded', () => { const go = () => window.MathJax && MathJax.startup && MathJax.startup.promise
+    ? MathJax.startup.promise.then(mark) : setTimeout(go, 100); go(); });
+  document.addEventListener('toggle', later, true);
+  window.addEventListener('resize', later);
+})();
 // only what starts collapsed gets the (click to expand) hint
 document.addEventListener('DOMContentLoaded', () => document.querySelectorAll('details:not([open])').forEach((d) => d.classList.add('hint')));
 let closedBeforePrint = [];
@@ -215,7 +265,7 @@ window.addEventListener('afterprint', () => { closedBeforePrint.forEach((d) => d
 <body>
 <h1>Why jigsaw pieces cannot slide apart</h1>
 <h4>Rotem Assouline, Itai Benjamini and Claude</h4>
-<p><i>Last updated: November 2, 2026</i></p>
+<p><i>Last updated: November 6, 2026</i></p>
 <p><button type="button" class="print-btn" onclick="window.print()">Print</button> <button type="button" class="print-btn" id="toggle-sections">Collapse all</button></p>
 <script>
 (function(){
@@ -1351,19 +1401,24 @@ function playground(root, o){
   }
 
   // ---------- pointer ----------
+  const phone = matchMedia('screen and (max-width: 640px)');
   const at = (e) => { const p = svg.createSVGPoint(); p.x = e.clientX; p.y = e.clientY; const q = p.matrixTransform(svg.getScreenCTM().inverse()); return V.inv(q.x, q.y); };
   svg.addEventListener('pointerdown', (e) => {
     if (drawing){ stroke = [at(e)]; preview = null; grab = {kind: 'draw'}; try { svg.setPointerCapture(e.pointerId); } catch (err) {} e.preventDefault(); render(); return; }
     if (done) return;
     const m = at(e);
     const near = (dx, dy) => Math.hypot(V.X(m[0]) - V.X(pin[0]) - dx, V.Y(m[1]) - V.Y(pin[1]) - dy);
-    if (mode === 'turn' && !o.pinFixed && (near(0, 0) < 18 || near(8, -18) < 16)){ grab = {kind: 'pin'}; pinTouched = true; }
+    // a fingertip needs a larger target than a mouse pointer on a small screen: about 22 screen pixels
+    const k = e.pointerType === 'touch' && phone.matches ? Math.max(1, 22/(18*(svg.getScreenCTM().a || 1))) : 1;
+    if (mode === 'turn' && !o.pinFixed && (near(0, 0) < 18*k || near(8, -18) < 16*k)){ grab = {kind: 'pin'}; pinTouched = true; }
     else if (PZ.inPoly(m, place(pose, G.q))) { const c = Math.cos(pose.th), s = Math.sin(pose.th), X = m[0] - pose.tx, Y = m[1] - pose.ty; grab = {kind: 'q', m0: m, pose0: pose, a: 0, gl: [c*X + s*Y, -s*X + c*Y]}; }
-    else if (mode === 'turn' && !o.pinFixed){ pin = keepPin(m); grab = {kind: 'pin'}; pinTouched = true; }
+    else if (mode === 'turn' && !o.pinFixed && !(e.pointerType === 'touch' && phone.matches)){ pin = keepPin(m); grab = {kind: 'pin'}; pinTouched = true; }
     else return;
     try { svg.setPointerCapture(e.pointerId); } catch (err) {}
     e.preventDefault(); move(m);
   });
+  // on a touch screen, a touch that grabs nothing scrolls the page (the svg allows vertical panning on phones); one that grabs q or the pin does not
+  svg.addEventListener('touchstart', (e) => { if (grab) e.preventDefault(); }, {passive: false});
   svg.addEventListener('pointermove', (e) => { if (grab) move(at(e)); });
   for (const ev of ['pointerup', 'pointercancel']) svg.addEventListener(ev, () => { if (!grab) return;
     if (grab.kind === 'draw'){ grab = null; const res = makeCut(stroke, G.board); stroke = null; preview = null;
